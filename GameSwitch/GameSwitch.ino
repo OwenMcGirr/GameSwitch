@@ -1,4 +1,5 @@
 #define DEBOUNCE_DELAY 10
+#define RGB_CYCLE_DELAY 500
 
 // switch pins
 int inputSwitchA = 3;
@@ -22,6 +23,9 @@ void setup() {
   pinMode(redLED, OUTPUT);
   pinMode(greenLED, OUTPUT);
   pinMode(blueLED, OUTPUT);
+
+  // cycle RGB
+  cycleRGB();
 }
 
 void loop() {
@@ -30,6 +34,27 @@ void loop() {
 
   // set previous input switch states
   setPreviousSwitchStates();
+}
+
+
+/*
+ * RGB functions
+ */
+
+void setColorRGB(unsigned int red, unsigned int green, unsigned int blue) {
+  analogWrite(redLED, red);
+  analogWrite(greenLED, green);
+  analogWrite(blueLED, blue);
+}
+
+void cycleRGB() {
+  setColorRGB(255, 0, 0);
+  delay(RGB_CYCLE_DELAY);
+  setColorRGB(0, 255, 0);
+  delay(RGB_CYCLE_DELAY);
+  setColorRGB(0, 0, 255);
+  delay(RGB_CYCLE_DELAY);
+  setColorRGB(0, 0, 0);
 }
 
 
