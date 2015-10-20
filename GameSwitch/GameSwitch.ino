@@ -1,6 +1,8 @@
 #define DEBOUNCE_DELAY 10
 #define RGB_CYCLE_DELAY 500
 
+#include "modes.h"
+
 // switch pins
 int inputSwitchA = 3;
 int inputSwitchB = 4;
@@ -16,6 +18,9 @@ boolean previousInputSwitchAState = LOW;
 boolean currentInputSwitchBState = LOW;
 boolean previousInputSwitchBState = LOW;
 
+// mode variables
+int currentMode = 1;
+
 void setup() {
   // initialise IO
   pinMode(inputSwitchA, INPUT);
@@ -26,6 +31,9 @@ void setup() {
 
   // cycle RGB
   cycleRGB();
+
+  // set walking mode
+  setMode(WALKING_MODE);
 }
 
 void loop() {
@@ -34,6 +42,27 @@ void loop() {
 
   // set previous input switch states
   setPreviousSwitchStates();
+}
+
+
+/*
+ * Mode functions
+ */
+
+void setMode(int mode) {
+  currentMode = mode;
+}
+
+boolean isWalkingMode() {
+  return currentMode == WALKING_MODE;
+}
+
+boolean isDrivingMode() {
+  return currentMode == DRIVING_MODE;
+}
+
+boolean isFightingMode() {
+  return currentMode == FIGHTING_MODE;
 }
 
 
