@@ -1,6 +1,4 @@
-#define DEBOUNCE_DELAY 10
-#define RGB_CYCLE_DELAY 500
-
+#include "timing.h"
 #include "modes.h"
 #include "keys.h"
 
