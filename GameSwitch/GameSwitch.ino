@@ -2,7 +2,7 @@
 #include "modes.h"
 #include "keys.h"
 
-// switch pins
+// input switch pins
 int inputSwitchA = 3;
 int inputSwitchB = 4;
 
@@ -16,6 +16,11 @@ boolean currentInputSwitchAState = LOW;
 boolean previousInputSwitchAState = LOW;
 boolean currentInputSwitchBState = LOW;
 boolean previousInputSwitchBState = LOW;
+
+// input switch B hold variables
+unsigned long startInputSwitchBTime = 0;
+unsigned long pressedInputSwitchBTime = 0;
+boolean freshInputSwitchBTime = true;
 
 // mode variables
 int currentMode = 1;
@@ -42,13 +47,19 @@ void loop() {
   // debounce switches
   debounceSwitches();
 
+  // update input switch B hold time
+  updateInputSwitchBHoldTime();
+
+  // check if input switch B hold time should be reset
+  checkShouldResetInputSwitchBHoldTime();
+
   // set previous input switch states
   setPreviousSwitchStates();
 }
 
 
 /*
- * Mode functions
+ * Mode logic functions
  */
 
 void setMode(int mode) {
@@ -137,6 +148,33 @@ void steerRight() {
 
 void fire() {
   Keyboard.write(LEFT_CTRL);
+}
+
+
+/*
+ * Timing functions
+ */
+
+void updateInputSwitchBHoldTime() {
+  // if input switch B is pressed
+  if (currentInputSwitchBState == HIGH) {
+    if (freshInputSwitchBTime) { // input switch B has just been pressed, start timing hold
+      startInputSwitchBTime = millis();
+      freshInputSwitchBTime = false;
+    }
+    else { // update hold time
+      pressedInputSwitchBTime = millis() - startInputSwitchBTime;
+    }
+  }
+}
+
+void checkShouldResetInputSwitchBHoldTime() {
+  // if input switch B is released, reset hold time
+  if (currentInputSwitchBState == LOW) {
+    startInputSwitchBTime = 0;
+    pressedInputSwitchBTime = 0;
+    freshInputSwitchBTime = true;
+  }
 }
 
 
