@@ -2,6 +2,7 @@
 #define RGB_CYCLE_DELAY 500
 
 #include "modes.h"
+#include "keys.h"
 
 // switch pins
 int inputSwitchA = 3;
@@ -34,6 +35,9 @@ void setup() {
 
   // set walking mode
   setMode(WALKING_MODE);
+
+  // start keyboard
+  Keyboard.begin();
 }
 
 void loop() {
@@ -63,6 +67,78 @@ boolean isDrivingMode() {
 
 boolean isFightingMode() {
   return currentMode == FIGHTING_MODE;
+}
+
+
+/*
+ * Common mode functions
+ */
+
+void stopAction() {
+  Keyboard.releaseAll();
+}
+
+void enterOrExit() {
+  Keyboard.write('\n');
+}
+
+
+/*
+ * Walking mode functions
+ */
+
+void walkForward() {
+  Keyboard.press('w');
+}
+
+void walkBackward() {
+  Keyboard.press('s');
+}
+
+void walkLeft() {
+  Keyboard.press('a');
+}
+
+void walkRight() {
+  Keyboard.press('d');
+}
+
+void jump() {
+  Keyboard.write(LEFT_SHIFT);
+}
+
+void sprint() {
+  Keyboard.press(' ');
+}
+
+
+/*
+ * Driving mode functions
+ */
+
+void accelerate() {
+  Keyboard.press('w');
+}
+
+void reverse() {
+  Keyboard.press('s');
+}
+
+void steerLeft() {
+  Keyboard.write('a');
+}
+
+void steerRight() {
+  Keyboard.write('d');
+}
+
+
+/*
+ * Fighting mode functions
+ */
+
+void fire() {
+  Keyboard.write(LEFT_CTRL);
 }
 
 
