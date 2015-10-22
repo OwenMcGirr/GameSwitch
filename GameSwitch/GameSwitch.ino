@@ -33,9 +33,6 @@ void setup() {
   pinMode(greenLED, OUTPUT);
   pinMode(blueLED, OUTPUT);
 
-  // cycle RGB
-  cycleRGB();
-
   // set walking mode
   setMode(WALKING_MODE);
 
@@ -64,6 +61,24 @@ void loop() {
 
 void setMode(int mode) {
   currentMode = mode;
+
+  cycleRGB();
+
+  setModeIndication();
+}
+
+void setModeIndication() {
+  switch (currentMode) {
+    case WALKING_MODE:
+      setRGBColor(255, 0, 0);
+      break;
+    case DRIVING_MODE:
+      setRGBColor(0, 255, 0);
+      break;
+    case FIGHTING_MODE:
+      setRGBColor(0, 0, 255);
+      break;
+  }
 }
 
 boolean isWalkingMode() {
@@ -182,20 +197,21 @@ void checkShouldResetInputSwitchBHoldTime() {
  * RGB functions
  */
 
-void setColorRGB(unsigned int red, unsigned int green, unsigned int blue) {
+void setRGBColor(unsigned int red, unsigned int green, unsigned int blue) {
   analogWrite(redLED, red);
   analogWrite(greenLED, green);
   analogWrite(blueLED, blue);
 }
 
 void cycleRGB() {
-  setColorRGB(255, 0, 0);
+  setRGBColor(255, 0, 0);
   delay(RGB_CYCLE_DELAY);
-  setColorRGB(0, 255, 0);
+  setRGBColor(0, 255, 0);
   delay(RGB_CYCLE_DELAY);
-  setColorRGB(0, 0, 255);
+  setRGBColor(0, 0, 255);
   delay(RGB_CYCLE_DELAY);
-  setColorRGB(0, 0, 0);
+  setRGBColor(0, 0, 0);
+  delay(RGB_CYCLE_DELAY);
 }
 
 
