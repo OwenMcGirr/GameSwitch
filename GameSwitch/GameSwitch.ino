@@ -47,6 +47,11 @@ void loop() {
   // update input switch B hold time
   updateInputSwitchBHoldTime();
 
+  // if switch B is held for more than the third hold time, go to next mode 
+  if (currentInputSwitchBState == HIGH && pressedInputSwitchBTime > SWITCH_HOLD_3) {
+    nextMode();
+  }
+
   // check if input switch B hold time should be reset
   checkShouldResetInputSwitchBHoldTime();
 
@@ -65,6 +70,20 @@ void setMode(int mode) {
   cycleRGB();
 
   setModeIndication();
+}
+
+void nextMode() {
+  switch (currentMode) {
+    case WALKING_MODE:
+      setMode(DRIVING_MODE);
+      break;
+    case DRIVING_MODE:
+      setMode(FIGHTING_MODE);
+      break;
+    case FIGHTING_MODE:
+      setMode(WALKING_MODE);
+      break;
+  }
 }
 
 void setModeIndication() {

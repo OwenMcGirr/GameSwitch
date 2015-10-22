@@ -1,3 +1,7 @@
+#define SWITCH_HOLD_1 2000
+#define SWITCH_HOLD_2 3000
+#define SWITCH_HOLD_3 4000
+
 #define DEBOUNCE_DELAY 10
 
 #define RGB_CYCLE_DELAY 500
