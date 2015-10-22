@@ -1,6 +1,7 @@
 #include "timing.h"
 #include "modes.h"
 #include "keys.h"
+#include "directions.h"
 
 // input switch pins
 int inputSwitchA = 3;
@@ -16,6 +17,10 @@ boolean currentInputSwitchAState = LOW;
 boolean previousInputSwitchAState = LOW;
 boolean currentInputSwitchBState = LOW;
 boolean previousInputSwitchBState = LOW;
+
+// input switch A press count variables
+int inputSwitchAPressCount = 0;
+boolean inputSwitchAPressCountActive = false;
 
 // input switch B hold variables
 unsigned long startInputSwitchBTime = 0;
@@ -47,8 +52,43 @@ void loop() {
   // update input switch B hold time
   updateInputSwitchBHoldTime();
 
-  // if switch B is held for more than the third hold time, go to next mode 
-  if (currentInputSwitchBState == HIGH && pressedInputSwitchBTime > SWITCH_HOLD_3) {
+  // walking mode
+  if (isWalkingMode()) {
+    // if input switch A was just released, increment count 
+    if (wasInputSwitchAJustReleased()) {
+      incrementInputSwitchAPressCount();
+    }
+
+    // if input switch B was just released and hasn't reached any hold times, stop current action and walk in selected direction 
+    if (wasInputSwitchBJustReleased() && pressedInputSwitchBTime < SWITCH_HOLD_1 && isInputSwitchAPressCountActive()) {
+      // stop current action 
+      stopAction();
+
+      // walk in selected direction 
+      switch (inputSwitchAPressCount) {
+        case FORWARD:
+          walkForward();
+          break;
+        case BACKWARD:
+          walkBackward();
+          break;
+        case LEFT:
+          walkLeft();
+          break;
+        case RIGHT:
+          walkRight();
+          break;
+        default:
+          stopAction();
+          break;
+      }
+
+      resetInputSwitchAPressCount();
+    }
+  }
+
+  // if switch B is held for more than the third hold time, go to next mode
+  if (isInputSwitchBPressed() && pressedInputSwitchBTime > SWITCH_HOLD_3) {
     nextMode();
   }
 
@@ -57,6 +97,27 @@ void loop() {
 
   // set previous input switch states
   setPreviousSwitchStates();
+}
+
+
+/*
+ * Switch state return functions 
+ */
+
+boolean isInputSwitchAPressed() {
+  return currentInputSwitchAState == HIGH;
+}
+
+boolean isInputSwitchBPressed() {
+  return currentInputSwitchBState == HIGH;
+}
+
+boolean wasInputSwitchAJustReleased() {
+  return currentInputSwitchAState == LOW && previousInputSwitchAState == HIGH;
+}
+
+boolean wasInputSwitchBJustReleased() {
+  return currentInputSwitchBState == LOW && previousInputSwitchBState == HIGH;
 }
 
 
@@ -186,8 +247,22 @@ void fire() {
 
 
 /*
- * Timing functions
+ * Timing and counting functions
  */
+
+void incrementInputSwitchAPressCount() {
+  inputSwitchAPressCount++;
+  inputSwitchAPressCountActive = true;
+}
+
+void resetInputSwitchAPressCount() {
+  inputSwitchAPressCount = 0;
+  inputSwitchAPressCountActive = false;
+}
+
+boolean isInputSwitchAPressCountActive() {
+  return inputSwitchAPressCountActive;
+}
 
 void updateInputSwitchBHoldTime() {
   // if input switch B is pressed
