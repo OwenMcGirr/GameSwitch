@@ -5,7 +5,7 @@ int inputSwitchA = 3;
 int inputSwitchB = 4;
 
 // led pin
-int arduinoLED = 13;
+int led = 8;
 
 // pin state variables
 boolean currentInputSwitchAState = LOW;
@@ -17,7 +17,7 @@ void setup() {
   // initialise IO
   pinMode(inputSwitchA, INPUT);
   pinMode(inputSwitchB, INPUT);
-  pinMode(arduinoLED, OUTPUT);
+  pinMode(led, OUTPUT);
 }
 
 void loop() {
@@ -26,10 +26,10 @@ void loop() {
 
   // if either switch is pressed, light led
   if (currentInputSwitchAState == HIGH || currentInputSwitchBState == HIGH) {
-    digitalWrite(arduinoLED, HIGH);
+    digitalWrite(led, HIGH);
   }
   else {
-    digitalWrite(arduinoLED, LOW);
+    digitalWrite(led, LOW);
   }
 
   // set previous input switch states
