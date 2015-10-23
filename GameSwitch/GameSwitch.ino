@@ -1,7 +1,6 @@
 #include "timing.h"
 #include "modes.h"
-#include "keys.h"
-#include "directions.h"
+#include "walking_actions.h"
 
 // input switch pins
 int inputSwitchA = 3;
@@ -30,6 +29,9 @@ boolean freshInputSwitchBTime = true;
 // mode variables
 int currentMode = 1;
 
+// walking mode variables
+boolean sprinting = false;
+
 void setup() {
   // initialise IO
   pinMode(inputSwitchA, INPUT);
@@ -54,17 +56,17 @@ void loop() {
 
   // walking mode
   if (isWalkingMode()) {
-    // if input switch A was just released, increment count 
+    // if input switch A was just released, increment count
     if (wasInputSwitchAJustReleased()) {
       incrementInputSwitchAPressCount();
     }
 
-    // if input switch B was just released and hasn't reached any hold times, stop current action and walk in selected direction 
+    // if input switch B was just released and hasn't reached any hold times, stop current action and walk in selected direction
     if (wasInputSwitchBJustReleased() && pressedInputSwitchBTime < SWITCH_HOLD_1 && isInputSwitchAPressCountActive()) {
-      // stop current action 
+      // stop current action
       stopAction();
 
-      // walk in selected direction 
+      // walk in selected direction
       switch (inputSwitchAPressCount) {
         case FORWARD:
           walkForward();
@@ -77,6 +79,15 @@ void loop() {
           break;
         case RIGHT:
           walkRight();
+          break;
+        case JUMP:
+          jump();
+          break;
+        case SPRINT:
+          toggleSprint();
+          break;
+        case ENTER_OR_EXIT:
+          enterOrExit();
           break;
         default:
           stopAction();
@@ -101,7 +112,7 @@ void loop() {
 
 
 /*
- * Switch state return functions 
+ * Switch state return functions
  */
 
 boolean isInputSwitchAPressed() {
@@ -126,6 +137,8 @@ boolean wasInputSwitchBJustReleased() {
  */
 
 void setMode(int mode) {
+  resetModes();
+
   currentMode = mode;
 
   cycleRGB();
@@ -179,11 +192,14 @@ boolean isFightingMode() {
  */
 
 void stopAction() {
-  Keyboard.releaseAll();
+  Keyboard.release('w');
+  Keyboard.release('s');
+  Keyboard.release('a');
+  Keyboard.release('d');
 }
 
-void enterOrExit() {
-  Keyboard.write('\n');
+void resetModes() {
+  resetWalkingMode();
 }
 
 
@@ -208,11 +224,27 @@ void walkRight() {
 }
 
 void jump() {
-  Keyboard.write(LEFT_SHIFT);
+  Keyboard.write(KEY_LEFT_SHIFT);
 }
 
-void sprint() {
-  Keyboard.press(' ');
+void toggleSprint() {
+  if (!sprinting) {
+    Keyboard.press(' ');
+    sprinting = true;
+  }
+  else {
+    Keyboard.release(' ');
+    sprinting = false;
+  }
+}
+
+void enterOrExit() {
+  Keyboard.write('\n');
+}
+
+void resetWalkingMode() {
+  Keyboard.release(' ');
+  sprinting = false;
 }
 
 
@@ -242,7 +274,7 @@ void steerRight() {
  */
 
 void fire() {
-  Keyboard.write(LEFT_CTRL);
+  Keyboard.write(KEY_LEFT_CTRL);
 }
 
 
