@@ -207,6 +207,8 @@ void stopAction() {
 
 void resetModes() {
   resetWalkingMode();
+
+  stopAction();
 }
 
 
