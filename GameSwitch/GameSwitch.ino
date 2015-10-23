@@ -112,8 +112,8 @@ void loop() {
     }
   }
 
-  // if switch B is held for more than the third hold time, go to next mode
-  if (isInputSwitchBPressed() && pressedInputSwitchBTime > SWITCH_HOLD_3) {
+  // if switch B is held for the duration of the third hold time, go to next mode
+  if (isInputSwitchBPressed() && pressedInputSwitchBTime == SWITCH_HOLD_3) {
     nextMode();
   }
 
