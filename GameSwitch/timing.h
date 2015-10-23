@@ -6,4 +6,4 @@
 
 #define DEBOUNCE_DELAY 10
 
-#define RGB_CYCLE_DELAY 500
+#define RGB_CYCLE_DELAY 100
