@@ -98,6 +98,13 @@ void loop() {
     }
   }
 
+  // fighting mode 
+  if (isFightingMode()) {
+    if (wasInputSwitchAJustReleased()) {
+      fire();
+    }
+  }
+
   // if switch B is held for more than the third hold time, go to next mode
   if (isInputSwitchBPressed() && pressedInputSwitchBTime > SWITCH_HOLD_3) {
     nextMode();
