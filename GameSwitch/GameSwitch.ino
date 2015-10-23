@@ -21,6 +21,10 @@ boolean previousInputSwitchBState = LOW;
 int inputSwitchAPressCount = 0;
 boolean inputSwitchAPressCountActive = false;
 
+// input switch A last press time variables
+unsigned long inputSwitchALastPressTime = 0;
+boolean inputSwitchALastPressTimeActive = false;
+
 // input switch B hold variables
 unsigned long startInputSwitchBTime = 0;
 unsigned long pressedInputSwitchBTime = 0;
@@ -56,17 +60,19 @@ void loop() {
 
   // walking mode
   if (isWalkingMode()) {
-    // if input switch A was just released, increment count
+    // if input switch A was just released, increment count and record time
     if (wasInputSwitchAJustReleased()) {
       incrementInputSwitchAPressCount();
+
+      recordInputSwitchALastPressTime();
     }
 
-    // if input switch B was just released and hasn't reached any hold times, stop current action and walk in selected direction
-    if (wasInputSwitchBJustReleased() && pressedInputSwitchBTime < SWITCH_HOLD_1 && isInputSwitchAPressCountActive()) {
+    // if input switch A hasn't been pressed for the duration of the take action timeout, stop current action and do selected action
+    if (shouldTakeAction() && isInputSwitchAPressCountActive()) {
       // stop current action
       stopAction();
 
-      // walk in selected direction
+      // do selected action
       switch (inputSwitchAPressCount) {
         case FORWARD:
           walkForward();
@@ -95,10 +101,11 @@ void loop() {
       }
 
       resetInputSwitchAPressCount();
+      resetInputSwitchALastPressTime();
     }
   }
 
-  // fighting mode 
+  // fighting mode
   if (isFightingMode()) {
     if (wasInputSwitchAJustReleased()) {
       fire();
@@ -299,6 +306,20 @@ void incrementInputSwitchAPressCount() {
 void resetInputSwitchAPressCount() {
   inputSwitchAPressCount = 0;
   inputSwitchAPressCountActive = false;
+}
+
+void recordInputSwitchALastPressTime() {
+  inputSwitchALastPressTime = millis();
+  inputSwitchALastPressTimeActive = true;
+}
+
+void resetInputSwitchALastPressTime() {
+  inputSwitchALastPressTime = 0;
+  inputSwitchALastPressTimeActive = false;
+}
+
+boolean shouldTakeAction() {
+  return inputSwitchALastPressTime > millis() - TAKE_ACTION_TIMEOUT && inputSwitchALastPressTimeActive;
 }
 
 boolean isInputSwitchAPressCountActive() {
