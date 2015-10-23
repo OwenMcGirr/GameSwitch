@@ -233,7 +233,7 @@ void walkRight() {
 }
 
 void jump() {
-  Keyboard.write(KEY_LEFT_SHIFT);
+  Keyboard.write('j');
 }
 
 void toggleSprint() {
@@ -283,7 +283,7 @@ void steerRight() {
  */
 
 void fire() {
-  Keyboard.write(KEY_LEFT_CTRL);
+  Keyboard.write('o');
 }
 
 
