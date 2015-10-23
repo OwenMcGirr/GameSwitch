@@ -64,6 +64,7 @@ void loop() {
     if (wasInputSwitchAJustReleased()) {
       incrementInputSwitchAPressCount();
 
+      resetInputSwitchALastPressTime();
       recordInputSwitchALastPressTime();
     }
 
@@ -308,6 +309,10 @@ void resetInputSwitchAPressCount() {
   inputSwitchAPressCountActive = false;
 }
 
+boolean isInputSwitchAPressCountActive() {
+  return inputSwitchAPressCountActive;
+}
+
 void recordInputSwitchALastPressTime() {
   inputSwitchALastPressTime = millis();
   inputSwitchALastPressTimeActive = true;
@@ -319,11 +324,7 @@ void resetInputSwitchALastPressTime() {
 }
 
 boolean shouldTakeAction() {
-  return inputSwitchALastPressTime > millis() - TAKE_ACTION_TIMEOUT && inputSwitchALastPressTimeActive;
-}
-
-boolean isInputSwitchAPressCountActive() {
-  return inputSwitchAPressCountActive;
+  return inputSwitchALastPressTime < (millis() - TAKE_ACTION_TIMEOUT) && inputSwitchALastPressTimeActive;
 }
 
 void updateInputSwitchBHoldTime() {
