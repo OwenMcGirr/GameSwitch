@@ -64,7 +64,6 @@ void loop() {
     if (wasInputSwitchAJustReleased()) {
       incrementInputSwitchAPressCount();
 
-      resetInputSwitchALastPressTime();
       recordInputSwitchALastPressTime();
     }
 
@@ -246,9 +245,7 @@ void walkRight() {
 }
 
 void jump() {
-  Keyboard.press('j');
-  delay(KEY_PULSE_DELAY);
-  Keyboard.release('j');
+  keyDownUp('j');
 }
 
 void toggleSprint() {
@@ -263,9 +260,7 @@ void toggleSprint() {
 }
 
 void enterOrExit() {
-  Keyboard.press('\n');
-  delay(KEY_PULSE_DELAY);
-  Keyboard.release('\n');
+  keyDownUp('\n');
 }
 
 void resetWalkingMode() {
@@ -300,9 +295,24 @@ void steerRight() {
  */
 
 void fire() {
-  Keyboard.press('o');
+  keyDownUp('o');
+}
+
+
+/*
+ * Key functions
+ */
+
+void keyDownUp(char key) {
+  Keyboard.press(key);
   delay(KEY_PULSE_DELAY);
-  Keyboard.release('o');
+  Keyboard.release(key);
+}
+
+void keyDownUp(int key) {
+  Keyboard.press(key);
+  delay(KEY_PULSE_DELAY);
+  Keyboard.release(key);
 }
 
 
