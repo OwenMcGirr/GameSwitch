@@ -36,6 +36,10 @@ int currentMode = 1;
 // walking mode variables
 boolean sprinting = false;
 
+// driving mode variables
+boolean accelerating = false;
+boolean reversing = false;
+
 void setup() {
   // initialise IO
   pinMode(inputSwitchA, INPUT);
@@ -104,9 +108,39 @@ void loop() {
       resetInputSwitchALastPressTime();
     }
 
-    // if switch B was just released and , stop current action
+    // if switch B was just released and was held for less time than the duration of hold 1, stop current action
     if (wasInputSwitchBJustReleased() && pressedInputSwitchBTime < SWITCH_HOLD_1) {
       stopAction();
+    }
+  }
+
+  // driving mode
+  if (isDrivingMode()) {
+    // if switch A was just released and not accelerating or reversing, accelerate
+    if (wasInputSwitchAJustReleased() && !accelerating && !reversing) {
+      toggleAccelerate();
+    }
+
+    // if accelerating or reversing, switch A and B act as left and right
+    if (accelerating || reversing) {
+      if (isInputSwitchAPressed()) {
+        steerLeftDown();
+      }
+      else {
+        steerLeftUp();
+      }
+
+      if (isInputSwitchBPressed() && pressedInputSwitchBTime < SWITCH_HOLD_2) {
+        steerRightDown();
+      }
+      else {
+        steerRightUp();
+      }
+    }
+
+    // if switch B is held for the duration of hold 2, reverse
+    if (isInputSwitchBPressed() && pressedInputSwitchBTime == SWITCH_HOLD_2) {
+      toggleReverse();
     }
   }
 
@@ -229,6 +263,7 @@ void stopAction() {
 
 void resetModes() {
   resetWalkingMode();
+  resetDrivingMode();
 
   stopAction();
 }
@@ -283,20 +318,55 @@ void resetWalkingMode() {
  * Driving mode functions
  */
 
-void accelerate() {
-  Keyboard.press('w');
+void toggleAccelerate() {
+  if (reversing) {
+    toggleReverse();
+  }
+  
+  if (!accelerating) {
+    Keyboard.press('w');
+    accelerating = true;
+  }
+  else {
+    Keyboard.release('w');
+    accelerating = false;
+  }
 }
 
-void reverse() {
-  Keyboard.press('s');
+void toggleReverse() {
+  if (accelerating) {
+    toggleAccelerate();
+  }
+  
+  if (!reversing) {
+    Keyboard.press('s');
+    reversing = true;
+  }
+  else {
+    Keyboard.release('s');
+    reversing = false;
+  }
 }
 
-void steerLeft() {
-  Keyboard.write('a');
+void steerLeftDown() {
+  Keyboard.press('a');
 }
 
-void steerRight() {
-  Keyboard.write('d');
+void steerRightDown() {
+  Keyboard.press('d');
+}
+
+void steerLeftUp() {
+  Keyboard.release('a');
+}
+
+void steerRightUp() {
+  Keyboard.release('d');
+}
+
+void resetDrivingMode() {
+  accelerating = false;
+  reversing = false;
 }
 
 
