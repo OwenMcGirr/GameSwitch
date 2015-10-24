@@ -246,7 +246,9 @@ void walkRight() {
 }
 
 void jump() {
-  Keyboard.write('j');
+  Keyboard.press('j');
+  delay(KEY_PULSE_DELAY);
+  Keyboard.release('j');
 }
 
 void toggleSprint() {
@@ -261,7 +263,9 @@ void toggleSprint() {
 }
 
 void enterOrExit() {
-  Keyboard.write('\n');
+  Keyboard.press('\n');
+  delay(KEY_PULSE_DELAY);
+  Keyboard.release('\n');
 }
 
 void resetWalkingMode() {
@@ -296,7 +300,9 @@ void steerRight() {
  */
 
 void fire() {
-  Keyboard.write('o');
+  Keyboard.press('o');
+  delay(KEY_PULSE_DELAY);
+  Keyboard.release('o');
 }
 
 
