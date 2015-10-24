@@ -237,15 +237,15 @@ void walkBackward() {
 }
 
 void walkLeft() {
-  Keyboard.press('a');
+  keyDownUp('a', WALK_LEFT_RIGHT_DELAY);
 }
 
 void walkRight() {
-  Keyboard.press('d');
+  keyDownUp('d', WALK_LEFT_RIGHT_DELAY);
 }
 
 void jump() {
-  keyDownUp('j');
+  keyDownUp('j', KEY_PULSE_DELAY);
 }
 
 void toggleSprint() {
@@ -260,7 +260,7 @@ void toggleSprint() {
 }
 
 void enterOrExit() {
-  keyDownUp('\n');
+  keyDownUp('\n', KEY_PULSE_DELAY);
 }
 
 void resetWalkingMode() {
@@ -295,7 +295,7 @@ void steerRight() {
  */
 
 void fire() {
-  keyDownUp('o');
+  keyDownUp('o', KEY_PULSE_DELAY);
 }
 
 
@@ -303,15 +303,15 @@ void fire() {
  * Key functions
  */
 
-void keyDownUp(char key) {
+void keyDownUp(char key, unsigned long delayMillis) {
   Keyboard.press(key);
-  delay(KEY_PULSE_DELAY);
+  delay(delayMillis);
   Keyboard.release(key);
 }
 
-void keyDownUp(int key) {
+void keyDownUp(int key, unsigned long delayMillis) {
   Keyboard.press(key);
-  delay(KEY_PULSE_DELAY);
+  delay(delayMillis);
   Keyboard.release(key);
 }
 
