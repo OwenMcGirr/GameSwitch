@@ -104,6 +104,11 @@ void loop() {
       resetInputSwitchAPressCount();
       resetInputSwitchALastPressTime();
     }
+
+    // if switch B was just released and , stop current action
+    if (wasInputSwitchBJustReleased() && pressedInputSwitchBTime < SWITCH_HOLD_1) {
+      stopAction();
+    }
   }
 
   // fighting mode
