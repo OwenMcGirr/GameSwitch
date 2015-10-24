@@ -3,6 +3,7 @@
 // switch pins
 int inputSwitchA = 3;
 int inputSwitchB = 4;
+int inputSwitchC = 5;
 
 // led pin
 int led = 8;
@@ -12,11 +13,14 @@ boolean currentInputSwitchAState = LOW;
 boolean previousInputSwitchAState = LOW;
 boolean currentInputSwitchBState = LOW;
 boolean previousInputSwitchBState = LOW;
+boolean currentInputSwitchCState = LOW;
+boolean previousInputSwitchCState = LOW;
 
 void setup() {
   // initialise IO
   pinMode(inputSwitchA, INPUT);
   pinMode(inputSwitchB, INPUT);
+  pinMode(inputSwitchC, INPUT);
   pinMode(led, OUTPUT);
 }
 
@@ -24,8 +28,8 @@ void loop() {
   // debounce switches
   debounceSwitches();
 
-  // if either switch is pressed, light led
-  if (currentInputSwitchAState == HIGH || currentInputSwitchBState == HIGH) {
+  // if a switch is pressed, light led
+  if (currentInputSwitchAState == HIGH || currentInputSwitchBState == HIGH || currentInputSwitchCState == HIGH) {
     digitalWrite(led, HIGH);
   }
   else {
@@ -55,10 +59,11 @@ boolean debounce(int pin, boolean previous) {
 void debounceSwitches() {
   currentInputSwitchAState = debounce(inputSwitchA, previousInputSwitchAState);
   currentInputSwitchBState = debounce(inputSwitchB, previousInputSwitchBState);
+  currentInputSwitchCState = debounce(inputSwitchC, previousInputSwitchCState);
 }
 
 void setPreviousSwitchStates() {
   previousInputSwitchAState = currentInputSwitchAState;
   previousInputSwitchBState = currentInputSwitchBState;
+  previousInputSwitchCState = currentInputSwitchCState;
 }
-

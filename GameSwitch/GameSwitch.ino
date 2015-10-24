@@ -5,6 +5,7 @@
 // input switch pins
 int inputSwitchA = 3;
 int inputSwitchB = 4;
+int inputSwitchC = 5;
 
 // RGB pins
 int redLED = 8;
@@ -16,6 +17,8 @@ boolean currentInputSwitchAState = LOW;
 boolean previousInputSwitchAState = LOW;
 boolean currentInputSwitchBState = LOW;
 boolean previousInputSwitchBState = LOW;
+boolean currentInputSwitchCState = LOW;
+boolean previousInputSwitchCState = LOW;
 
 // input switch A press count variables
 int inputSwitchAPressCount = 0;
@@ -44,6 +47,7 @@ void setup() {
   // initialise IO
   pinMode(inputSwitchA, INPUT);
   pinMode(inputSwitchB, INPUT);
+  pinMode(inputSwitchC, INPUT);
   pinMode(redLED, OUTPUT);
   pinMode(greenLED, OUTPUT);
   pinMode(blueLED, OUTPUT);
@@ -176,12 +180,20 @@ boolean isInputSwitchBPressed() {
   return currentInputSwitchBState == HIGH;
 }
 
+boolean isInputSwitchCPressed() {
+  return currentInputSwitchCState == HIGH;
+}
+
 boolean wasInputSwitchAJustReleased() {
   return currentInputSwitchAState == LOW && previousInputSwitchAState == HIGH;
 }
 
 boolean wasInputSwitchBJustReleased() {
   return currentInputSwitchBState == LOW && previousInputSwitchBState == HIGH;
+}
+
+boolean wasInputSwitchCJustReleased() {
+  return currentInputSwitchCState == LOW && previousInputSwitchCState == HIGH;
 }
 
 
@@ -491,10 +503,11 @@ boolean debounce(int pin, boolean previous) {
 void debounceSwitches() {
   currentInputSwitchAState = debounce(inputSwitchA, previousInputSwitchAState);
   currentInputSwitchBState = debounce(inputSwitchB, previousInputSwitchBState);
+  currentInputSwitchCState = debounce(inputSwitchC, previousInputSwitchCState);
 }
 
 void setPreviousSwitchStates() {
   previousInputSwitchAState = currentInputSwitchAState;
   previousInputSwitchBState = currentInputSwitchBState;
+  previousInputSwitchCState = currentInputSwitchCState;
 }
-
