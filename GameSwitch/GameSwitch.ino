@@ -134,17 +134,12 @@ void loop() {
         steerLeftUp();
       }
 
-      if (isInputSwitchBPressed() && pressedInputSwitchBTime < SWITCH_HOLD_2) {
+      if (isInputSwitchBPressed()) {
         steerRightDown();
       }
       else {
         steerRightUp();
       }
-    }
-
-    // if switch B is held for the duration of hold 2, reverse
-    if (isInputSwitchBPressed() && pressedInputSwitchBTime == SWITCH_HOLD_2) {
-      toggleReverse();
     }
   }
 
