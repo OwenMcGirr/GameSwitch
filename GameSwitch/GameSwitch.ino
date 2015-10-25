@@ -334,7 +334,7 @@ void toggleAccelerate() {
   if (reversing) {
     toggleReverse();
   }
-  
+
   if (!accelerating) {
     Keyboard.press('w');
     accelerating = true;
@@ -349,7 +349,7 @@ void toggleReverse() {
   if (accelerating) {
     toggleAccelerate();
   }
-  
+
   if (!reversing) {
     Keyboard.press('s');
     reversing = true;
@@ -361,18 +361,34 @@ void toggleReverse() {
 }
 
 void steerLeftDown() {
+  if (accelerating) {
+    toggleAccelerate();
+  }
+
   Keyboard.press('a');
 }
 
 void steerRightDown() {
+  if (accelerating) {
+    toggleAccelerate();
+  }
+
   Keyboard.press('d');
 }
 
 void steerLeftUp() {
+  if (!accelerating) {
+    toggleAccelerate();
+  }
+
   Keyboard.release('a');
 }
 
 void steerRightUp() {
+  if (!accelerating) {
+    toggleAccelerate();
+  }
+
   Keyboard.release('d');
 }
 
