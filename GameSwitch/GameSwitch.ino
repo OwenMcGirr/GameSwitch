@@ -1,6 +1,5 @@
 #include "timing.h"
 #include "modes.h"
-#include "walking_actions.h"
 
 // input switch pins
 int inputSwitchA = 3;
@@ -20,27 +19,24 @@ boolean previousInputSwitchBState = LOW;
 boolean currentInputSwitchCState = LOW;
 boolean previousInputSwitchCState = LOW;
 
-// input switch A press count variables
-int inputSwitchAPressCount = 0;
-boolean inputSwitchAPressCountActive = false;
-
-// input switch A last press time variables
-unsigned long inputSwitchALastPressTime = 0;
-boolean inputSwitchALastPressTimeActive = false;
-
 // input switch B hold variables
 unsigned long startInputSwitchBTime = 0;
 unsigned long pressedInputSwitchBTime = 0;
 boolean freshInputSwitchBTime = true;
 
+// input switch C press count variables
+int inputSwitchCPressCount = 0;
+boolean inputSwitchCPressCountActive = false;
+
+// input switch C last press time variables
+unsigned long inputSwitchCLastPressTime = 0;
+boolean inputSwitchCLastPressTimeActive = false;
+
 // mode variables
 int currentMode = 1;
 
-// walking mode variables
-boolean sprinting = false;
-
-// driving mode variables
-boolean accelerating = false;
+// walking and driving mode variables
+boolean walkingOrAccelerating = false;
 boolean reversing = false;
 
 void setup() {
@@ -53,10 +49,13 @@ void setup() {
   pinMode(blueLED, OUTPUT);
 
   // set walking mode
-  setMode(WALKING_MODE);
+  setMode(WALKING_AND_DRIVING_MODE);
 
   // start keyboard
   Keyboard.begin();
+
+  // start serial
+  Serial.begin(9600);
 }
 
 void loop() {
@@ -66,79 +65,30 @@ void loop() {
   // update input switch B hold time
   updateInputSwitchBHoldTime();
 
-  // walking mode
-  if (isWalkingMode()) {
-    // if input switch A was just released, increment count and record time
-    if (wasInputSwitchAJustReleased()) {
-      incrementInputSwitchAPressCount();
-
-      recordInputSwitchALastPressTime();
+  // walking and driving mode
+  if (isWalkingAndDrivingMode()) {
+    // if switch A was just released and not walking, accelerating or reversing, walk or accelerate
+    if (wasInputSwitchAJustReleased() && !walkingOrAccelerating && !reversing) {
+      toggleWalkOrAccelerate();
     }
 
-    // if input switch A hasn't been pressed for the duration of the take action timeout, stop current action and do selected action
-    if (shouldTakeAction() && isInputSwitchAPressCountActive()) {
-      // stop current action
-      stopAction();
-
-      // do selected action
-      switch (inputSwitchAPressCount) {
-        case FORWARD:
-          walkForward();
-          break;
-        case BACKWARD:
-          walkBackward();
-          break;
-        case LEFT:
-          walkLeft();
-          break;
-        case RIGHT:
-          walkRight();
-          break;
-        case JUMP:
-          jump();
-          break;
-        case SPRINT:
-          toggleSprint();
-          break;
-        case ENTER_OR_EXIT:
-          enterOrExit();
-          break;
-        default:
-          stopAction();
-          break;
-      }
-
-      resetInputSwitchAPressCount();
-      resetInputSwitchALastPressTime();
-    }
-
-    // if switch B was just released and was held for less time than the duration of hold 1, stop current action
-    if (wasInputSwitchBJustReleased() && pressedInputSwitchBTime < SWITCH_HOLD_1) {
-      stopAction();
-    }
-  }
-
-  // driving mode
-  if (isDrivingMode()) {
-    // if switch A was just released and not accelerating or reversing, accelerate
-    if (wasInputSwitchAJustReleased() && !accelerating && !reversing) {
-      toggleAccelerate();
-    }
-
-    // if accelerating or reversing, switch A and B act as left and right
-    if (accelerating || reversing) {
+    // if walking, accelerating or reversing, switch A and B act as left and right
+    if (walkingOrAccelerating || reversing) {
       if (isInputSwitchAPressed()) {
-        steerLeftDown();
+        walkOrSteerLeftDown();
+        Serial.println("walk or steer left down");
       }
-      else {
-        steerLeftUp();
+      else if (wasInputSwitchAJustReleased()) {
+        walkOrSteerLeftUp();
+        Serial.println("walk or steer left up");
       }
-
-      if (isInputSwitchBPressed()) {
-        steerRightDown();
+      else if (isInputSwitchBPressed()) {
+        walkOrSteerRightDown();
+        Serial.println("walk or steer right down");
       }
-      else {
-        steerRightUp();
+      else if (wasInputSwitchBJustReleased()) {
+        walkOrSteerRightUp();
+        Serial.println("walk or steer right up");
       }
     }
   }
@@ -208,28 +158,22 @@ void setMode(int mode) {
 
 void nextMode() {
   switch (currentMode) {
-    case WALKING_MODE:
-      setMode(DRIVING_MODE);
-      break;
-    case DRIVING_MODE:
+    case WALKING_AND_DRIVING_MODE:
       setMode(FIGHTING_MODE);
       break;
     case FIGHTING_MODE:
       setMode(CHEAT_MODE);
       break;
     case CHEAT_MODE:
-      setMode(WALKING_MODE);
+      setMode(WALKING_AND_DRIVING_MODE);
       break;
   }
 }
 
 void setModeIndication() {
   switch (currentMode) {
-    case WALKING_MODE:
+    case WALKING_AND_DRIVING_MODE:
       setRGBColor(255, 0, 0);
-      break;
-    case DRIVING_MODE:
-      setRGBColor(0, 255, 0);
       break;
     case FIGHTING_MODE:
       setRGBColor(0, 0, 255);
@@ -240,12 +184,8 @@ void setModeIndication() {
   }
 }
 
-boolean isWalkingMode() {
-  return currentMode == WALKING_MODE;
-}
-
-boolean isDrivingMode() {
-  return currentMode == DRIVING_MODE;
+boolean isWalkingAndDrivingMode() {
+  return currentMode == WALKING_AND_DRIVING_MODE;
 }
 
 boolean isFightingMode() {
@@ -269,80 +209,34 @@ void stopAction() {
 }
 
 void resetModes() {
-  resetWalkingMode();
-  resetDrivingMode();
+  resetWalkingAndDrivingMode();
 
   stopAction();
 }
 
 
 /*
- * Walking mode functions
+ * Walking and driving mode functions
  */
 
-void walkForward() {
-  Keyboard.press('w');
-}
-
-void walkBackward() {
-  Keyboard.press('s');
-}
-
-void walkLeft() {
-  keyDownUp('a', WALK_LEFT_RIGHT_DELAY);
-}
-
-void walkRight() {
-  keyDownUp('d', WALK_LEFT_RIGHT_DELAY);
-}
-
-void jump() {
-  keyDownUp('j', KEY_PULSE_DELAY);
-}
-
-void toggleSprint() {
-  if (!sprinting) {
-    Keyboard.press(' ');
-    sprinting = true;
-  }
-  else {
-    Keyboard.release(' ');
-    sprinting = false;
-  }
-}
-
-void enterOrExit() {
-  keyDownUp('\n', KEY_PULSE_DELAY);
-}
-
-void resetWalkingMode() {
-  Keyboard.release(' ');
-  sprinting = false;
-}
-
-
-/*
- * Driving mode functions
- */
-
-void toggleAccelerate() {
+void toggleWalkOrAccelerate() {
   if (reversing) {
     toggleReverse();
   }
 
-  if (!accelerating) {
+  if (!walkingOrAccelerating) {
     Keyboard.press('w');
-    accelerating = true;
+    walkingOrAccelerating = true;
   }
   else {
     Keyboard.release('w');
-    accelerating = false;
+    walkingOrAccelerating = false;
   }
 }
 
 void toggleReverse() {
-  if (accelerating) {
-    toggleAccelerate();
+  if (walkingOrAccelerating) {
+    toggleWalkOrAccelerate();
   }
 
   if (!reversing) {
@@ -355,40 +249,48 @@ void toggleReverse() {
   }
 }
 
-void steerLeftDown() {
-  if (accelerating) {
-    toggleAccelerate();
+void walkOrSteerLeftDown() {
+  if (walkingOrAccelerating) {
+    toggleWalkOrAccelerate();
   }
 
   Keyboard.press('a');
 }
 
-void steerRightDown() {
-  if (accelerating) {
-    toggleAccelerate();
+void walkOrSteerRightDown() {
+  if (walkingOrAccelerating) {
+    toggleWalkOrAccelerate();
   }
 
   Keyboard.press('d');
 }
 
-void steerLeftUp() {
-  if (!accelerating) {
-    toggleAccelerate();
+void walkOrSteerLeftUp() {
+  if (!walkingOrAccelerating) {
+    toggleWalkOrAccelerate();
   }
 
   Keyboard.release('a');
 }
 
-void steerRightUp() {
-  if (!accelerating) {
-    toggleAccelerate();
+void walkOrSteerRightUp() {
+  if (!walkingOrAccelerating) {
+    toggleWalkOrAccelerate();
   }
 
   Keyboard.release('d');
 }
 
-void resetDrivingMode() {
-  accelerating = false;
+void enterOrExit() {
+  keyDownUp('\n', KEY_PULSE_DELAY);
+}
+
+void jump() {
+  keyDownUp('j', KEY_PULSE_DELAY);
+}
+
+void resetWalkingAndDrivingMode() {
+  walkingOrAccelerating = false;
   reversing = false;
 }
 
@@ -423,32 +325,28 @@ void keyDownUp(int key, unsigned long delayMillis) {
  * Timing and counting functions
  */
 
-void incrementInputSwitchAPressCount() {
-  inputSwitchAPressCount++;
-  inputSwitchAPressCountActive = true;
+void incrementInputSwitchCPressCount() {
+  inputSwitchCPressCount++;
+  inputSwitchCPressCountActive = true;
 }
 
-void resetInputSwitchAPressCount() {
-  inputSwitchAPressCount = 0;
-  inputSwitchAPressCountActive = false;
+void resetInputSwitchCPressCount() {
+  inputSwitchCPressCount = 0;
+  inputSwitchCPressCountActive = false;
 }
 
-boolean isInputSwitchAPressCountActive() {
-  return inputSwitchAPressCountActive;
+void recordInputSwitchCLastPressTime() {
+  inputSwitchCLastPressTime = millis();
+  inputSwitchCLastPressTimeActive = true;
 }
 
-void recordInputSwitchALastPressTime() {
-  inputSwitchALastPressTime = millis();
-  inputSwitchALastPressTimeActive = true;
-}
-
-void resetInputSwitchALastPressTime() {
-  inputSwitchALastPressTime = 0;
-  inputSwitchALastPressTimeActive = false;
+void resetInputSwitchCLastPressTime() {
+  inputSwitchCLastPressTime = 0;
+  inputSwitchCLastPressTimeActive = false;
 }
 
 boolean shouldTakeAction() {
-  return inputSwitchALastPressTime < (millis() - TAKE_ACTION_TIMEOUT) && inputSwitchALastPressTimeActive;
+  return inputSwitchCLastPressTime < (millis() - TAKE_ACTION_TIMEOUT) && inputSwitchCLastPressTimeActive;
 }
 
 void updateInputSwitchBHoldTime() {

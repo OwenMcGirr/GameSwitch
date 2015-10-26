@@ -6,8 +6,6 @@
 
 #define KEY_PULSE_DELAY 250
 
-#define WALK_LEFT_RIGHT_DELAY 400
-
 #define DEBOUNCE_DELAY 10
 
 #define RGB_CYCLE_DELAY 100
