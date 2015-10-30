@@ -78,17 +78,14 @@ void loop() {
         walkOrSteerLeftDown();
         Serial.println("walk or steer left down");
       }
-      else if (wasInputSwitchAJustReleased()) {
-        walkOrSteerLeftUp();
-        Serial.println("walk or steer left up");
-      }
       else if (isInputSwitchBPressed()) {
         walkOrSteerRightDown();
         Serial.println("walk or steer right down");
       }
-      else if (wasInputSwitchBJustReleased()) {
-        walkOrSteerRightUp();
-        Serial.println("walk or steer right up");
+      else if (wasInputSwitchAJustReleased() || wasInputSwitchBJustReleased()) {
+        resetWalkingAndDrivingMode();
+        toggleWalkOrAccelerate();
+        Serial.println("walk or drive forward");
       }
     }
   }
@@ -147,7 +144,7 @@ boolean wasInputSwitchCJustReleased() {
  */
 
 void setMode(int mode) {
-  resetModes();
+  resetWalkingAndDrivingMode();
 
   currentMode = mode;
 
@@ -201,17 +198,8 @@ boolean isCheatMode() {
  * Common mode functions
  */
 
-void stopAction() {
-  Keyboard.release('w');
-  Keyboard.release('s');
-  Keyboard.release('a');
-  Keyboard.release('d');
-}
-
-void resetModes() {
-  resetWalkingAndDrivingMode();
-
-  stopAction();
+void enterOrExit() {
+  keyDownUp('\n', KEY_PULSE_DELAY);
 }
 
 
@@ -250,39 +238,11 @@ void toggleReverse() {
 }
 
 void walkOrSteerLeftDown() {
-  if (walkingOrAccelerating) {
-    toggleWalkOrAccelerate();
-  }
-
   Keyboard.press('a');
 }
 
 void walkOrSteerRightDown() {
-  if (walkingOrAccelerating) {
-    toggleWalkOrAccelerate();
-  }
-
   Keyboard.press('d');
-}
-
-void walkOrSteerLeftUp() {
-  if (!walkingOrAccelerating) {
-    toggleWalkOrAccelerate();
-  }
-
-  Keyboard.release('a');
-}
-
-void walkOrSteerRightUp() {
-  if (!walkingOrAccelerating) {
-    toggleWalkOrAccelerate();
-  }
-
-  Keyboard.release('d');
-}
-
-void enterOrExit() {
-  keyDownUp('\n', KEY_PULSE_DELAY);
 }
 
 void jump() {
@@ -290,6 +250,8 @@ void jump() {
 }
 
 void resetWalkingAndDrivingMode() {
+  Keyboard.releaseAll();
+
   walkingOrAccelerating = false;
   reversing = false;
 }
