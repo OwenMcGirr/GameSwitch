@@ -6,6 +6,8 @@
 
 #define KEY_PULSE_DELAY 250
 
+#define CHEAT_DELAY 1000
+
 #define DEBOUNCE_DELAY 10
 
 #define RGB_CYCLE_DELAY 100

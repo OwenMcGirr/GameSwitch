@@ -97,6 +97,19 @@ void loop() {
     }
   }
 
+  // cheat mode
+  if (isCheatMode()) {
+    if (wasInputSwitchAJustReleased()) {
+      doCheat("LXGIWYL"); // thug's tools
+      delay(CHEAT_DELAY);
+      doCheat("PROFESSIONALSKIT"); // professional tools
+      delay(CHEAT_DELAY);
+      doCheat("UZUMYMW"); // nutter tools
+      delay(CHEAT_DELAY);
+      doCheat("HESOYAM"); // health, armour, and money
+    }
+  }
+
   // if switch B is held for the duration of the third hold time, go to next mode
   if (isInputSwitchBPressed() && pressedInputSwitchBTime == SWITCH_HOLD_3) {
     nextMode();
@@ -273,6 +286,15 @@ void resetWalkingAndDrivingMode() {
 
 void fire() {
   keyDownUp('o', KEY_PULSE_DELAY);
+}
+
+
+/*
+ * Cheat mode functions
+ */
+
+void doCheat(String cheat) {
+  Keyboard.print(cheat);
 }
 
 
