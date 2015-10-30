@@ -162,6 +162,9 @@ void nextMode() {
       setMode(CHEAT_MODE);
       break;
     case CHEAT_MODE:
+      setMode(REST_MODE);
+      break;
+    case REST_MODE:
       setMode(WALKING_AND_DRIVING_MODE);
       break;
   }
@@ -178,6 +181,9 @@ void setModeIndication() {
     case CHEAT_MODE:
       setRGBColor(255, 255, 255);
       break;
+    case REST_MODE:
+      setRGBColor(0, 0, 0);
+      break;
   }
 }
 
@@ -191,6 +197,10 @@ boolean isFightingMode() {
 
 boolean isCheatMode() {
   return currentMode == CHEAT_MODE;
+}
+
+boolean isRestMode() {
+  return currentMode == REST_MODE;
 }
 
 
