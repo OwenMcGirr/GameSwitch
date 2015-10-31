@@ -105,6 +105,9 @@ void loop() {
         case 2:
           jump();
           break;
+        case 3:
+          toggleReverse();
+          break;
         default:
           resetWalkingAndDrivingMode();
           break;
