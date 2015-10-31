@@ -65,6 +65,12 @@ void loop() {
   // update input switch B hold time
   updateInputSwitchBHoldTime();
 
+  // if switch C was just released, increment count and record time
+  if (wasInputSwitchCJustReleased()) {
+    incrementInputSwitchCPressCount();
+    recordInputSwitchCLastPressTime();
+  }
+
   // walking and driving mode
   if (isWalkingAndDrivingMode()) {
     // if switch A was just released and not walking, accelerating or reversing, walk or accelerate
@@ -87,6 +93,24 @@ void loop() {
         toggleWalkOrAccelerate();
         Serial.println("walk or drive forward");
       }
+    }
+
+    // switch C, press a certain amount of times for different actions
+    if (shouldTakeInputSwitchCPressCountAction()) {
+      // do selected action
+      switch (inputSwitchCPressCount) {
+        case 1:
+          enterOrExit();
+          break;
+        case 2:
+          jump();
+          break;
+        default:
+          resetWalkingAndDrivingMode();
+          break;
+      }
+
+      resetInputSwitchCPressCount();
     }
   }
 
@@ -339,7 +363,7 @@ void resetInputSwitchCLastPressTime() {
   inputSwitchCLastPressTimeActive = false;
 }
 
-boolean shouldTakeAction() {
+boolean shouldTakeInputSwitchCPressCountAction() {
   return inputSwitchCLastPressTime < (millis() - TAKE_ACTION_TIMEOUT) && inputSwitchCLastPressTimeActive;
 }
 
