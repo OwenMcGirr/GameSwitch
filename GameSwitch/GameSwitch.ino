@@ -109,6 +109,10 @@ void loop() {
         case 3:
           toggleReverse();
           break;
+        case 4:
+          resetWalkingAndDrivingMode();
+          pauseOrResume();
+          break;
         default:
           resetWalkingAndDrivingMode();
           break;
@@ -251,6 +255,10 @@ boolean isRestMode() {
 
 void enterOrExit() {
   keyDownUp('\n', KEY_PULSE_DELAY);
+}
+
+void pauseOrResume() {
+  keyDownUp(KEY_ESC, KEY_PULSE_DELAY);
 }
 
 
