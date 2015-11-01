@@ -119,6 +119,7 @@ void loop() {
       }
 
       resetInputSwitchCPressCount();
+      resetInputSwitchCLastPressTime();
     }
   }
 
