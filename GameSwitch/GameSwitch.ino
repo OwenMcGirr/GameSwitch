@@ -368,7 +368,7 @@ void resetInputSwitchCLastPressTime() {
 }
 
 boolean shouldTakeInputSwitchCPressCountAction() {
-  return inputSwitchCLastPressTime < (millis() - TAKE_ACTION_TIMEOUT) && inputSwitchCLastPressTimeActive;
+  return inputSwitchCLastPressTime < (millis() - SWITCH_C_TAKE_ACTION_TIMEOUT) && inputSwitchCLastPressTimeActive;
 }
 
 void updateInputSwitchBHoldTime() {
