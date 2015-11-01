@@ -100,6 +100,7 @@ void loop() {
       // do selected action
       switch (inputSwitchCPressCount) {
         case 1:
+          resetWalkingAndDrivingMode();
           enterOrExit();
           break;
         case 2:
