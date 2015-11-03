@@ -331,7 +331,9 @@ void fire() {
  */
 
 void doCheat(String cheat) {
-  Keyboard.print(cheat);
+  for (int i = 0; i < sizeof(cheat); i++) {
+    keyDownUp(cheat.charAt(i), KEY_PULSE_DELAY);
+  }
 }
 
 
