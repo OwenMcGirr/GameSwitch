@@ -81,10 +81,12 @@ void loop() {
     // if walking, accelerating or reversing, switch A and B act as left and right
     if (walkingOrAccelerating || reversing) {
       if (isInputSwitchAPressed()) {
+        decelerateOrStopWalkingForTurn();
         walkOrSteerLeftDown();
         Serial.println("walk or steer left down");
       }
       else if (isInputSwitchBPressed()) {
+        decelerateOrStopWalkingForTurn();
         walkOrSteerRightDown();
         Serial.println("walk or steer right down");
       }
@@ -295,6 +297,11 @@ void toggleReverse() {
     Keyboard.release('s');
     reversing = false;
   }
+}
+
+void decelerateOrStopWalkingForTurn() {
+  Keyboard.release('w');
+  Keyboard.release('s');
 }
 
 void walkOrSteerLeftDown() {
