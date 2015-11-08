@@ -99,24 +99,27 @@ void loop() {
 
     // switch C, press a certain amount of times for different actions
     if (shouldTakeInputSwitchCPressCountAction()) {
+      resetWalkingAndDrivingMode();
+
       // do selected action
       switch (inputSwitchCPressCount) {
         case 1:
-          resetWalkingAndDrivingMode();
-          enterOrExit();
+          keyDownUp(KEY_F1, KEY_PULSE_DELAY);
           break;
         case 2:
-          jump();
+          keyDownUp(KEY_F2, KEY_PULSE_DELAY);
           break;
         case 3:
           toggleReverse();
           break;
         case 4:
-          resetWalkingAndDrivingMode();
           pauseOrResume();
           break;
-        default:
-          resetWalkingAndDrivingMode();
+        case 5:
+          keyDownUp(KEY_F3, KEY_PULSE_DELAY);
+          break;
+        case 6:
+          keyDownUp(KEY_F4, KEY_PULSE_DELAY);
           break;
       }
 
@@ -256,9 +259,6 @@ boolean isRestMode() {
  * Common mode functions
  */
 
-void enterOrExit() {
-  keyDownUp('\n', KEY_PULSE_DELAY);
-}
 
 void pauseOrResume() {
   keyDownUp(KEY_ESC, KEY_PULSE_DELAY);
@@ -312,10 +312,6 @@ void walkOrSteerRightDown() {
   Keyboard.press('d');
 }
 
-void jump() {
-  keyDownUp('j', KEY_PULSE_DELAY);
-}
-
 void resetWalkingAndDrivingMode() {
   Keyboard.releaseAll();
 
@@ -329,7 +325,7 @@ void resetWalkingAndDrivingMode() {
  */
 
 void fire() {
-  keyDownUp('o', KEY_PULSE_DELAY);
+  keyDownUp(KEY_F5, KEY_PULSE_DELAY);
 }
 
 
