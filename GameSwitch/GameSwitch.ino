@@ -135,19 +135,6 @@ void loop() {
     }
   }
 
-  // cheat mode
-  if (isCheatMode()) {
-    if (wasInputSwitchAJustReleased()) {
-      doCheat("LXGIWYL"); // thug's tools
-      delay(CHEAT_DELAY);
-      doCheat("PROFESSIONALSKIT"); // professional tools
-      delay(CHEAT_DELAY);
-      doCheat("UZUMYMW"); // nutter tools
-      delay(CHEAT_DELAY);
-      doCheat("HESOYAM"); // health, armour, and money
-    }
-  }
-
   // if switch B is held for the duration of the third hold time, go to next mode
   if (isInputSwitchBPressed() && pressedInputSwitchBTime == SWITCH_HOLD_3) {
     nextMode();
@@ -210,9 +197,6 @@ void nextMode() {
       setMode(FIGHTING_MODE);
       break;
     case FIGHTING_MODE:
-      setMode(CHEAT_MODE);
-      break;
-    case CHEAT_MODE:
       setMode(REST_MODE);
       break;
     case REST_MODE:
@@ -229,9 +213,6 @@ void setModeIndication() {
     case FIGHTING_MODE:
       setRGBColor(0, 0, 255);
       break;
-    case CHEAT_MODE:
-      setRGBColor(255, 255, 255);
-      break;
     case REST_MODE:
       setRGBColor(0, 0, 0);
       break;
@@ -246,10 +227,6 @@ boolean isFightingMode() {
   return currentMode == FIGHTING_MODE;
 }
 
-boolean isCheatMode() {
-  return currentMode == CHEAT_MODE;
-}
-
 boolean isRestMode() {
   return currentMode == REST_MODE;
 }
@@ -258,7 +235,6 @@ boolean isRestMode() {
 /*
  * Common mode functions
  */
-
 
 void pauseOrResume() {
   keyDownUp(KEY_ESC, KEY_PULSE_DELAY);
@@ -326,17 +302,6 @@ void resetWalkingAndDrivingMode() {
 
 void fire() {
   keyDownUp(KEY_F5, KEY_PULSE_DELAY);
-}
-
-
-/*
- * Cheat mode functions
- */
-
-void doCheat(String cheat) {
-  for (int i = 0; i < sizeof(cheat); i++) {
-    keyDownUp(cheat.charAt(i), KEY_PULSE_DELAY);
-  }
 }
 
 

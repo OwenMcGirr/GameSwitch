@@ -1,4 +1,3 @@
 #define WALKING_AND_DRIVING_MODE 1
 #define FIGHTING_MODE 2
-#define CHEAT_MODE 3
-#define REST_MODE 4
+#define REST_MODE 3
