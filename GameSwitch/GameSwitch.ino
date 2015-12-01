@@ -104,10 +104,10 @@ void loop() {
       // do selected action
       switch (inputSwitchCPressCount) {
         case 1:
-          keyDownUp(KEY_F1, KEY_PULSE_DELAY);
+          keyDownUp('1', KEY_PULSE_DELAY);
           break;
         case 2:
-          keyDownUp(KEY_F2, KEY_PULSE_DELAY);
+          keyDownUp('2', KEY_PULSE_DELAY);
           break;
         case 3:
           toggleReverse();
@@ -116,10 +116,10 @@ void loop() {
           pauseOrResume();
           break;
         case 5:
-          keyDownUp(KEY_F3, KEY_PULSE_DELAY);
+          keyDownUp('3', KEY_PULSE_DELAY);
           break;
         case 6:
-          keyDownUp(KEY_F4, KEY_PULSE_DELAY);
+          keyDownUp('4', KEY_PULSE_DELAY);
           break;
       }
 
