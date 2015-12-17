@@ -19,18 +19,17 @@ boolean previousInputSwitchBState = LOW;
 boolean currentInputSwitchCState = LOW;
 boolean previousInputSwitchCState = LOW;
 
+// input switch A press count and last press time variables
+int inputSwitchAPressCount = 0;
+boolean inputSwitchAPressCountActive = false;
+unsigned long inputSwitchALastPressTime = 0;
+boolean inputSwitchALastPressTimeActive = false;
+boolean shouldDoFKeys = false;
+
 // input switch B hold variables
 unsigned long startInputSwitchBTime = 0;
 unsigned long pressedInputSwitchBTime = 0;
 boolean freshInputSwitchBTime = true;
-
-// input switch C press count variables
-int inputSwitchCPressCount = 0;
-boolean inputSwitchCPressCountActive = false;
-
-// input switch C last press time variables
-unsigned long inputSwitchCLastPressTime = 0;
-boolean inputSwitchCLastPressTimeActive = false;
 
 // mode variables
 int currentMode = 1;
@@ -65,16 +64,10 @@ void loop() {
   // update input switch B hold time
   updateInputSwitchBHoldTime();
 
-  // if switch C was just released, increment count and record time
-  if (wasInputSwitchCJustReleased()) {
-    incrementInputSwitchCPressCount();
-    recordInputSwitchCLastPressTime();
-  }
-
   // walking and driving mode
   if (isWalkingAndDrivingMode()) {
     // if switch A was just released and not walking, accelerating or reversing, walk or accelerate
-    if (wasInputSwitchAJustReleased() && !walkingOrAccelerating && !reversing) {
+    if (wasInputSwitchAJustReleased() && !walkingOrAccelerating && !reversing && !shouldDoFKeys) {
       toggleWalkOrAccelerate();
     }
 
@@ -97,12 +90,22 @@ void loop() {
       }
     }
 
-    // switch C, press a certain amount of times for different actions
-    if (shouldTakeInputSwitchCPressCountAction()) {
+    // if switch C was just released, enable F keys
+    if (wasInputSwitchCJustReleased()) {
       resetWalkingAndDrivingMode();
+      shouldDoFKeys = true;
+    }
 
+    // if switch A was just released, increment count and record time
+    if (wasInputSwitchAJustReleased() && shouldDoFKeys) {
+      incrementInputSwitchAPressCount();
+      recordInputSwitchALastPressTime();
+    }
+
+    // switch A, press a certain amount of times for different actions
+    if (shouldTakeInputSwitchAPressCountAction()) {
       // do selected action
-      switch (inputSwitchCPressCount) {
+      switch (inputSwitchAPressCount) {
         case 1:
           keyDownUp(KEY_F1, KEY_PULSE_DELAY);
           break;
@@ -123,8 +126,9 @@ void loop() {
           break;
       }
 
-      resetInputSwitchCPressCount();
-      resetInputSwitchCLastPressTime();
+      resetInputSwitchAPressCount();
+      resetInputSwitchALastPressTime();
+      shouldDoFKeys = false;
     }
   }
 
@@ -326,28 +330,28 @@ void keyDownUp(int key, unsigned long delayMillis) {
  * Timing and counting functions
  */
 
-void incrementInputSwitchCPressCount() {
-  inputSwitchCPressCount++;
-  inputSwitchCPressCountActive = true;
+void incrementInputSwitchAPressCount() {
+  inputSwitchAPressCount++;
+  inputSwitchAPressCountActive = true;
 }
 
-void resetInputSwitchCPressCount() {
-  inputSwitchCPressCount = 0;
-  inputSwitchCPressCountActive = false;
+void resetInputSwitchAPressCount() {
+  inputSwitchAPressCount = 0;
+  inputSwitchAPressCountActive = false;
 }
 
-void recordInputSwitchCLastPressTime() {
-  inputSwitchCLastPressTime = millis();
-  inputSwitchCLastPressTimeActive = true;
+void recordInputSwitchALastPressTime() {
+  inputSwitchALastPressTime = millis();
+  inputSwitchALastPressTimeActive = true;
 }
 
-void resetInputSwitchCLastPressTime() {
-  inputSwitchCLastPressTime = 0;
-  inputSwitchCLastPressTimeActive = false;
+void resetInputSwitchALastPressTime() {
+  inputSwitchALastPressTime = 0;
+  inputSwitchALastPressTimeActive = false;
 }
 
-boolean shouldTakeInputSwitchCPressCountAction() {
-  return inputSwitchCLastPressTime < (millis() - SWITCH_C_TAKE_ACTION_TIMEOUT) && inputSwitchCLastPressTimeActive;
+boolean shouldTakeInputSwitchAPressCountAction() {
+  return inputSwitchALastPressTime < (millis() - SWITCH_A_TAKE_ACTION_TIMEOUT) && inputSwitchALastPressTimeActive;
 }
 
 void updateInputSwitchBHoldTime() {
