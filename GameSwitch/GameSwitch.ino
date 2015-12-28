@@ -89,52 +89,52 @@ void loop() {
         Serial.println("walk or drive forward");
       }
     }
+  }
 
-    // if switch C was just released, enable F keys
-    if (wasInputSwitchCJustReleased()) {
-      resetWalkingAndDrivingMode();
-      shouldDoFKeys = true;
+  // if switch C was just released, enable F keys
+  if (wasInputSwitchCJustReleased()) {
+    resetWalkingAndDrivingMode();
+    shouldDoFKeys = true;
+  }
+
+  // if switch A was just released, increment count and record time
+  if (wasInputSwitchAJustReleased() && shouldDoFKeys) {
+    incrementInputSwitchAPressCount();
+    recordInputSwitchALastPressTime();
+  }
+
+  // switch A, press a certain amount of times for different actions
+  if (shouldTakeInputSwitchAPressCountAction()) {
+    // do selected action
+    switch (inputSwitchAPressCount) {
+      case 1:
+        keyDownUp(KEY_F1, KEY_PULSE_DELAY);
+        break;
+      case 2:
+        keyDownUp(KEY_F2, KEY_PULSE_DELAY);
+        break;
+      case 3:
+        toggleReverse();
+        break;
+      case 4:
+        pauseOrResume();
+        break;
+      case 5:
+        keyDownUp(KEY_F3, KEY_PULSE_DELAY);
+        break;
+      case 6:
+        keyDownUp(KEY_F4, KEY_PULSE_DELAY);
+        break;
     }
 
-    // if switch A was just released, increment count and record time
-    if (wasInputSwitchAJustReleased() && shouldDoFKeys) {
-      incrementInputSwitchAPressCount();
-      recordInputSwitchALastPressTime();
-    }
-
-    // switch A, press a certain amount of times for different actions
-    if (shouldTakeInputSwitchAPressCountAction()) {
-      // do selected action
-      switch (inputSwitchAPressCount) {
-        case 1:
-          keyDownUp(KEY_F1, KEY_PULSE_DELAY);
-          break;
-        case 2:
-          keyDownUp(KEY_F2, KEY_PULSE_DELAY);
-          break;
-        case 3:
-          toggleReverse();
-          break;
-        case 4:
-          pauseOrResume();
-          break;
-        case 5:
-          keyDownUp(KEY_F3, KEY_PULSE_DELAY);
-          break;
-        case 6:
-          keyDownUp(KEY_F4, KEY_PULSE_DELAY);
-          break;
-      }
-
-      resetInputSwitchAPressCount();
-      resetInputSwitchALastPressTime();
-      shouldDoFKeys = false;
-    }
+    resetInputSwitchAPressCount();
+    resetInputSwitchALastPressTime();
+    shouldDoFKeys = false;
   }
 
   // fighting mode
   if (isFightingMode()) {
-    if (wasInputSwitchAJustReleased()) {
+    if (wasInputSwitchAJustReleased() && !shouldDoFKeys) {
       fire();
     }
   }
