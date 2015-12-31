@@ -37,6 +37,7 @@ int currentMode = 1;
 // walking and driving mode variables
 boolean walkingOrAccelerating = false;
 boolean reversing = false;
+boolean sprinting = false;
 
 void setup() {
   // initialise IO
@@ -124,6 +125,27 @@ void loop() {
         break;
       case 6:
         keyDownUp(KEY_F4, KEY_PULSE_DELAY);
+        break;
+      case 7:
+        toggleSprint();
+        break;
+      case 8:
+        keyDownUp(KEY_F7, KEY_PULSE_DELAY);
+        break;
+      case 9:
+        keyDownUp(KEY_F8, KEY_PULSE_DELAY);
+        break;
+      case 10:
+        keyDownUp(KEY_F9, KEY_PULSE_DELAY);
+        break;
+      case 11:
+        keyDownUp(KEY_F10, KEY_PULSE_DELAY);
+        break;
+      case 12:
+        keyDownUp(KEY_F11, KEY_PULSE_DELAY);
+        break;
+      case 13:
+        keyDownUp(KEY_F12, KEY_PULSE_DELAY);
         break;
     }
 
@@ -279,6 +301,17 @@ void toggleReverse() {
   }
 }
 
+void toggleSprint() {
+  if (!sprinting) {
+    Keyboard.press(KEY_F6);
+    sprinting = true;
+  }
+  else {
+    Keyboard.release(KEY_F6);
+    sprinting = false;
+  }
+}
+
 void decelerateOrStopWalkingForTurn() {
   Keyboard.release('w');
   Keyboard.release('s');
@@ -297,6 +330,7 @@ void resetWalkingAndDrivingMode() {
 
   walkingOrAccelerating = false;
   reversing = false;
+  sprinting = false;
 }
 
 
