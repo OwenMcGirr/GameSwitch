@@ -51,8 +51,9 @@ void setup() {
   // set walking mode
   setMode(WALKING_AND_DRIVING_MODE);
 
-  // start keyboard
+  // start keyboard and mouse
   Keyboard.begin();
+  Mouse.begin();
 
   // start serial
   Serial.begin(9600);
@@ -90,74 +91,80 @@ void loop() {
         Serial.println("walk or drive forward");
       }
     }
-  }
 
-  // if switch C was just released, enable F keys
-  if (wasInputSwitchCJustReleased()) {
-    resetWalkingAndDrivingMode();
-    shouldDoFKeys = true;
-  }
-
-  // if switch A was just released, increment count and record time
-  if (wasInputSwitchAJustReleased() && shouldDoFKeys) {
-    incrementInputSwitchAPressCount();
-    recordInputSwitchALastPressTime();
-  }
-
-  // switch A, press a certain amount of times for different actions
-  if (shouldTakeInputSwitchAPressCountAction()) {
-    // do selected action
-    switch (inputSwitchAPressCount) {
-      case 1:
-        keyDownUp(KEY_F1, KEY_PULSE_DELAY);
-        break;
-      case 2:
-        keyDownUp(KEY_F2, KEY_PULSE_DELAY);
-        break;
-      case 3:
-        toggleReverse();
-        break;
-      case 4:
-        pauseOrResume();
-        break;
-      case 5:
-        keyDownUp(KEY_F3, KEY_PULSE_DELAY);
-        break;
-      case 6:
-        keyDownUp(KEY_F4, KEY_PULSE_DELAY);
-        break;
-      case 7:
-        toggleSprint();
-        break;
-      case 8:
-        keyDownUp(KEY_F7, KEY_PULSE_DELAY);
-        break;
-      case 9:
-        keyDownUp(KEY_F8, KEY_PULSE_DELAY);
-        break;
-      case 10:
-        keyDownUp(KEY_F9, KEY_PULSE_DELAY);
-        break;
-      case 11:
-        keyDownUp(KEY_F10, KEY_PULSE_DELAY);
-        break;
-      case 12:
-        keyDownUp(KEY_F11, KEY_PULSE_DELAY);
-        break;
-      case 13:
-        keyDownUp(KEY_F12, KEY_PULSE_DELAY);
-        break;
+    // if switch C was just released, enable F keys
+    if (wasInputSwitchCJustReleased()) {
+      resetWalkingAndDrivingMode();
+      shouldDoFKeys = true;
     }
 
-    resetInputSwitchAPressCount();
-    resetInputSwitchALastPressTime();
-    shouldDoFKeys = false;
+    // if switch A was just released, increment count and record time
+    if (wasInputSwitchAJustReleased() && shouldDoFKeys) {
+      incrementInputSwitchAPressCount();
+      recordInputSwitchALastPressTime();
+    }
+
+    // switch A, press a certain amount of times for different actions
+    if (shouldTakeInputSwitchAPressCountAction()) {
+      // do selected action
+      switch (inputSwitchAPressCount) {
+        case 1:
+          keyDownUp(KEY_F1, KEY_PULSE_DELAY);
+          break;
+        case 2:
+          keyDownUp(KEY_F2, KEY_PULSE_DELAY);
+          break;
+        case 3:
+          toggleReverse();
+          break;
+        case 4:
+          pauseOrResume();
+          break;
+        case 5:
+          keyDownUp(KEY_F3, KEY_PULSE_DELAY);
+          break;
+        case 6:
+          keyDownUp(KEY_F4, KEY_PULSE_DELAY);
+          break;
+        case 7:
+          toggleSprint();
+          break;
+        case 8:
+          keyDownUp(KEY_F7, KEY_PULSE_DELAY);
+          break;
+        case 9:
+          keyDownUp(KEY_F8, KEY_PULSE_DELAY);
+          break;
+        case 10:
+          keyDownUp(KEY_F9, KEY_PULSE_DELAY);
+          break;
+        case 11:
+          keyDownUp(KEY_F10, KEY_PULSE_DELAY);
+          break;
+        case 12:
+          keyDownUp(KEY_F11, KEY_PULSE_DELAY);
+          break;
+        case 13:
+          keyDownUp(KEY_F12, KEY_PULSE_DELAY);
+          break;
+      }
+
+      resetInputSwitchAPressCount();
+      resetInputSwitchALastPressTime();
+      shouldDoFKeys = false;
+    }
   }
 
   // fighting mode
   if (isFightingMode()) {
-    if (wasInputSwitchAJustReleased() && !shouldDoFKeys) {
+    if (wasInputSwitchAJustReleased()) {
       fire();
+    }
+    if (wasInputSwitchBJustReleased()) {
+      nextWeapon();
+    }
+    if (wasInputSwitchCJustReleased()) {
+      reloadWeapon();
     }
   }
 
@@ -339,9 +346,16 @@ void resetWalkingAndDrivingMode() {
  */
 
 void fire() {
-  keyDownUp(KEY_F5, KEY_PULSE_DELAY);
+  Mouse.click(MOUSE_LEFT);
 }
 
+void nextWeapon() {
+  Mouse.click(MOUSE_RIGHT);
+}
+
+void reloadWeapon() {
+  keyDownUp(KEY_F5, KEY_PULSE_DELAY);
+}
 
 /*
  * Key functions
