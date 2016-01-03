@@ -39,6 +39,9 @@ boolean walkingOrAccelerating = false;
 boolean reversing = false;
 boolean sprinting = false;
 
+// menu mode variables
+char menuStyle = 'h';
+
 void setup() {
   // initialise IO
   pinMode(inputSwitchA, INPUT);
@@ -155,6 +158,36 @@ void loop() {
     }
   }
 
+  // menu mode
+  if (isMenuMode()) {
+    if (menuStyle == 'h') {
+      if (wasInputSwitchAJustReleased()) {
+        doMenuLeft();
+      }
+      if (wasInputSwitchBJustReleased()) {
+        doMenuRight();
+      }
+    }
+    else if (menuStyle == 'v') {
+      if (wasInputSwitchAJustReleased()) {
+        doMenuUp();
+      }
+      if (wasInputSwitchBJustReleased()) {
+        doMenuDown();
+      }
+    }
+
+    if (wasInputSwitchCJustReleased()) {
+      doMenuSelect();
+    }
+    if (isInputSwitchBPressed() && pressedInputSwitchBTime == SWITCH_HOLD_1) {
+      doMenuBack();
+    }
+    if (isInputSwitchBPressed() && pressedInputSwitchBTime == SWITCH_HOLD_2) {
+      switchMenuStyle();
+    }
+  }
+
   // fighting mode
   if (isFightingMode()) {
     if (wasInputSwitchAJustReleased()) {
@@ -230,6 +263,9 @@ void nextMode() {
       setMode(FIGHTING_MODE);
       break;
     case FIGHTING_MODE:
+      setMode(MENU_MODE);
+      break;
+    case MENU_MODE:
       setMode(REST_MODE);
       break;
     case REST_MODE:
@@ -244,6 +280,9 @@ void setModeIndication() {
       setRGBColor(255, 0, 0);
       break;
     case FIGHTING_MODE:
+      setRGBColor(0, 255, 0);
+      break;
+    case MENU_MODE:
       setRGBColor(0, 0, 255);
       break;
     case REST_MODE:
@@ -258,6 +297,10 @@ boolean isWalkingAndDrivingMode() {
 
 boolean isFightingMode() {
   return currentMode == FIGHTING_MODE;
+}
+
+boolean isMenuMode() {
+  return currentMode == MENU_MODE;
 }
 
 boolean isRestMode() {
@@ -356,6 +399,45 @@ void nextWeapon() {
 void reloadWeapon() {
   keyDownUp(KEY_F5, KEY_PULSE_DELAY);
 }
+
+
+/*
+ * Menu mode functions
+ */
+
+void doMenuSelect() {
+  keyDownUp(KEY_RETURN, KEY_PULSE_DELAY);
+}
+
+void doMenuBack() {
+  keyDownUp(KEY_ESC, KEY_PULSE_DELAY);
+}
+
+void doMenuUp() {
+  keyDownUp(KEY_UP_ARROW, KEY_PULSE_DELAY);
+}
+
+void doMenuDown() {
+  keyDownUp(KEY_DOWN_ARROW, KEY_PULSE_DELAY);
+}
+
+void doMenuLeft() {
+  keyDownUp(KEY_LEFT_ARROW, KEY_PULSE_DELAY);
+}
+
+void doMenuRight() {
+  keyDownUp(KEY_RIGHT_ARROW, KEY_PULSE_DELAY);
+}
+
+void switchMenuStyle() {
+  if (menuStyle == 'h') {
+    menuStyle = 'v';
+  }
+  else {
+    menuStyle = 'h';
+  }
+}
+
 
 /*
  * Key functions
