@@ -24,7 +24,7 @@ int inputSwitchAPressCount = 0;
 boolean inputSwitchAPressCountActive = false;
 unsigned long inputSwitchALastPressTime = 0;
 boolean inputSwitchALastPressTimeActive = false;
-boolean shouldDoFKeys = false;
+boolean shouldDoExtraFunctions = false;
 
 // input switch B hold variables
 unsigned long startInputSwitchBTime = 0;
@@ -72,7 +72,7 @@ void loop() {
   // walking and driving mode
   if (isWalkingAndDrivingMode()) {
     // if switch A was just released and not walking, accelerating or reversing, walk or accelerate
-    if (wasInputSwitchAJustReleased() && !walkingOrAccelerating && !reversing && !shouldDoFKeys) {
+    if (wasInputSwitchAJustReleased() && !walkingOrAccelerating && !reversing && !shouldDoExtraFunctions) {
       toggleWalkOrAccelerate();
     }
 
@@ -95,14 +95,14 @@ void loop() {
       }
     }
 
-    // if switch C was just released, enable F keys
+    // if switch C was just released, enable extra functions
     if (wasInputSwitchCJustReleased()) {
       resetWalkingAndDrivingMode();
-      shouldDoFKeys = true;
+      shouldDoExtraFunctions = true;
     }
 
     // if switch A was just released, increment count and record time
-    if (wasInputSwitchAJustReleased() && shouldDoFKeys) {
+    if (wasInputSwitchAJustReleased() && shouldDoExtraFunctions) {
       incrementInputSwitchAPressCount();
       recordInputSwitchALastPressTime();
     }
@@ -154,12 +154,13 @@ void loop() {
 
       resetInputSwitchAPressCount();
       resetInputSwitchALastPressTime();
-      shouldDoFKeys = false;
+      shouldDoExtraFunctions = false;
     }
   }
 
   // menu mode
   if (isMenuMode()) {
+    // horizontal menu
     if (menuStyle == 'h') {
       if (wasInputSwitchAJustReleased()) {
         doMenuLeft();
@@ -168,6 +169,7 @@ void loop() {
         doMenuRight();
       }
     }
+    // vertical menu
     else if (menuStyle == 'v') {
       if (wasInputSwitchAJustReleased()) {
         doMenuUp();
@@ -177,14 +179,35 @@ void loop() {
       }
     }
 
+    // if switch C was just released, enable extra functions
     if (wasInputSwitchCJustReleased()) {
-      doMenuSelect();
+      shouldDoExtraFunctions = true;
     }
-    if (isInputSwitchBPressed() && pressedInputSwitchBTime == SWITCH_HOLD_1) {
-      doMenuBack();
+
+    // if switch A was just released, increment count and record time
+    if (wasInputSwitchAJustReleased() && shouldDoExtraFunctions) {
+      incrementInputSwitchAPressCount();
+      recordInputSwitchALastPressTime();
     }
-    if (isInputSwitchBPressed() && pressedInputSwitchBTime == SWITCH_HOLD_2) {
-      switchMenuStyle();
+
+    // switch A, press a certain amount of times for different actions
+    if (shouldTakeInputSwitchAPressCountAction()) {
+      // do selected action
+      switch (inputSwitchAPressCount) {
+        case 1:
+          doMenuSelect();
+          break;
+        case 2:
+          doMenuBack();
+          break;
+        case 3:
+          switchMenuStyle();
+          break;
+      }
+
+      resetInputSwitchAPressCount();
+      resetInputSwitchALastPressTime();
+      shouldDoExtraFunctions = false;
     }
   }
 
@@ -429,6 +452,7 @@ void doMenuRight() {
   keyDownUp(KEY_RIGHT_ARROW, KEY_PULSE_DELAY);
 }
 
+// horizontal or vertical menu
 void switchMenuStyle() {
   if (menuStyle == 'h') {
     menuStyle = 'v';
