@@ -160,22 +160,24 @@ void loop() {
 
   // menu mode
   if (isMenuMode()) {
-    // horizontal menu
-    if (menuStyle == 'h') {
-      if (wasInputSwitchAJustReleased()) {
-        doMenuLeft();
+    if (!shouldDoExtraFunctions) {
+      // horizontal menu
+      if (menuStyle == 'h') {
+        if (wasInputSwitchAJustReleased()) {
+          doMenuLeft();
+        }
+        if (wasInputSwitchBJustReleased()) {
+          doMenuRight();
+        }
       }
-      if (wasInputSwitchBJustReleased()) {
-        doMenuRight();
-      }
-    }
-    // vertical menu
-    else if (menuStyle == 'v') {
-      if (wasInputSwitchAJustReleased()) {
-        doMenuUp();
-      }
-      if (wasInputSwitchBJustReleased()) {
-        doMenuDown();
+      // vertical menu
+      else if (menuStyle == 'v') {
+        if (wasInputSwitchAJustReleased()) {
+          doMenuUp();
+        }
+        if (wasInputSwitchBJustReleased()) {
+          doMenuDown();
+        }
       }
     }
 
