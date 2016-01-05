@@ -244,8 +244,8 @@ void loop() {
 
 
 
-  // if switch B is held for the duration of the third hold time, go to next mode
-  if (isInputSwitchBPressed() && pressedInputSwitchBTime == SWITCH_HOLD_3) {
+  // if switch B is held for the duration of the third hold time and not walking, accelerating or reversing, go to next mode
+  if (isInputSwitchBPressed() && pressedInputSwitchBTime == SWITCH_HOLD_3 && !walkingOrAccelerating && !reversing) {
     nextMode();
   }
 
