@@ -36,7 +36,7 @@ int currentMode = 1;
 
 // walking and driving mode variables
 boolean walkingOrAccelerating = false;
-boolean reversing = false;
+boolean walkingBackwardOrReversing = false;
 boolean sprinting = false;
 
 // menu mode variables
@@ -104,12 +104,12 @@ void loop() {
   // walking and driving mode
   if (isWalkingAndDrivingMode()) {
     // if switch A was just released and not walking, accelerating or reversing, walk or accelerate
-    if (wasInputSwitchAJustReleased() && !walkingOrAccelerating && !reversing && !shouldDoExtraFunctions) {
+    if (wasInputSwitchAJustReleased() && !walkingOrAccelerating && !walkingBackwardOrReversing && !shouldDoExtraFunctions) {
       toggleWalkOrAccelerate();
     }
 
     // if walking, accelerating or reversing, switch A and B act as left and right
-    if (walkingOrAccelerating || reversing) {
+    if (walkingOrAccelerating || walkingBackwardOrReversing) {
       if (isInputSwitchAPressed()) {
         decelerateOrStopWalkingForTurn();
         walkOrSteerLeftDown();
@@ -121,9 +121,9 @@ void loop() {
         Serial.println("walk or steer right down");
       }
       else if (wasInputSwitchAJustReleased() || wasInputSwitchBJustReleased()) {
-        resetWalkingAndDrivingMode();
-        toggleWalkOrAccelerate();
-        Serial.println("walk or drive forward");
+        releaseWSADKeys();
+        chooseDirectionAfterTurn();
+        Serial.println("walking, accelerating or reversing");
       }
     }
 
@@ -245,7 +245,7 @@ void loop() {
 
 
   // if switch B is held for the duration of the third hold time and not walking, accelerating or reversing, go to next mode
-  if (isInputSwitchBPressed() && pressedInputSwitchBTime == SWITCH_HOLD_3 && !walkingOrAccelerating && !reversing) {
+  if (isInputSwitchBPressed() && pressedInputSwitchBTime == SWITCH_HOLD_3 && !walkingOrAccelerating && !walkingBackwardOrReversing) {
     nextMode();
   }
 
@@ -371,7 +371,7 @@ void pauseOrResume() {
  */
 
 void toggleWalkOrAccelerate() {
-  if (reversing) {
+  if (walkingBackwardOrReversing) {
     toggleReverse();
   }
 
@@ -390,13 +390,22 @@ void toggleReverse() {
     toggleWalkOrAccelerate();
   }
 
-  if (!reversing) {
+  if (!walkingBackwardOrReversing) {
     Keyboard.press('s');
-    reversing = true;
+    walkingBackwardOrReversing = true;
   }
   else {
     Keyboard.release('s');
-    reversing = false;
+    walkingBackwardOrReversing = false;
+  }
+}
+
+void chooseDirectionAfterTurn() {
+  if (walkingOrAccelerating) {
+    Keyboard.press('w');
+  }
+  else if (walkingBackwardOrReversing) {
+    Keyboard.press('s');
   }
 }
 
@@ -424,11 +433,18 @@ void walkOrSteerRightDown() {
   Keyboard.press('d');
 }
 
+void releaseWSADKeys() {
+  Keyboard.release('w');
+  Keyboard.release('s');
+  Keyboard.release('a');
+  Keyboard.release('d');
+}
+
 void resetWalkingAndDrivingMode() {
   Keyboard.releaseAll();
 
   walkingOrAccelerating = false;
-  reversing = false;
+  walkingBackwardOrReversing = false;
   sprinting = false;
 }
 
