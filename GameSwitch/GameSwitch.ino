@@ -11,7 +11,7 @@ int redLED = 8;
 int greenLED = 7;
 int blueLED = 6;
 
-// pin state variables
+// input switch state variables
 boolean currentInputSwitchAState = LOW;
 boolean previousInputSwitchAState = LOW;
 boolean currentInputSwitchBState = LOW;
@@ -31,7 +31,7 @@ unsigned long startInputSwitchBTime = 0;
 unsigned long pressedInputSwitchBTime = 0;
 boolean freshInputSwitchBTime = true;
 
-// mode variables
+// mode logic variables
 int currentMode = 1;
 
 // walking and driving mode variables
@@ -42,14 +42,18 @@ boolean sprinting = false;
 // menu mode variables
 char menuStyle = 'h';
 
-void setup() {
-  // initialise IO
+void initIO() {
   pinMode(inputSwitchA, INPUT);
   pinMode(inputSwitchB, INPUT);
   pinMode(inputSwitchC, INPUT);
   pinMode(redLED, OUTPUT);
   pinMode(greenLED, OUTPUT);
   pinMode(blueLED, OUTPUT);
+}
+
+void setup() {
+  // initialise IO
+  initIO();
 
   // set walking mode
   setMode(WALKING_AND_DRIVING_MODE);
@@ -66,8 +70,36 @@ void loop() {
   // debounce switches
   debounceSwitches();
 
+
+
+
   // update input switch B hold time
   updateInputSwitchBHoldTime();
+
+
+
+
+  // if walking and driving or menu mode, check for extra function activation
+  if (isWalkingAndDrivingMode() || isMenuMode()) {
+    // if switch C was just released, enable extra functions
+    if (wasInputSwitchCJustReleased()) {
+      shouldDoExtraFunctions = true;
+
+      // if walking and driving mode, reset mode
+      if (isWalkingAndDrivingMode()) {
+        resetWalkingAndDrivingMode();
+      }
+    }
+
+    // if switch A was just released, increment count and record time
+    if (wasInputSwitchAJustReleased() && shouldDoExtraFunctions) {
+      incrementInputSwitchAPressCount();
+      recordInputSwitchALastPressTime();
+    }
+  }
+
+
+
 
   // walking and driving mode
   if (isWalkingAndDrivingMode()) {
@@ -95,19 +127,7 @@ void loop() {
       }
     }
 
-    // if switch C was just released, enable extra functions
-    if (wasInputSwitchCJustReleased()) {
-      resetWalkingAndDrivingMode();
-      shouldDoExtraFunctions = true;
-    }
-
-    // if switch A was just released, increment count and record time
-    if (wasInputSwitchAJustReleased() && shouldDoExtraFunctions) {
-      incrementInputSwitchAPressCount();
-      recordInputSwitchALastPressTime();
-    }
-
-    // switch A, press a certain amount of times for different actions
+    // switch A, press a certain amount of times for different actions, these can (usually) be assigned to any game action
     if (shouldTakeInputSwitchAPressCountAction()) {
       // do selected action
       switch (inputSwitchAPressCount) {
@@ -158,6 +178,9 @@ void loop() {
     }
   }
 
+
+
+
   // menu mode
   if (isMenuMode()) {
     if (!shouldDoExtraFunctions) {
@@ -181,17 +204,6 @@ void loop() {
       }
     }
 
-    // if switch C was just released, enable extra functions
-    if (wasInputSwitchCJustReleased()) {
-      shouldDoExtraFunctions = true;
-    }
-
-    // if switch A was just released, increment count and record time
-    if (wasInputSwitchAJustReleased() && shouldDoExtraFunctions) {
-      incrementInputSwitchAPressCount();
-      recordInputSwitchALastPressTime();
-    }
-
     // switch A, press a certain amount of times for different actions
     if (shouldTakeInputSwitchAPressCountAction()) {
       // do selected action
@@ -213,6 +225,9 @@ void loop() {
     }
   }
 
+
+
+
   // fighting mode
   if (isFightingMode()) {
     if (wasInputSwitchAJustReleased()) {
@@ -226,13 +241,22 @@ void loop() {
     }
   }
 
+
+
+
   // if switch B is held for the duration of the third hold time, go to next mode
   if (isInputSwitchBPressed() && pressedInputSwitchBTime == SWITCH_HOLD_3) {
     nextMode();
   }
 
+
+
+
   // check if input switch B hold time should be reset
   checkShouldResetInputSwitchBHoldTime();
+
+
+
 
   // set previous input switch states
   setPreviousSwitchStates();
@@ -466,7 +490,7 @@ void switchMenuStyle() {
 
 
 /*
- * Key functions
+ * Key press functions
  */
 
 void keyDownUp(char key, unsigned long delayMillis) {
@@ -486,6 +510,7 @@ void keyDownUp(int key, unsigned long delayMillis) {
  * Timing and counting functions
  */
 
+// used to count the number of times input switch A is pressed
 void incrementInputSwitchAPressCount() {
   inputSwitchAPressCount++;
   inputSwitchAPressCountActive = true;
@@ -496,6 +521,7 @@ void resetInputSwitchAPressCount() {
   inputSwitchAPressCountActive = false;
 }
 
+// record the last time input switch A was pressed
 void recordInputSwitchALastPressTime() {
   inputSwitchALastPressTime = millis();
   inputSwitchALastPressTimeActive = true;
@@ -506,10 +532,12 @@ void resetInputSwitchALastPressTime() {
   inputSwitchALastPressTimeActive = false;
 }
 
+// returns whether or not the extra function should take place
 boolean shouldTakeInputSwitchAPressCountAction() {
   return inputSwitchALastPressTime < (millis() - SWITCH_A_TAKE_ACTION_TIMEOUT) && inputSwitchALastPressTimeActive;
 }
 
+// update the time for which input switch B has been held
 void updateInputSwitchBHoldTime() {
   // if input switch B is pressed
   if (currentInputSwitchBState == HIGH) {
@@ -537,12 +565,13 @@ void checkShouldResetInputSwitchBHoldTime() {
  * RGB functions
  */
 
-void setRGBColor(unsigned int red, unsigned int green, unsigned int blue) {
+void setRGBColor(int red, int green, int blue) {
   analogWrite(redLED, red);
   analogWrite(greenLED, green);
   analogWrite(blueLED, blue);
 }
 
+// do a cycle of red, green, and blue
 void cycleRGB() {
   setRGBColor(255, 0, 0);
   delay(RGB_CYCLE_DELAY);
@@ -559,6 +588,7 @@ void cycleRGB() {
  * Debounce functions
  */
 
+// debounce reads in the pin and previous state - if previous state is different from current state, wait and read again
 boolean debounce(int pin, boolean previous) {
   boolean current = digitalRead(pin);
 
