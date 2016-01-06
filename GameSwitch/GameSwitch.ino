@@ -436,7 +436,6 @@ void prepareForTurn() {
     Keyboard.release('s');
   }
   else {
-    Keyboard.release('w');
     Keyboard.press('s');
   }
 }
