@@ -20,28 +20,28 @@ boolean currentInputSwitchCState = LOW;
 boolean previousInputSwitchCState = LOW;
 
 // input switch A press count and last press time variables
-int inputSwitchAPressCount = 0;
-boolean inputSwitchAPressCountActive = false;
-unsigned long inputSwitchALastPressTime = 0;
-boolean inputSwitchALastPressTimeActive = false;
-boolean shouldDoExtraFunctions = false;
+int inputSwitchAPressCount = 0; // incremented every time input switch A is pressed
+boolean inputSwitchAPressCountActive = false; // count only takes place when this is true
+unsigned long inputSwitchALastPressTime = 0; // recorded every time input switch A is pressed
+boolean inputSwitchALastPressTimeActive = false; // record only when this is true
+boolean shouldDoExtraFunctions = false; // when true, input switch A can do different actions based on the number of times the user presses it
 
 // input switch B hold variables
-unsigned long startInputSwitchBTime = 0;
-unsigned long pressedInputSwitchBTime = 0;
-boolean freshInputSwitchBTime = true;
+unsigned long startInputSwitchBTime = 0; // record the time input switch B was first pressed
+unsigned long pressedInputSwitchBTime = 0; // the time input switch B is pressed for, reset on release
+boolean freshInputSwitchBTime = true; // used to determine whether or not to record start time
 
 // mode logic variables
-int currentMode = 1;
+int currentMode; // which mode the device is currently in
 
 // walking and driving mode variables
-boolean walkingOrAccelerating = false;
-boolean walkingBackwardOrReversing = false;
-boolean sprinting = false;
-boolean brakeOnTurn = false;
+boolean walkingForwardOrAccelerating = false; // whether or not you are walking forward or accelerating
+boolean walkingBackwardOrReversing = false; // whether or not you are walking backward or reversing
+boolean sprinting = false; // whether or not you are sprinting
+boolean brakeOnTurn = false; // whether or not you brake on turn while driving
 
 // menu mode variables
-char menuStyle = 'h';
+char menuStyle = 'h'; // whether the menu is horizontal or vertical, 'h' or 'v'
 
 void initIO() {
   pinMode(inputSwitchA, INPUT);
@@ -105,12 +105,12 @@ void loop() {
   // walking and driving mode
   if (isWalkingAndDrivingMode()) {
     // if switch A was just released and not walking, accelerating or reversing, walk or accelerate
-    if (wasInputSwitchAJustReleased() && !walkingOrAccelerating && !walkingBackwardOrReversing && !shouldDoExtraFunctions) {
+    if (wasInputSwitchAJustReleased() && !walkingForwardOrAccelerating && !walkingBackwardOrReversing && !shouldDoExtraFunctions) {
       toggleWalkOrAccelerate();
     }
 
     // if walking, accelerating or reversing, switch A and B act as left and right
-    if (walkingOrAccelerating || walkingBackwardOrReversing) {
+    if (walkingForwardOrAccelerating || walkingBackwardOrReversing) {
       if (isInputSwitchAPressed()) {
         prepareForTurn();
         walkOrSteerLeftDown();
@@ -246,7 +246,7 @@ void loop() {
 
 
   // if switch B is held for the duration of the third hold time and not walking, accelerating or reversing, go to next mode
-  if (isInputSwitchBPressed() && pressedInputSwitchBTime == SWITCH_HOLD_3 && !walkingOrAccelerating && !walkingBackwardOrReversing) {
+  if (isInputSwitchBPressed() && pressedInputSwitchBTime == SWITCH_HOLD_3 && !walkingForwardOrAccelerating && !walkingBackwardOrReversing) {
     nextMode();
   }
 
@@ -376,18 +376,18 @@ void toggleWalkOrAccelerate() {
     toggleReverse();
   }
 
-  if (!walkingOrAccelerating) {
+  if (!walkingForwardOrAccelerating) {
     Keyboard.press('w');
-    walkingOrAccelerating = true;
+    walkingForwardOrAccelerating = true;
   }
   else {
     Keyboard.release('w');
-    walkingOrAccelerating = false;
+    walkingForwardOrAccelerating = false;
   }
 }
 
 void toggleReverse() {
-  if (walkingOrAccelerating) {
+  if (walkingForwardOrAccelerating) {
     toggleWalkOrAccelerate();
   }
 
@@ -402,7 +402,7 @@ void toggleReverse() {
 }
 
 void chooseDirectionAfterTurn() {
-  if (walkingOrAccelerating) {
+  if (walkingForwardOrAccelerating) {
     Keyboard.press('w');
   }
   else if (walkingBackwardOrReversing) {
@@ -459,7 +459,7 @@ void releaseWSADKeys() {
 void resetWalkingAndDrivingMode() {
   Keyboard.releaseAll();
 
-  walkingOrAccelerating = false;
+  walkingForwardOrAccelerating = false;
   walkingBackwardOrReversing = false;
   sprinting = false;
 }
