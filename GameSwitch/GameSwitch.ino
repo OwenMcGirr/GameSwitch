@@ -38,6 +38,7 @@ int currentMode = 1;
 boolean walkingOrAccelerating = false;
 boolean walkingBackwardOrReversing = false;
 boolean sprinting = false;
+boolean brakeOnTurn = false;
 
 // menu mode variables
 char menuStyle = 'h';
@@ -111,12 +112,12 @@ void loop() {
     // if walking, accelerating or reversing, switch A and B act as left and right
     if (walkingOrAccelerating || walkingBackwardOrReversing) {
       if (isInputSwitchAPressed()) {
-        decelerateOrStopWalkingForTurn();
+        prepareForTurn();
         walkOrSteerLeftDown();
         Serial.println("walk or steer left down");
       }
       else if (isInputSwitchBPressed()) {
-        decelerateOrStopWalkingForTurn();
+        prepareForTurn();
         walkOrSteerRightDown();
         Serial.println("walk or steer right down");
       }
@@ -141,7 +142,7 @@ void loop() {
           toggleReverse();
           break;
         case 4:
-          pauseOrResume();
+          toggleBrakeOnTurn();
           break;
         case 5:
           keyDownUp(KEY_F3, KEY_PULSE_DELAY);
@@ -409,6 +410,15 @@ void chooseDirectionAfterTurn() {
   }
 }
 
+void toggleBrakeOnTurn() {
+  if (!brakeOnTurn) {
+    brakeOnTurn = true;
+  }
+  else {
+    brakeOnTurn = false;
+  }
+}
+
 void toggleSprint() {
   if (!sprinting) {
     Keyboard.press(KEY_F6);
@@ -420,9 +430,15 @@ void toggleSprint() {
   }
 }
 
-void decelerateOrStopWalkingForTurn() {
-  Keyboard.release('w');
-  Keyboard.release('s');
+void prepareForTurn() {
+  if (!brakeOnTurn) {
+    Keyboard.release('w');
+    Keyboard.release('s');
+  }
+  else {
+    Keyboard.release('w');
+    Keyboard.press('s');
+  }
 }
 
 void walkOrSteerLeftDown() {
