@@ -86,9 +86,9 @@ void loop() {
     if (wasInputSwitchCJustReleased()) {
       shouldDoExtraFunctions = true;
 
-      // if walking and driving mode, reset mode
+      // if walking and driving mode, release WSAD keys
       if (isWalkingAndDrivingMode()) {
-        resetWalkingAndDrivingMode();
+        releaseWSADKeys();
       }
     }
 
@@ -298,7 +298,7 @@ boolean wasInputSwitchCJustReleased() {
  */
 
 void setMode(int mode) {
-  resetWalkingAndDrivingMode();
+  resetModes();
 
   currentMode = mode;
 
@@ -364,6 +364,21 @@ boolean isRestMode() {
 
 void pauseOrResume() {
   keyDownUp(KEY_ESC, KEY_PULSE_DELAY);
+}
+
+
+/*
+ * Common mode functions
+ */
+
+void resetModes() {
+  Keyboard.releaseAll();
+
+  walkingForwardOrAccelerating = false;
+  walkingBackwardOrReversing = false;
+  sprinting = false;
+
+  shouldDoExtraFunctions = false;
 }
 
 
@@ -453,14 +468,6 @@ void releaseWSADKeys() {
   Keyboard.release('s');
   Keyboard.release('a');
   Keyboard.release('d');
-}
-
-void resetWalkingAndDrivingMode() {
-  Keyboard.releaseAll();
-
-  walkingForwardOrAccelerating = false;
-  walkingBackwardOrReversing = false;
-  sprinting = false;
 }
 
 
