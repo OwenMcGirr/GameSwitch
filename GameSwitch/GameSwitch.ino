@@ -476,11 +476,11 @@ void releaseWSADKeys() {
  */
 
 void fire() {
-  Mouse.click(MOUSE_LEFT);
+  mouseDownUp(MOUSE_LEFT, KEY_PULSE_DELAY);
 }
 
 void nextWeapon() {
-  Mouse.click(MOUSE_RIGHT);
+  mouseDownUp(MOUSE_RIGHT, KEY_PULSE_DELAY);
 }
 
 void reloadWeapon() {
@@ -528,7 +528,7 @@ void switchMenuStyle() {
 
 
 /*
- * Key press functions
+ * Key and mouse press functions
  */
 
 void keyDownUp(char key, unsigned long delayMillis) {
@@ -541,6 +541,12 @@ void keyDownUp(int key, unsigned long delayMillis) {
   Keyboard.press(key);
   delay(delayMillis);
   Keyboard.release(key);
+}
+
+void mouseDownUp(int button, unsigned long delayMillis) {
+  Mouse.press(button);
+  delay(delayMillis);
+  Mouse.release(button);
 }
 
 
