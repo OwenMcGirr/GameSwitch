@@ -359,15 +359,6 @@ boolean isRestMode() {
  * Common mode functions
  */
 
-void pauseOrResume() {
-  keyDownUp(KEY_ESC, KEY_PULSE_DELAY);
-}
-
-
-/*
- * Common mode functions
- */
-
 void resetModes() {
   Keyboard.releaseAll();
 
