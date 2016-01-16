@@ -86,10 +86,7 @@ void loop() {
     if (wasInputSwitchCJustReleased()) {
       shouldDoExtraFunctions = true;
 
-      // if walking and driving mode, release WSAD keys
-      if (isWalkingAndDrivingMode()) {
-        releaseWSADKeys();
-      }
+      resetModes();
     }
 
     // if switch A was just released, increment count and record time
