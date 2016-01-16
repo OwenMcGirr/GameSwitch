@@ -86,7 +86,7 @@ void loop() {
     if (wasInputSwitchCJustReleased()) {
       shouldDoExtraFunctions = true;
 
-      resetModes();
+      prepareToDoAnExtraFunction();
     }
 
     // if switch A was just released, increment count and record time
@@ -376,6 +376,13 @@ void resetModes() {
   sprinting = false;
 
   shouldDoExtraFunctions = false;
+}
+
+void prepareToDoAnExtraFunction() {
+  releaseWSADKeys();
+
+  walkingForwardOrAccelerating = false;
+  walkingBackwardOrReversing = false;
 }
 
 
