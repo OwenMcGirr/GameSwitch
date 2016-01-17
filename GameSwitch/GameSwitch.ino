@@ -125,55 +125,8 @@ void loop() {
       }
     }
 
-    // switch A, press a certain amount of times for different actions, these can (usually) be assigned to any game action
-    if (shouldTakeInputSwitchAPressCountAction()) {
-      // do selected action
-      switch (inputSwitchAPressCount) {
-        case 1:
-          keyDownUp(KEY_F1, KEY_PULSE_DELAY);
-          break;
-        case 2:
-          keyDownUp(KEY_F2, KEY_PULSE_DELAY);
-          break;
-        case 3:
-          toggleReverse();
-          break;
-        case 4:
-          toggleBrakeOnTurn();
-          break;
-        case 5:
-          keyDownUp(KEY_F3, KEY_PULSE_DELAY);
-          break;
-        case 6:
-          keyDownUp(KEY_F4, KEY_PULSE_DELAY);
-          break;
-        case 7:
-          toggleSprint();
-          break;
-        case 8:
-          keyDownUp(KEY_F7, KEY_PULSE_DELAY);
-          break;
-        case 9:
-          keyDownUp(KEY_F8, KEY_PULSE_DELAY);
-          break;
-        case 10:
-          keyDownUp(KEY_F9, KEY_PULSE_DELAY);
-          break;
-        case 11:
-          keyDownUp(KEY_F10, KEY_PULSE_DELAY);
-          break;
-        case 12:
-          keyDownUp(KEY_F11, KEY_PULSE_DELAY);
-          break;
-        case 13:
-          keyDownUp(KEY_F12, KEY_PULSE_DELAY);
-          break;
-      }
-
-      resetInputSwitchAPressCount();
-      resetInputSwitchALastPressTime();
-      shouldDoExtraFunctions = false;
-    }
+    // check should do extra function
+    checkShouldDoExtraWalkingAndDrivingModeFunction();
   }
 
 
@@ -202,25 +155,8 @@ void loop() {
       }
     }
 
-    // switch A, press a certain amount of times for different actions
-    if (shouldTakeInputSwitchAPressCountAction()) {
-      // do selected action
-      switch (inputSwitchAPressCount) {
-        case 1:
-          doMenuSelect();
-          break;
-        case 2:
-          doMenuBack();
-          break;
-        case 3:
-          switchMenuStyle();
-          break;
-      }
-
-      resetInputSwitchAPressCount();
-      resetInputSwitchALastPressTime();
-      shouldDoExtraFunctions = false;
-    }
+    // check should do extra function
+    checkShouldDoExtraMenuModeFunction();
   }
 
 
@@ -465,6 +401,58 @@ void releaseWSADKeys() {
   Keyboard.release('d');
 }
 
+void checkShouldDoExtraWalkingAndDrivingModeFunction() {
+  // switch A, press a certain amount of times for different actions, these can (usually) be assigned to any game action
+  if (shouldTakeInputSwitchAPressCountAction()) {
+    // do selected action
+    switch (inputSwitchAPressCount) {
+      case 1:
+        keyDownUp(KEY_F1, KEY_PULSE_DELAY);
+        break;
+      case 2:
+        keyDownUp(KEY_F2, KEY_PULSE_DELAY);
+        break;
+      case 3:
+        toggleReverse();
+        break;
+      case 4:
+        toggleBrakeOnTurn();
+        break;
+      case 5:
+        keyDownUp(KEY_F3, KEY_PULSE_DELAY);
+        break;
+      case 6:
+        keyDownUp(KEY_F4, KEY_PULSE_DELAY);
+        break;
+      case 7:
+        toggleSprint();
+        break;
+      case 8:
+        keyDownUp(KEY_F7, KEY_PULSE_DELAY);
+        break;
+      case 9:
+        keyDownUp(KEY_F8, KEY_PULSE_DELAY);
+        break;
+      case 10:
+        keyDownUp(KEY_F9, KEY_PULSE_DELAY);
+        break;
+      case 11:
+        keyDownUp(KEY_F10, KEY_PULSE_DELAY);
+        break;
+      case 12:
+        keyDownUp(KEY_F11, KEY_PULSE_DELAY);
+        break;
+      case 13:
+        keyDownUp(KEY_F12, KEY_PULSE_DELAY);
+        break;
+    }
+
+    resetInputSwitchAPressCount();
+    resetInputSwitchALastPressTime();
+    shouldDoExtraFunctions = false;
+  }
+}
+
 
 /*
  * Fighting mode functions
@@ -518,6 +506,28 @@ void switchMenuStyle() {
   }
   else {
     menuStyle = 'h';
+  }
+}
+
+void checkShouldDoExtraMenuModeFunction() {
+  // switch A, press a certain amount of times for different actions
+  if (shouldTakeInputSwitchAPressCountAction()) {
+    // do selected action
+    switch (inputSwitchAPressCount) {
+      case 1:
+        doMenuSelect();
+        break;
+      case 2:
+        doMenuBack();
+        break;
+      case 3:
+        switchMenuStyle();
+        break;
+    }
+
+    resetInputSwitchAPressCount();
+    resetInputSwitchALastPressTime();
+    shouldDoExtraFunctions = false;
   }
 }
 
