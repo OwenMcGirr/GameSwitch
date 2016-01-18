@@ -1,5 +1,6 @@
 #include "timing.h"
 #include "modes.h"
+#include "Timer.h"
 
 // input switch pins
 int inputSwitchA = 3;
@@ -26,10 +27,8 @@ unsigned long inputSwitchALastPressTime = 0; // recorded every time input switch
 boolean inputSwitchALastPressTimeActive = false; // record only when this is true
 boolean shouldDoExtraFunctions = false; // when true, input switch A can do different actions based on the number of times the user presses it
 
-// input switch B hold variables
-unsigned long startInputSwitchBTime = 0; // record the time input switch B was first pressed
-unsigned long pressedInputSwitchBTime = 0; // the time input switch B is pressed for, reset on release
-boolean freshInputSwitchBTime = true; // used to determine whether or not to record start time
+// input switch B hold timer 
+Timer inputSwitchBHoldTimer;
 
 // mode logic variables
 int currentMode; // which mode the device is currently in
@@ -179,7 +178,7 @@ void loop() {
 
 
   // if switch B is held for the duration of the third hold time and not walking, accelerating or reversing, go to next mode
-  if (isInputSwitchBPressed() && pressedInputSwitchBTime == SWITCH_HOLD_3 && !walkingForwardOrAccelerating && !walkingBackwardOrReversing) {
+  if (isInputSwitchBPressed() && inputSwitchBHoldTimer.getElapsedTime() == SWITCH_HOLD_3 && !walkingForwardOrAccelerating && !walkingBackwardOrReversing) {
     nextMode();
   }
 
@@ -589,23 +588,15 @@ boolean shouldTakeInputSwitchAPressCountAction() {
 // update the time for which input switch B has been held
 void updateInputSwitchBHoldTime() {
   // if input switch B is pressed
-  if (currentInputSwitchBState == HIGH) {
-    if (freshInputSwitchBTime) { // input switch B has just been pressed, start timing hold
-      startInputSwitchBTime = millis();
-      freshInputSwitchBTime = false;
-    }
-    else { // update hold time
-      pressedInputSwitchBTime = millis() - startInputSwitchBTime;
-    }
+  if (isInputSwitchBPressed()) {
+    inputSwitchBHoldTimer.updateTimer();
   }
 }
 
 void checkShouldResetInputSwitchBHoldTime() {
   // if input switch B is released, reset hold time
-  if (currentInputSwitchBState == LOW) {
-    startInputSwitchBTime = 0;
-    pressedInputSwitchBTime = 0;
-    freshInputSwitchBTime = true;
+  if (!isInputSwitchBPressed()) {
+    inputSwitchBHoldTimer.resetTimer();
   }
 }
 
