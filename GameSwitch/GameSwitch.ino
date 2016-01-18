@@ -1,24 +1,16 @@
 #include "timing.h"
 #include "modes.h"
-#include "Timer.h"
+#include "InputSwitch.h"
 
-// input switch pins
-int inputSwitchA = 3;
-int inputSwitchB = 4;
-int inputSwitchC = 5;
+// input switches
+InputSwitch inputSwitchA(3);
+InputSwitch inputSwitchB(4);
+InputSwitch inputSwitchC(5);
 
 // RGB pins
 int redLED = 8;
 int greenLED = 7;
 int blueLED = 6;
-
-// input switch state variables
-boolean currentInputSwitchAState = LOW;
-boolean previousInputSwitchAState = LOW;
-boolean currentInputSwitchBState = LOW;
-boolean previousInputSwitchBState = LOW;
-boolean currentInputSwitchCState = LOW;
-boolean previousInputSwitchCState = LOW;
 
 // input switch A press count and last press time variables
 int inputSwitchAPressCount = 0; // incremented every time input switch A is pressed
@@ -26,9 +18,6 @@ boolean inputSwitchAPressCountActive = false; // count only takes place when thi
 unsigned long inputSwitchALastPressTime = 0; // recorded every time input switch A is pressed
 boolean inputSwitchALastPressTimeActive = false; // record only when this is true
 boolean shouldDoExtraFunctions = false; // when true, input switch A can do different actions based on the number of times the user presses it
-
-// input switch B hold timer 
-Timer inputSwitchBHoldTimer;
 
 // mode logic variables
 int currentMode; // which mode the device is currently in
@@ -43,9 +32,6 @@ boolean brakeOnTurn = false; // whether or not you brake on turn while driving
 char menuStyle = 'h'; // whether the menu is horizontal or vertical, 'h' or 'v'
 
 void initIO() {
-  pinMode(inputSwitchA, INPUT);
-  pinMode(inputSwitchB, INPUT);
-  pinMode(inputSwitchC, INPUT);
   pinMode(redLED, OUTPUT);
   pinMode(greenLED, OUTPUT);
   pinMode(blueLED, OUTPUT);
@@ -74,7 +60,7 @@ void loop() {
 
 
   // update input switch B hold time
-  updateInputSwitchBHoldTime();
+  inputSwitchB.updateHoldTime();
 
 
 
@@ -82,14 +68,14 @@ void loop() {
   // if walking and driving or menu mode, check for extra function activation
   if (isWalkingAndDrivingMode() || isMenuMode()) {
     // if switch C was just released, enable extra functions
-    if (wasInputSwitchCJustReleased()) {
+    if (inputSwitchC.wasJustReleased()) {
       shouldDoExtraFunctions = true;
 
       prepareToDoAnExtraFunction();
     }
 
     // if switch A was just released, increment count and record time
-    if (wasInputSwitchAJustReleased() && shouldDoExtraFunctions) {
+    if (inputSwitchA.wasJustReleased() && shouldDoExtraFunctions) {
       incrementInputSwitchAPressCount();
       recordInputSwitchALastPressTime();
     }
@@ -101,23 +87,23 @@ void loop() {
   // walking and driving mode
   if (isWalkingAndDrivingMode()) {
     // if switch A was just released and not walking, accelerating or reversing, walk or accelerate
-    if (wasInputSwitchAJustReleased() && !walkingForwardOrAccelerating && !walkingBackwardOrReversing && !shouldDoExtraFunctions) {
+    if (inputSwitchA.wasJustReleased() && !walkingForwardOrAccelerating && !walkingBackwardOrReversing && !shouldDoExtraFunctions) {
       toggleWalkOrAccelerate();
     }
 
     // if walking, accelerating or reversing, switch A and B act as left and right
     if (walkingForwardOrAccelerating || walkingBackwardOrReversing) {
-      if (isInputSwitchAPressed()) {
+      if (inputSwitchA.isDown()) {
         prepareForTurn();
         walkOrSteerLeftDown();
         Serial.println("walk or steer left down");
       }
-      else if (isInputSwitchBPressed()) {
+      else if (inputSwitchB.isDown()) {
         prepareForTurn();
         walkOrSteerRightDown();
         Serial.println("walk or steer right down");
       }
-      else if (wasInputSwitchAJustReleased() || wasInputSwitchBJustReleased()) {
+      else if (inputSwitchA.wasJustReleased() || inputSwitchB.wasJustReleased()) {
         releaseWSADKeys();
         chooseDirectionAfterTurn();
         Serial.println("walking, accelerating or reversing");
@@ -136,19 +122,19 @@ void loop() {
     if (!shouldDoExtraFunctions) {
       // horizontal menu
       if (menuStyle == 'h') {
-        if (wasInputSwitchAJustReleased()) {
+        if (inputSwitchA.wasJustReleased()) {
           doMenuLeft();
         }
-        if (wasInputSwitchBJustReleased()) {
+        if (inputSwitchB.wasJustReleased()) {
           doMenuRight();
         }
       }
       // vertical menu
       else if (menuStyle == 'v') {
-        if (wasInputSwitchAJustReleased()) {
+        if (inputSwitchA.wasJustReleased()) {
           doMenuUp();
         }
-        if (wasInputSwitchBJustReleased()) {
+        if (inputSwitchB.wasJustReleased()) {
           doMenuDown();
         }
       }
@@ -163,13 +149,13 @@ void loop() {
 
   // fighting mode
   if (isFightingMode()) {
-    if (wasInputSwitchAJustReleased()) {
+    if (inputSwitchA.wasJustReleased()) {
       fire();
     }
-    if (wasInputSwitchBJustReleased()) {
+    if (inputSwitchB.wasJustReleased()) {
       nextWeapon();
     }
-    if (wasInputSwitchCJustReleased()) {
+    if (inputSwitchC.wasJustReleased()) {
       reloadWeapon();
     }
   }
@@ -178,7 +164,7 @@ void loop() {
 
 
   // if switch B is held for the duration of the third hold time and not walking, accelerating or reversing, go to next mode
-  if (isInputSwitchBPressed() && inputSwitchBHoldTimer.getElapsedTime() == SWITCH_HOLD_3 && !walkingForwardOrAccelerating && !walkingBackwardOrReversing) {
+  if (inputSwitchB.getHoldTime() == SWITCH_HOLD_3 && !walkingForwardOrAccelerating && !walkingBackwardOrReversing) {
     nextMode();
   }
 
@@ -186,42 +172,13 @@ void loop() {
 
 
   // check if input switch B hold time should be reset
-  checkShouldResetInputSwitchBHoldTime();
+  inputSwitchB.checkShouldResetHoldTime();
 
 
 
 
   // set previous input switch states
   setPreviousSwitchStates();
-}
-
-
-/*
- * Switch state return functions
- */
-
-boolean isInputSwitchAPressed() {
-  return currentInputSwitchAState == HIGH;
-}
-
-boolean isInputSwitchBPressed() {
-  return currentInputSwitchBState == HIGH;
-}
-
-boolean isInputSwitchCPressed() {
-  return currentInputSwitchCState == HIGH;
-}
-
-boolean wasInputSwitchAJustReleased() {
-  return currentInputSwitchAState == LOW && previousInputSwitchAState == HIGH;
-}
-
-boolean wasInputSwitchBJustReleased() {
-  return currentInputSwitchBState == LOW && previousInputSwitchBState == HIGH;
-}
-
-boolean wasInputSwitchCJustReleased() {
-  return currentInputSwitchCState == LOW && previousInputSwitchCState == HIGH;
 }
 
 
@@ -585,21 +542,6 @@ boolean shouldTakeInputSwitchAPressCountAction() {
   return inputSwitchALastPressTime < (millis() - SWITCH_A_TAKE_ACTION_TIMEOUT) && inputSwitchALastPressTimeActive;
 }
 
-// update the time for which input switch B has been held
-void updateInputSwitchBHoldTime() {
-  // if input switch B is pressed
-  if (isInputSwitchBPressed()) {
-    inputSwitchBHoldTimer.updateTimer();
-  }
-}
-
-void checkShouldResetInputSwitchBHoldTime() {
-  // if input switch B is released, reset hold time
-  if (!isInputSwitchBPressed()) {
-    inputSwitchBHoldTimer.resetTimer();
-  }
-}
-
 
 /*
  * RGB functions
@@ -628,26 +570,15 @@ void cycleRGB() {
  * Debounce functions
  */
 
-// debounce reads in the pin and previous state - if previous state is different from current state, wait and read again
-boolean debounce(int pin, boolean previous) {
-  boolean current = digitalRead(pin);
-
-  if (current != previous) {
-    delay(DEBOUNCE_DELAY);
-    current = digitalRead(pin);
-  }
-
-  return current;
-}
-
 void debounceSwitches() {
-  currentInputSwitchAState = debounce(inputSwitchA, previousInputSwitchAState);
-  currentInputSwitchBState = debounce(inputSwitchB, previousInputSwitchBState);
-  currentInputSwitchCState = debounce(inputSwitchC, previousInputSwitchCState);
+  inputSwitchA.debounce();
+  inputSwitchB.debounce();
+  inputSwitchC.debounce();
 }
 
 void setPreviousSwitchStates() {
-  previousInputSwitchAState = currentInputSwitchAState;
-  previousInputSwitchBState = currentInputSwitchBState;
-  previousInputSwitchCState = currentInputSwitchCState;
+  inputSwitchA.setPreviousState();
+  inputSwitchB.setPreviousState();
+  inputSwitchC.setPreviousState();
 }
+

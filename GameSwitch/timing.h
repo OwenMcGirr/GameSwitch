@@ -12,8 +12,5 @@
 // delay between key down and key up
 #define KEY_PULSE_DELAY 250
 
-// delay for debouncing input switches
-#define DEBOUNCE_DELAY 10
-
 // delay for red, green and blue cycle
 #define RGB_CYCLE_DELAY 100

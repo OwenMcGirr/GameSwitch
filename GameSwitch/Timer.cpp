@@ -2,7 +2,6 @@
  * Basic class for timing events.
  */
 
-#include "Arduino.h"
 #include "Timer.h"
 
 Timer::Timer() {
