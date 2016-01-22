@@ -11,6 +11,3 @@
 
 // delay between key down and key up
 #define KEY_PULSE_DELAY 250
-
-// delay for red, green and blue cycle
-#define RGB_CYCLE_DELAY 100

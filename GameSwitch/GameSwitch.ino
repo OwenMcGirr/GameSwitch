@@ -1,16 +1,15 @@
 #include "timing.h"
 #include "modes.h"
 #include "InputSwitch.h"
+#include "RGBManager.h"
 
 // input switches
 InputSwitch inputSwitchA(3);
 InputSwitch inputSwitchB(4);
 InputSwitch inputSwitchC(5);
 
-// RGB pins
-int redLED = 8;
-int greenLED = 7;
-int blueLED = 6;
+// RGB manager
+RGBManager rgbManager(8, 7, 6);
 
 // input switch A press count and last press time variables
 int inputSwitchAPressCount = 0; // incremented every time input switch A is pressed
@@ -31,16 +30,7 @@ boolean brakeOnTurn = false; // whether or not you brake on turn while driving
 // menu mode variables
 char menuStyle = 'h'; // whether the menu is horizontal or vertical, 'h' or 'v'
 
-void initIO() {
-  pinMode(redLED, OUTPUT);
-  pinMode(greenLED, OUTPUT);
-  pinMode(blueLED, OUTPUT);
-}
-
 void setup() {
-  // initialise IO
-  initIO();
-
   // set walking mode
   setMode(WALKING_AND_DRIVING_MODE);
 
@@ -191,7 +181,7 @@ void setMode(int mode) {
 
   currentMode = mode;
 
-  cycleRGB();
+  rgbManager.doCycle();
 
   setModeIndication();
 }
@@ -216,16 +206,16 @@ void nextMode() {
 void setModeIndication() {
   switch (currentMode) {
     case WALKING_AND_DRIVING_MODE:
-      setRGBColor(255, 0, 0);
+      rgbManager.setColor(255, 0, 0);
       break;
     case FIGHTING_MODE:
-      setRGBColor(0, 255, 0);
+      rgbManager.setColor(0, 255, 0);
       break;
     case MENU_MODE:
-      setRGBColor(0, 0, 255);
+      rgbManager.setColor(0, 0, 255);
       break;
     case REST_MODE:
-      setRGBColor(0, 0, 0);
+      rgbManager.setColor(0, 0, 0);
       break;
   }
 }
@@ -540,29 +530,6 @@ void resetInputSwitchALastPressTime() {
 // returns whether or not the extra function should take place
 boolean shouldTakeInputSwitchAPressCountAction() {
   return inputSwitchALastPressTime < (millis() - SWITCH_A_TAKE_ACTION_TIMEOUT) && inputSwitchALastPressTimeActive;
-}
-
-
-/*
- * RGB functions
- */
-
-void setRGBColor(int red, int green, int blue) {
-  analogWrite(redLED, red);
-  analogWrite(greenLED, green);
-  analogWrite(blueLED, blue);
-}
-
-// do a cycle of red, green, and blue
-void cycleRGB() {
-  setRGBColor(255, 0, 0);
-  delay(RGB_CYCLE_DELAY);
-  setRGBColor(0, 255, 0);
-  delay(RGB_CYCLE_DELAY);
-  setRGBColor(0, 0, 255);
-  delay(RGB_CYCLE_DELAY);
-  setRGBColor(0, 0, 0);
-  delay(RGB_CYCLE_DELAY);
 }
 
 
