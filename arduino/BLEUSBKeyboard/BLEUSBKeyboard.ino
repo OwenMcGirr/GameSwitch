@@ -1,13 +1,16 @@
 #include <SPI.h>
-#include "Adafruit_BLE_UART.h"
+#if not defined (_VARIANT_ARDUINO_DUE_X_) && not defined (_VARIANT_ARDUINO_ZERO_)
+#include <SoftwareSerial.h>
+#endif
 
-// uart object parameters
-#define ADAFRUITBLE_REQ 10
-#define ADAFRUITBLE_RDY 2
-#define ADAFRUITBLE_RST 9
+#include "Adafruit_BLE.h"
+#include "Adafruit_BluefruitLE_SPI.h"
+#include "Adafruit_BluefruitLE_UART.h"
 
-// uart object
-Adafruit_BLE_UART uart(ADAFRUITBLE_REQ, ADAFRUITBLE_RDY, ADAFRUITBLE_RST);
+#include "BluetoothConfig.h"
+
+// ble object
+Adafruit_BluefruitLE_SPI ble(BLUEFRUIT_SPI_CS, BLUEFRUIT_SPI_IRQ, BLUEFRUIT_SPI_RST);
 
 void setup(void) {
   // wait for serial
@@ -16,13 +19,32 @@ void setup(void) {
   // start serial
   Serial.begin(9600);
 
-  // start uart
-  if (!uart.begin()) {
+  // start ble
+  if (!ble.begin(true)) {
     Serial.println("Bluefruit not found!!!");
   }
   else {
-    Serial.println("Bluefruit found!!! UART started!!!");
+    Serial.println("Bluefruit found!!! BLE started!!!");
   }
+
+  // set broadcast name
+  if (!ble.sendCommandCheckOK(F("AT+GAPDEVNAME=GameSwitchKeyboard"))) {
+    Serial.println("Could not set broadcast name!!!");
+  }
+
+  // print info
+  ble.info();
+
+  // disable verbose
+  ble.verbose(false);
+
+  // wait for connection
+  while (!ble.isConnected()) {
+    delay(500);
+  }
+
+  // set mode
+  ble.setMode(BLUEFRUIT_MODE_DATA);
 }
 
 void loop(void) {
