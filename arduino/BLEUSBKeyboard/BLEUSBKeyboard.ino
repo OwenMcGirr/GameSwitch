@@ -9,8 +9,13 @@
 
 #include "BluetoothConfig.h"
 
+#include "KeyboardKeyManager.h"
+
 // ble object
 Adafruit_BluefruitLE_SPI ble(BLUEFRUIT_SPI_CS, BLUEFRUIT_SPI_IRQ, BLUEFRUIT_SPI_RST);
+
+// keyboardKeyManager object
+KeyboardKeyManager keyboardKeyManager;
 
 void setup(void) {
   // wait for serial
@@ -48,4 +53,16 @@ void setup(void) {
 }
 
 void loop(void) {
+  /// constantly poll for data
+  while (ble.available()) {
+    int c = ble.read();
+
+    // print character
+    Serial.println((char)c);
+
+    // write character
+    keyboardKeyManager.keyDownUp((char)c);
+
+    delay(200);
+  }
 }
