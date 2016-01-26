@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
+@interface ViewController : UIViewController {
+    // outlets
+    __weak IBOutlet UITextView *activityTextView;
+    __weak IBOutlet UITextField *sendTextField;
+}
 
 @end
 
