@@ -3,7 +3,7 @@
 
 #include "Arduino.h"
 
-#define DOWN_UP_DELAY 100
+#define DOWN_UP_DELAY 250
 
 class KeyboardKeyManager
 {
