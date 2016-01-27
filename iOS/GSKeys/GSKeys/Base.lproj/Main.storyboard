@@ -22,6 +22,9 @@
                                 <rect key="frame" x="0.0" y="570" width="600" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="send"/>
+                                <connections>
+                                    <action selector="sendUARTData:" destination="BYZ-38-t0r" eventType="primaryActionTriggered" id="OGk-iZ-uyz"/>
+                                </connections>
                             </textField>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mbc-VY-H0f">
                                 <rect key="frame" x="0.0" y="64" width="600" height="503"/>

@@ -113,4 +113,24 @@
     }
 }
 
+
+#pragma mark - IBActions
+
+- (IBAction)sendUARTData:(id)sender {
+    // create data
+    NSData *data = [NSData dataWithBytes:[sendTextField text].UTF8String length:[sendTextField text].length];
+    
+    // send data
+    [self.peripheral writeValue:data forCharacteristic:self.txCharacteristic type:CBCharacteristicWriteWithResponse];
+    
+    // add to activity field
+    NSMutableString *activity = [NSMutableString stringWithString:[activityTextView text]];
+    [activity appendString:@"\n"];
+    [activity appendString:[sendTextField text]];
+    [activityTextView setText:activity];
+    
+    // clear field
+    [sendTextField setText:@""];
+}
+
 @end
