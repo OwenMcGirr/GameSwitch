@@ -1,3 +1,6 @@
+#include <Keyboard.h>
+#include <Mouse.h>
+
 #include "timing.h"
 #include "modes.h"
 #include "InputSwitch.h"

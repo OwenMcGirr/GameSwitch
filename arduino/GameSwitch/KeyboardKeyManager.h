@@ -2,6 +2,7 @@
 #define KeyboardKeyManager_h
 
 #include "Arduino.h"
+#include <Keyboard.h>
 
 #define DOWN_UP_DELAY 250
 
