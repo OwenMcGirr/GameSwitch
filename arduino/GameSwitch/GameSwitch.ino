@@ -35,7 +35,7 @@ char menuStyle = 'h'; // whether the menu is horizontal or vertical, 'h' or 'v'
 
 void setup() {
   // set walking mode
-  setMode(WALKING_AND_DRIVING_MODE);
+  setMode(WALKING_MODE);
 
   // start keyboard and mouse
   Keyboard.begin();
@@ -59,7 +59,7 @@ void loop() {
 
 
   // if walking and driving or menu mode, check for extra function activation
-  if (isWalkingAndDrivingMode() || isMenuMode()) {
+  if (isWalkingMode() || isDrivingMode() || isMenuMode()) {
     // if switch C was just released, enable extra functions
     if (inputSwitchC.wasJustReleased()) {
       shouldDoExtraFunctions = true;
@@ -78,7 +78,7 @@ void loop() {
 
 
   // walking and driving mode
-  if (isWalkingAndDrivingMode()) {
+  if (isWalkingMode() || isDrivingMode()) {
     // if switch A was just released and not walking, accelerating or reversing, walk or accelerate
     if (inputSwitchA.wasJustReleased() && !walkingForwardOrAccelerating && !walkingBackwardOrReversing && !shouldDoExtraFunctions) {
       toggleWalkOrAccelerate();
@@ -191,7 +191,10 @@ void setMode(int mode) {
 
 void nextMode() {
   switch (currentMode) {
-    case WALKING_AND_DRIVING_MODE:
+    case WALKING_MODE:
+      setMode(DRIVING_MODE);
+      break;
+    case DRIVING_MODE:
       setMode(FIGHTING_MODE);
       break;
     case FIGHTING_MODE:
@@ -201,15 +204,18 @@ void nextMode() {
       setMode(REST_MODE);
       break;
     case REST_MODE:
-      setMode(WALKING_AND_DRIVING_MODE);
+      setMode(WALKING_MODE);
       break;
   }
 }
 
 void setModeIndication() {
   switch (currentMode) {
-    case WALKING_AND_DRIVING_MODE:
+    case WALKING_MODE:
       rgbManager.setColor(255, 0, 0);
+      break;
+    case DRIVING_MODE:
+      rgbManager.setColor(255, 255, 0);
       break;
     case FIGHTING_MODE:
       rgbManager.setColor(0, 255, 0);
@@ -223,8 +229,12 @@ void setModeIndication() {
   }
 }
 
-boolean isWalkingAndDrivingMode() {
-  return currentMode == WALKING_AND_DRIVING_MODE;
+boolean isWalkingMode() {
+  return currentMode == WALKING_MODE;
+}
+
+boolean isDrivingMode() {
+  return currentMode == DRIVING_MODE;
 }
 
 boolean isFightingMode() {
@@ -551,4 +561,3 @@ void setPreviousSwitchStates() {
   inputSwitchB.setPreviousState();
   inputSwitchC.setPreviousState();
 }
-
