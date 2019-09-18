@@ -31,6 +31,7 @@ class XboxManager
 {
   public:
     XboxManager();
+    void begin();
     void buttonDownUp(int b);
     void buttonDown(int b);
     void buttonUp(int b);

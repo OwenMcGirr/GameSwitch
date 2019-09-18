@@ -5,8 +5,15 @@
 #include "XboxManager.h"
 
 XboxManager::XboxManager() {
+}
+
+void XboxManager::begin() {
   // begin Joystick
   Joystick.begin();
+
+  //Set joystick x,y range
+  Joystick.setXAxisRange(AXIS_UP_LEFT, AXIS_DOWN_RIGHT);
+  Joystick.setYAxisRange(AXIS_UP_LEFT, AXIS_DOWN_RIGHT);
 }
 
 void XboxManager::buttonDownUp(int b) {
