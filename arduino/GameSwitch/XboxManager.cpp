@@ -9,18 +9,18 @@ XboxManager::XboxManager() {
   Joystick.begin();
 }
 
-void XboxManager::keyDownUp(int k) {
-  Joystick.pressButton(k);
+void XboxManager::buttonDownUp(int b) {
+  Joystick.pressButton(b);
   delay(DOWN_UP_DELAY);
-  Joystick.releaseButton(k);
+  Joystick.releaseButton(b);
 }
 
-void XboxManager::keyDown(int k) {
-  Joystick.pressButton(k);
+void XboxManager::buttonDown(int b) {
+  Joystick.pressButton(b);
 }
 
-void XboxManager::keyUp(int k) {
-  Joystick.releaseButton(k);
+void XboxManager::buttonUp(int b) {
+  Joystick.releaseButton(b);
 }
 
 void XboxManager::reset() {

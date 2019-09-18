@@ -31,9 +31,9 @@ class XboxManager
 {
   public:
     XboxManager();
-    void keyDownUp(int k);
-    void keyDown(int k);
-    void keyUp(int k);
+    void buttonDownUp(int b);
+    void buttonDown(int b);
+    void buttonUp(int b);
     void reset();
   private:
 };
