@@ -39,4 +39,9 @@ void XboxManager::setYAxis(int y) {
 }
 
 void XboxManager::reset() {
+  for (int i = 0; i < 7; i++) {
+    Joystick.releaseButton(i);
+  }
+  setXAxis(AXIS_MIDDLE);
+  setYAxis(AXIS_MIDDLE);
 }
