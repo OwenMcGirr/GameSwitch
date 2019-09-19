@@ -35,6 +35,8 @@ class XboxManager
     void buttonDownUp(int b);
     void buttonDown(int b);
     void buttonUp(int b);
+    void setXAxis(int x);
+    void setYAxis(int y);
     void reset();
   private:
 };

@@ -30,5 +30,13 @@ void XboxManager::buttonUp(int b) {
   Joystick.releaseButton(b);
 }
 
+void XboxManager::setXAxis(int x) {
+  Joystick.setXAxis(x);
+}
+
+void XboxManager::setYAxis(int y) {
+  Joystick.setYAxis(y);
+}
+
 void XboxManager::reset() {
 }
