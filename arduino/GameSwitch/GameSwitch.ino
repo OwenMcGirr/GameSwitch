@@ -444,27 +444,35 @@ void reloadWeapon() {
  */
 
 void doMenuSelect() {
-  keyDownUp(KEY_RETURN, KEY_PULSE_DELAY);
+  xboxManager.buttonDownUp(A_BUTTON);
 }
 
 void doMenuBack() {
-  keyDownUp(KEY_ESC, KEY_PULSE_DELAY);
+  xboxManager.buttonDownUp(MENU_BUTTON);
 }
 
 void doMenuUp() {
-  keyDownUp(KEY_UP_ARROW, KEY_PULSE_DELAY);
+  xboxManager.setXAxis(AXIS_UP_LEFT);
+  delay(DOWN_UP_DELAY);
+  xboxManager.setXAxis(AXIS_MIDDLE);
 }
 
 void doMenuDown() {
-  keyDownUp(KEY_DOWN_ARROW, KEY_PULSE_DELAY);
+  xboxManager.setXAxis(AXIS_DOWN_RIGHT);
+  delay(DOWN_UP_DELAY);
+  xboxManager.setXAxis(AXIS_MIDDLE);
 }
 
 void doMenuLeft() {
-  keyDownUp(KEY_LEFT_ARROW, KEY_PULSE_DELAY);
+  xboxManager.setYAxis(AXIS_UP_LEFT);
+  delay(DOWN_UP_DELAY);
+  xboxManager.setYAxis(AXIS_MIDDLE);
 }
 
 void doMenuRight() {
-  keyDownUp(KEY_RIGHT_ARROW, KEY_PULSE_DELAY);
+  xboxManager.setYAxis(AXIS_DOWN_RIGHT);
+  delay(DOWN_UP_DELAY);
+  xboxManager.setYAxis(AXIS_MIDDLE);
 }
 
 // horizontal or vertical menu
