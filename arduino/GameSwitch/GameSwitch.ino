@@ -16,7 +16,7 @@ InputSwitch inputSwitchC(5);
 RGBManager rgbManager(8, 7, 6);
 
 // Xbox manager 
-XboxManager xboxManager(void);
+XboxManager xboxManager;
 
 // input switch A press count and last press time variables
 int inputSwitchAPressCount = 0; // incremented every time input switch A is pressed
