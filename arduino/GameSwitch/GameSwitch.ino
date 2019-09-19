@@ -5,6 +5,7 @@
 #include "modes.h"
 #include "InputSwitch.h"
 #include "RGBManager.h"
+#include "XboxManager.h"
 
 // input switches
 InputSwitch inputSwitchA(3);
@@ -13,6 +14,9 @@ InputSwitch inputSwitchC(5);
 
 // RGB manager
 RGBManager rgbManager(8, 7, 6);
+
+// Xbox manager 
+XboxManager xboxManager(void);
 
 // input switch A press count and last press time variables
 int inputSwitchAPressCount = 0; // incremented every time input switch A is pressed
@@ -43,6 +47,11 @@ void setup() {
 
   // start serial
   Serial.begin(9600);
+
+  while (!Serial) {}
+
+  // start xbox
+  xboxManager.begin();
 }
 
 void loop() {
@@ -255,7 +264,7 @@ boolean isRestMode() {
  */
 
 void resetModes() {
-  Keyboard.releaseAll();
+  xboxManager.reset();
 
   walkingForwardOrAccelerating = false;
   walkingBackwardOrReversing = false;
