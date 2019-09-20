@@ -1,5 +1,6 @@
 #include "timing.h"
 #include "modes.h"
+
 #include "InputSwitch.h"
 #include "RGBManager.h"
 #include "XboxManager.h"
@@ -36,10 +37,10 @@ void setup() {
   // set walking mode
   setMode(WALKING_MODE);
 
+  while (!Serial);
+
   // start serial
   Serial.begin(9600);
-
-  while (!Serial) {}
 
   // start xbox
   xboxManager.begin();
