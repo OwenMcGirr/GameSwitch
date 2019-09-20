@@ -4,26 +4,13 @@
 
 #include "InputSwitch.h"
 
-InputSwitch::InputSwitch(int p) {
-  // set pin
-  pin = p;
-
-  // set pin mode
-  pinMode(pin, INPUT);
-
+InputSwitch::InputSwitch() {
   // set defaults
   currentState = LOW;
   previousState = LOW;
 }
 
-void InputSwitch::debounce() {
-  boolean current = digitalRead(pin);
-
-  if (current != previousState) {
-    delay(DEBOUNCE_DELAY);
-    current = digitalRead(pin);
-  }
-
+void InputSwitch::setCurrentState(boolean current) {
   currentState = current;
 }
 

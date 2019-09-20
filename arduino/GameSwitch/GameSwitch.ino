@@ -6,9 +6,9 @@
 #include "XboxManager.h"
 
 // input switches
-InputSwitch inputSwitchA(3);
-InputSwitch inputSwitchB(4);
-InputSwitch inputSwitchC(5);
+InputSwitch inputSwitchA;
+InputSwitch inputSwitchB;
+InputSwitch inputSwitchC;
 
 // RGB manager
 RGBManager rgbManager(8, 7, 6);
@@ -47,8 +47,8 @@ void setup() {
 }
 
 void loop() {
-  // debounce switches
-  debounceSwitches();
+  // update switches
+  updateSwitches();
 
 
 
@@ -483,13 +483,10 @@ boolean shouldTakeInputSwitchAPressCountAction() {
 
 
 /*
-   Debounce functions
+   Switch functions
 */
 
-void debounceSwitches() {
-  inputSwitchA.debounce();
-  inputSwitchB.debounce();
-  inputSwitchC.debounce();
+void updateSwitches() {
 }
 
 void setPreviousSwitchStates() {

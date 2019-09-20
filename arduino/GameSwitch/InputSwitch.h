@@ -4,13 +4,11 @@
 #include "Arduino.h"
 #include "Timer.h"
 
-#define DEBOUNCE_DELAY 10
-
 class InputSwitch
 {
   public:
-    InputSwitch(int p);
-    void debounce();
+    InputSwitch();
+    void setCurrentState(boolean current);
     void setPreviousState();
     void updateHoldTime();
     void checkShouldResetHoldTime();
