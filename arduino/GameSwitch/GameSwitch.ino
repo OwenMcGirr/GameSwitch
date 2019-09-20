@@ -427,15 +427,14 @@ void checkShouldDoExtraWalkingAndDrivingModeFunction() {
  */
 
 void fire() {
-  mouseDownUp(MOUSE_LEFT, KEY_PULSE_DELAY);
+  xboxManager.buttonDownUp(A_BUTTON);
 }
 
 void nextWeapon() {
-  mouseDownUp(MOUSE_RIGHT, KEY_PULSE_DELAY);
 }
 
 void reloadWeapon() {
-  keyDownUp(KEY_F5, KEY_PULSE_DELAY);
+  xboxManager.buttonDownUp(B_BUTTON);
 }
 
 
