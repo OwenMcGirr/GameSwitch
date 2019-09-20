@@ -1,6 +1,3 @@
-#include <Keyboard.h>
-#include <Mouse.h>
-
 #include "timing.h"
 #include "modes.h"
 #include "InputSwitch.h"
@@ -15,7 +12,7 @@ InputSwitch inputSwitchC(5);
 // RGB manager
 RGBManager rgbManager(8, 7, 6);
 
-// Xbox manager 
+// Xbox manager
 XboxManager xboxManager;
 
 // input switch A press count and last press time variables
@@ -31,8 +28,6 @@ int currentMode; // which mode the device is currently in
 // walking and driving mode variables
 boolean walkingForwardOrAccelerating = false; // whether or not you are walking forward or accelerating
 boolean walkingBackwardOrReversing = false; // whether or not you are walking backward or reversing
-boolean sprinting = false; // whether or not you are sprinting
-boolean brakeOnTurn = false; // whether or not you brake on turn while driving
 
 // menu mode variables
 char menuStyle = 'h'; // whether the menu is horizontal or vertical, 'h' or 'v'
@@ -40,10 +35,6 @@ char menuStyle = 'h'; // whether the menu is horizontal or vertical, 'h' or 'v'
 void setup() {
   // set walking mode
   setMode(WALKING_MODE);
-
-  // start keyboard and mouse
-  Keyboard.begin();
-  Mouse.begin();
 
   // start serial
   Serial.begin(9600);
@@ -106,7 +97,7 @@ void loop() {
         Serial.println("walk or steer right down");
       }
       else if (inputSwitchA.wasJustReleased() || inputSwitchB.wasJustReleased()) {
-        releaseWSADKeys();
+        xboxManager.reset();
         chooseDirectionAfterTurn();
         Serial.println("walking, accelerating or reversing");
       }
@@ -185,8 +176,8 @@ void loop() {
 
 
 /*
- * Mode logic functions
- */
+   Mode logic functions
+*/
 
 void setMode(int mode) {
   resetModes();
@@ -260,21 +251,20 @@ boolean isRestMode() {
 
 
 /*
- * Common mode functions
- */
+   Common mode functions
+*/
 
 void resetModes() {
   xboxManager.reset();
 
   walkingForwardOrAccelerating = false;
   walkingBackwardOrReversing = false;
-  sprinting = false;
 
   shouldDoExtraFunctions = false;
 }
 
 void prepareToDoAnExtraFunction() {
-  releaseWSADKeys();
+  xboxManager.reset();
 
   walkingForwardOrAccelerating = false;
   walkingBackwardOrReversing = false;
@@ -282,8 +272,8 @@ void prepareToDoAnExtraFunction() {
 
 
 /*
- * Walking and driving mode functions
- */
+   Walking and driving mode functions
+*/
 
 void toggleWalkOrAccelerate() {
   if (walkingBackwardOrReversing) {
@@ -291,11 +281,16 @@ void toggleWalkOrAccelerate() {
   }
 
   if (!walkingForwardOrAccelerating) {
-    Keyboard.press('w');
+    if (isDrivingMode()) {
+      xboxManager.buttonDown(A_BUTTON);
+    }
+    else {
+      xboxManager.setXAxis(AXIS_UP_LEFT);
+    }
     walkingForwardOrAccelerating = true;
   }
   else {
-    Keyboard.release('w');
+    xboxManager.reset();
     walkingForwardOrAccelerating = false;
   }
 }
@@ -306,113 +301,60 @@ void toggleReverse() {
   }
 
   if (!walkingBackwardOrReversing) {
-    Keyboard.press('s');
+    if (isDrivingMode()) {
+      xboxManager.buttonDown(B_BUTTON);
+    }
+    else {
+      xboxManager.setXAxis(AXIS_DOWN_RIGHT);
+    }
     walkingBackwardOrReversing = true;
   }
   else {
-    Keyboard.release('s');
+    xboxManager.reset();
     walkingBackwardOrReversing = false;
   }
 }
 
 void chooseDirectionAfterTurn() {
   if (walkingForwardOrAccelerating) {
-    Keyboard.press('w');
+    if (isDrivingMode()) {
+      xboxManager.buttonDown(A_BUTTON);
+    }
+    else {
+      xboxManager.setXAxis(AXIS_UP_LEFT);
+    }
   }
   else if (walkingBackwardOrReversing) {
-    Keyboard.press('s');
-  }
-}
-
-void toggleBrakeOnTurn() {
-  if (!brakeOnTurn) {
-    brakeOnTurn = true;
-  }
-  else {
-    brakeOnTurn = false;
-  }
-}
-
-void toggleSprint() {
-  if (!sprinting) {
-    Keyboard.press(KEY_F6);
-    sprinting = true;
-  }
-  else {
-    Keyboard.release(KEY_F6);
-    sprinting = false;
+    if (isDrivingMode()) {
+      xboxManager.buttonDown(B_BUTTON);
+    }
+    else {
+      xboxManager.setXAxis(AXIS_DOWN_RIGHT);
+    }
   }
 }
 
 void prepareForTurn() {
-  if (!brakeOnTurn) {
-    Keyboard.release('w');
-    Keyboard.release('s');
-  }
-  else {
-    Keyboard.press('s');
-  }
+  xboxManager.reset();
 }
 
 void walkOrSteerLeftDown() {
-  Keyboard.press('a');
+  xboxManager.setYAxis(AXIS_UP_LEFT);
 }
 
 void walkOrSteerRightDown() {
-  Keyboard.press('d');
-}
-
-void releaseWSADKeys() {
-  Keyboard.release('w');
-  Keyboard.release('s');
-  Keyboard.release('a');
-  Keyboard.release('d');
+  xboxManager.setYAxis(AXIS_DOWN_RIGHT);
 }
 
 void checkShouldDoExtraWalkingAndDrivingModeFunction() {
   // switch A, press a certain amount of times for different actions, these can (usually) be assigned to any game action
   if (shouldTakeInputSwitchAPressCountAction()) {
     // do selected action
-    switch (inputSwitchAPressCount) {
-      case 1:
-        keyDownUp(KEY_F1, KEY_PULSE_DELAY);
-        break;
-      case 2:
-        keyDownUp(KEY_F2, KEY_PULSE_DELAY);
-        break;
-      case 3:
-        toggleReverse();
-        break;
-      case 4:
-        toggleBrakeOnTurn();
-        break;
-      case 5:
-        keyDownUp(KEY_F3, KEY_PULSE_DELAY);
-        break;
-      case 6:
-        keyDownUp(KEY_F4, KEY_PULSE_DELAY);
-        break;
-      case 7:
-        toggleSprint();
-        break;
-      case 8:
-        keyDownUp(KEY_F7, KEY_PULSE_DELAY);
-        break;
-      case 9:
-        keyDownUp(KEY_F8, KEY_PULSE_DELAY);
-        break;
-      case 10:
-        keyDownUp(KEY_F9, KEY_PULSE_DELAY);
-        break;
-      case 11:
-        keyDownUp(KEY_F10, KEY_PULSE_DELAY);
-        break;
-      case 12:
-        keyDownUp(KEY_F11, KEY_PULSE_DELAY);
-        break;
-      case 13:
-        keyDownUp(KEY_F12, KEY_PULSE_DELAY);
-        break;
+    if (inputSwitchAPressCount == 1) {
+      toggleReverse();
+    }
+    else {
+      xboxManager.buttonDownUp(inputSwitchAPressCount - 2);
     }
 
     resetInputSwitchAPressCount();
@@ -423,11 +365,11 @@ void checkShouldDoExtraWalkingAndDrivingModeFunction() {
 
 
 /*
- * Fighting mode functions
- */
+   Fighting mode functions
+*/
 
 void fire() {
-  xboxManager.buttonDownUp(A_BUTTON);
+  xboxManager.buttonDownUp(X1_BUTTON);
 }
 
 void nextWeapon() {
@@ -439,11 +381,11 @@ void reloadWeapon() {
 
 
 /*
- * Menu mode functions
- */
+   Menu mode functions
+*/
 
 void doMenuSelect() {
-  xboxManager.buttonDownUp(A_BUTTON);
+  xboxManager.buttonDownUp(X1_BUTTON);
 }
 
 void doMenuBack() {
@@ -508,31 +450,8 @@ void checkShouldDoExtraMenuModeFunction() {
 
 
 /*
- * Key and mouse press functions
- */
-
-void keyDownUp(char key, unsigned long delayMillis) {
-  Keyboard.press(key);
-  delay(delayMillis);
-  Keyboard.release(key);
-}
-
-void keyDownUp(int key, unsigned long delayMillis) {
-  Keyboard.press(key);
-  delay(delayMillis);
-  Keyboard.release(key);
-}
-
-void mouseDownUp(int button, unsigned long delayMillis) {
-  Mouse.press(button);
-  delay(delayMillis);
-  Mouse.release(button);
-}
-
-
-/*
- * Timing and counting functions
- */
+   Timing and counting functions
+*/
 
 // used to count the number of times input switch A is pressed
 void incrementInputSwitchAPressCount() {
@@ -563,8 +482,8 @@ boolean shouldTakeInputSwitchAPressCountAction() {
 
 
 /*
- * Debounce functions
- */
+   Debounce functions
+*/
 
 void debounceSwitches() {
   inputSwitchA.debounce();
