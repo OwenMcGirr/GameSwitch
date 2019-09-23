@@ -35,6 +35,7 @@ boolean shouldDoExtraFunctions = false; // when true, input switch A can do diff
 
 // mode logic variables
 int currentMode; // which mode the device is currently in
+boolean didJustGoToNextMode; // will prevent irrational mode switches
 
 // walking and driving mode variables
 boolean walkingForwardOrAccelerating = false; // whether or not you are walking forward or accelerating
@@ -92,6 +93,7 @@ void loop() {
 
   // update input switch B hold time
   inputSwitchB.updateHoldTime();
+  //Serial.println(inputSwitchB.getHoldTime());
 
 
 
@@ -195,8 +197,12 @@ void loop() {
 
 
   // if switch B is held for the duration of the third hold time and not walking, accelerating or reversing, go to next mode
-  if (inputSwitchB.getHoldTime() == SWITCH_HOLD_3 && !walkingForwardOrAccelerating && !walkingBackwardOrReversing) {
+  if (inputSwitchB.getHoldTime() >= SWITCH_HOLD_3 && !didJustGoToNextMode && !walkingForwardOrAccelerating && !walkingBackwardOrReversing) {
     nextMode();
+    didJustGoToNextMode = true;
+  }
+  else if (inputSwitchB.wasJustReleased()) {
+    didJustGoToNextMode = false;
   }
 
 
@@ -531,25 +537,25 @@ void updateSwitches() {
     int c = ble.read();
 
     // print character
-    Serial.println((char)c);
+    Serial.println(c);
 
-    switch ((char)c) {
-      case '1':
+    switch (c) {
+      case 49:
         inputSwitchA.setCurrentState(HIGH);
         break;
-      case '2':
+      case 50:
         inputSwitchA.setCurrentState(LOW);
         break;
-      case '3':
+      case 51:
         inputSwitchB.setCurrentState(HIGH);
         break;
-      case '4':
+      case 52:
         inputSwitchB.setCurrentState(LOW);
         break;
-      case '5':
+      case 53:
         inputSwitchC.setCurrentState(HIGH);
         break;
-      case '6':
+      case 54:
         inputSwitchC.setCurrentState(LOW);
         break;
     }
