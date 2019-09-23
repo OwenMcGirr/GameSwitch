@@ -13,7 +13,6 @@
 #include "modes.h"
 
 #include "InputSwitch.h"
-#include "RGBManager.h"
 #include "XboxManager.h"
 
 // ble object
@@ -23,9 +22,6 @@ Adafruit_BluefruitLE_SPI ble(BLUEFRUIT_SPI_CS, BLUEFRUIT_SPI_IRQ, BLUEFRUIT_SPI_
 InputSwitch inputSwitchA;
 InputSwitch inputSwitchB;
 InputSwitch inputSwitchC;
-
-// RGB manager
-RGBManager rgbManager(8, 7, 6);
 
 // Xbox manager
 XboxManager xboxManager;
@@ -48,9 +44,6 @@ boolean walkingBackwardOrReversing = false; // whether or not you are walking ba
 char menuStyle = 'h'; // whether the menu is horizontal or vertical, 'h' or 'v'
 
 void setup() {
-  // set walking mode
-  setMode(WALKING_MODE);
-
   while (!Serial);
 
   // start serial
@@ -85,6 +78,9 @@ void setup() {
   while (!ble.isConnected()) {
     delay(500);
   }
+
+  // set walking mode
+  setMode(WALKING_MODE);
 }
 
 void loop() {
@@ -226,9 +222,10 @@ void setMode(int mode) {
 
   currentMode = mode;
 
-  rgbManager.doCycle();
+  broadcastModeIndication();
 
-  setModeIndication();
+  Serial.print("mode=");
+  Serial.println(mode);
 }
 
 void nextMode() {
@@ -251,23 +248,25 @@ void nextMode() {
   }
 }
 
-void setModeIndication() {
-  switch (currentMode) {
-    case WALKING_MODE:
-      rgbManager.setColor(255, 0, 0);
-      break;
-    case DRIVING_MODE:
-      rgbManager.setColor(255, 255, 0);
-      break;
-    case FIGHTING_MODE:
-      rgbManager.setColor(0, 255, 0);
-      break;
-    case MENU_MODE:
-      rgbManager.setColor(0, 0, 255);
-      break;
-    case REST_MODE:
-      rgbManager.setColor(0, 0, 0);
-      break;
+void broadcastModeIndication() {
+  if (ble.available()) {
+    switch (currentMode) {
+      case WALKING_MODE:
+        ble.println("Walking Mode");
+        break;
+      case DRIVING_MODE:
+        ble.println("Driving Mode");
+        break;
+      case FIGHTING_MODE:
+        ble.println("Fighting Mode");
+        break;
+      case MENU_MODE:
+        ble.println("Menu Mode");
+        break;
+      case REST_MODE:
+        ble.println("Rest Mode");
+        break;
+    }
   }
 }
 
