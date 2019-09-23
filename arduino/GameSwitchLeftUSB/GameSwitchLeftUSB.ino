@@ -528,6 +528,35 @@ boolean shouldTakeInputSwitchAPressCountAction() {
 */
 
 void updateSwitches() {
+  if (ble.available()) {
+    int c = ble.read();
+
+    // print character
+    Serial.println((char)c);
+
+    switch ((char)c) {
+      case '1':
+        inputSwitchA.setCurrentState(HIGH);
+        break;
+      case '2':
+        inputSwitchA.setCurrentState(LOW);
+        break;
+      case '3':
+        inputSwitchB.setCurrentState(HIGH);
+        break;
+      case '4':
+        inputSwitchB.setCurrentState(LOW);
+        break;
+      case '5':
+        inputSwitchC.setCurrentState(HIGH);
+        break;
+      case '6':
+        inputSwitchC.setCurrentState(LOW);
+        break;
+    }
+
+    delay(10);
+  }
 }
 
 void setPreviousSwitchStates() {
