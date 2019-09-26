@@ -1,0 +1,597 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		6CED8632233CF303008D691E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CED8631233CF303008D691E /* AppDelegate.swift */; };
+		6CED8634233CF303008D691E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CED8633233CF303008D691E /* SceneDelegate.swift */; };
+		6CED8636233CF303008D691E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CED8635233CF303008D691E /* ViewController.swift */; };
+		6CED8639233CF303008D691E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6CED8637233CF303008D691E /* Main.storyboard */; };
+		6CED863B233CF305008D691E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6CED863A233CF305008D691E /* Assets.xcassets */; };
+		6CED863E233CF305008D691E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6CED863C233CF305008D691E /* LaunchScreen.storyboard */; };
+		6CED8649233CF305008D691E /* XboxGSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CED8648233CF305008D691E /* XboxGSTests.swift */; };
+		6CED8654233CF305008D691E /* XboxGSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CED8653233CF305008D691E /* XboxGSUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		6CED8645233CF305008D691E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6CED8626233CF303008D691E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6CED862D233CF303008D691E;
+			remoteInfo = XboxGS;
+		};
+		6CED8650233CF305008D691E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6CED8626233CF303008D691E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6CED862D233CF303008D691E;
+			remoteInfo = XboxGS;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		6CED862E233CF303008D691E /* XboxGS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XboxGS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6CED8631233CF303008D691E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		6CED8633233CF303008D691E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		6CED8635233CF303008D691E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		6CED8638233CF303008D691E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		6CED863A233CF305008D691E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		6CED863D233CF305008D691E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		6CED863F233CF305008D691E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6CED8644233CF305008D691E /* XboxGSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XboxGSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6CED8648233CF305008D691E /* XboxGSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XboxGSTests.swift; sourceTree = "<group>"; };
+		6CED864A233CF305008D691E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6CED864F233CF305008D691E /* XboxGSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XboxGSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6CED8653233CF305008D691E /* XboxGSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XboxGSUITests.swift; sourceTree = "<group>"; };
+		6CED8655233CF305008D691E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6CED862B233CF303008D691E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6CED8641233CF305008D691E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6CED864C233CF305008D691E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6CED8625233CF303008D691E = {
+			isa = PBXGroup;
+			children = (
+				6CED8630233CF303008D691E /* XboxGS */,
+				6CED8647233CF305008D691E /* XboxGSTests */,
+				6CED8652233CF305008D691E /* XboxGSUITests */,
+				6CED862F233CF303008D691E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		6CED862F233CF303008D691E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6CED862E233CF303008D691E /* XboxGS.app */,
+				6CED8644233CF305008D691E /* XboxGSTests.xctest */,
+				6CED864F233CF305008D691E /* XboxGSUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6CED8630233CF303008D691E /* XboxGS */ = {
+			isa = PBXGroup;
+			children = (
+				6CED8631233CF303008D691E /* AppDelegate.swift */,
+				6CED8633233CF303008D691E /* SceneDelegate.swift */,
+				6CED8635233CF303008D691E /* ViewController.swift */,
+				6CED8637233CF303008D691E /* Main.storyboard */,
+				6CED863A233CF305008D691E /* Assets.xcassets */,
+				6CED863C233CF305008D691E /* LaunchScreen.storyboard */,
+				6CED863F233CF305008D691E /* Info.plist */,
+			);
+			path = XboxGS;
+			sourceTree = "<group>";
+		};
+		6CED8647233CF305008D691E /* XboxGSTests */ = {
+			isa = PBXGroup;
+			children = (
+				6CED8648233CF305008D691E /* XboxGSTests.swift */,
+				6CED864A233CF305008D691E /* Info.plist */,
+			);
+			path = XboxGSTests;
+			sourceTree = "<group>";
+		};
+		6CED8652233CF305008D691E /* XboxGSUITests */ = {
+			isa = PBXGroup;
+			children = (
+				6CED8653233CF305008D691E /* XboxGSUITests.swift */,
+				6CED8655233CF305008D691E /* Info.plist */,
+			);
+			path = XboxGSUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		6CED862D233CF303008D691E /* XboxGS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6CED8658233CF305008D691E /* Build configuration list for PBXNativeTarget "XboxGS" */;
+			buildPhases = (
+				6CED862A233CF303008D691E /* Sources */,
+				6CED862B233CF303008D691E /* Frameworks */,
+				6CED862C233CF303008D691E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = XboxGS;
+			productName = XboxGS;
+			productReference = 6CED862E233CF303008D691E /* XboxGS.app */;
+			productType = "com.apple.product-type.application";
+		};
+		6CED8643233CF305008D691E /* XboxGSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6CED865B233CF305008D691E /* Build configuration list for PBXNativeTarget "XboxGSTests" */;
+			buildPhases = (
+				6CED8640233CF305008D691E /* Sources */,
+				6CED8641233CF305008D691E /* Frameworks */,
+				6CED8642233CF305008D691E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6CED8646233CF305008D691E /* PBXTargetDependency */,
+			);
+			name = XboxGSTests;
+			productName = XboxGSTests;
+			productReference = 6CED8644233CF305008D691E /* XboxGSTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		6CED864E233CF305008D691E /* XboxGSUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6CED865E233CF305008D691E /* Build configuration list for PBXNativeTarget "XboxGSUITests" */;
+			buildPhases = (
+				6CED864B233CF305008D691E /* Sources */,
+				6CED864C233CF305008D691E /* Frameworks */,
+				6CED864D233CF305008D691E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6CED8651233CF305008D691E /* PBXTargetDependency */,
+			);
+			name = XboxGSUITests;
+			productName = XboxGSUITests;
+			productReference = 6CED864F233CF305008D691E /* XboxGSUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6CED8626233CF303008D691E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1100;
+				LastUpgradeCheck = 1100;
+				ORGANIZATIONNAME = "Owen McGirr";
+				TargetAttributes = {
+					6CED862D233CF303008D691E = {
+						CreatedOnToolsVersion = 11.0;
+					};
+					6CED8643233CF305008D691E = {
+						CreatedOnToolsVersion = 11.0;
+						TestTargetID = 6CED862D233CF303008D691E;
+					};
+					6CED864E233CF305008D691E = {
+						CreatedOnToolsVersion = 11.0;
+						TestTargetID = 6CED862D233CF303008D691E;
+					};
+				};
+			};
+			buildConfigurationList = 6CED8629233CF303008D691E /* Build configuration list for PBXProject "XboxGS" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 6CED8625233CF303008D691E;
+			productRefGroup = 6CED862F233CF303008D691E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6CED862D233CF303008D691E /* XboxGS */,
+				6CED8643233CF305008D691E /* XboxGSTests */,
+				6CED864E233CF305008D691E /* XboxGSUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		6CED862C233CF303008D691E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6CED863E233CF305008D691E /* LaunchScreen.storyboard in Resources */,
+				6CED863B233CF305008D691E /* Assets.xcassets in Resources */,
+				6CED8639233CF303008D691E /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6CED8642233CF305008D691E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6CED864D233CF305008D691E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6CED862A233CF303008D691E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6CED8636233CF303008D691E /* ViewController.swift in Sources */,
+				6CED8632233CF303008D691E /* AppDelegate.swift in Sources */,
+				6CED8634233CF303008D691E /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6CED8640233CF305008D691E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6CED8649233CF305008D691E /* XboxGSTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6CED864B233CF305008D691E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6CED8654233CF305008D691E /* XboxGSUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		6CED8646233CF305008D691E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6CED862D233CF303008D691E /* XboxGS */;
+			targetProxy = 6CED8645233CF305008D691E /* PBXContainerItemProxy */;
+		};
+		6CED8651233CF305008D691E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6CED862D233CF303008D691E /* XboxGS */;
+			targetProxy = 6CED8650233CF305008D691E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		6CED8637233CF303008D691E /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6CED8638233CF303008D691E /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		6CED863C233CF305008D691E /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6CED863D233CF305008D691E /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		6CED8656233CF305008D691E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		6CED8657233CF305008D691E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		6CED8659233CF305008D691E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4N2QY254XW;
+				INFOPLIST_FILE = XboxGS/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.owenmcgirr.xboxgs;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		6CED865A233CF305008D691E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4N2QY254XW;
+				INFOPLIST_FILE = XboxGS/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.owenmcgirr.xboxgs;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		6CED865C233CF305008D691E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4N2QY254XW;
+				INFOPLIST_FILE = XboxGSTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.owenmcgirr.XboxGSTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/XboxGS.app/XboxGS";
+			};
+			name = Debug;
+		};
+		6CED865D233CF305008D691E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4N2QY254XW;
+				INFOPLIST_FILE = XboxGSTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.owenmcgirr.XboxGSTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/XboxGS.app/XboxGS";
+			};
+			name = Release;
+		};
+		6CED865F233CF305008D691E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4N2QY254XW;
+				INFOPLIST_FILE = XboxGSUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.owenmcgirr.XboxGSUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = XboxGS;
+			};
+			name = Debug;
+		};
+		6CED8660233CF305008D691E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4N2QY254XW;
+				INFOPLIST_FILE = XboxGSUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.owenmcgirr.XboxGSUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = XboxGS;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6CED8629233CF303008D691E /* Build configuration list for PBXProject "XboxGS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6CED8656233CF305008D691E /* Debug */,
+				6CED8657233CF305008D691E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6CED8658233CF305008D691E /* Build configuration list for PBXNativeTarget "XboxGS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6CED8659233CF305008D691E /* Debug */,
+				6CED865A233CF305008D691E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6CED865B233CF305008D691E /* Build configuration list for PBXNativeTarget "XboxGSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6CED865C233CF305008D691E /* Debug */,
+				6CED865D233CF305008D691E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6CED865E233CF305008D691E /* Build configuration list for PBXNativeTarget "XboxGSUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6CED865F233CF305008D691E /* Debug */,
+				6CED8660233CF305008D691E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6CED8626233CF303008D691E /* Project object */;
+}

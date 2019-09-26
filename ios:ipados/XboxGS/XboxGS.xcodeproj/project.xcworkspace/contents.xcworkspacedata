@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:GSKeys.xcodeproj">
+      location = "self:XboxGS.xcodeproj">
    </FileRef>
 </Workspace>
