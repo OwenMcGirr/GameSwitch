@@ -15,6 +15,7 @@
 		6CED863E233CF305008D691E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6CED863C233CF305008D691E /* LaunchScreen.storyboard */; };
 		6CED8649233CF305008D691E /* XboxGSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CED8648233CF305008D691E /* XboxGSTests.swift */; };
 		6CED8654233CF305008D691E /* XboxGSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CED8653233CF305008D691E /* XboxGSUITests.swift */; };
+		6CED8662233CF786008D691E /* BluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CED8661233CF786008D691E /* BluetoothManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		6CED864F233CF305008D691E /* XboxGSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XboxGSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6CED8653233CF305008D691E /* XboxGSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XboxGSUITests.swift; sourceTree = "<group>"; };
 		6CED8655233CF305008D691E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6CED8661233CF786008D691E /* BluetoothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +104,7 @@
 				6CED8631233CF303008D691E /* AppDelegate.swift */,
 				6CED8633233CF303008D691E /* SceneDelegate.swift */,
 				6CED8635233CF303008D691E /* ViewController.swift */,
+				6CED8663233CF79E008D691E /* Bluetooth */,
 				6CED8637233CF303008D691E /* Main.storyboard */,
 				6CED863A233CF305008D691E /* Assets.xcassets */,
 				6CED863C233CF305008D691E /* LaunchScreen.storyboard */,
@@ -126,6 +129,14 @@
 				6CED8655233CF305008D691E /* Info.plist */,
 			);
 			path = XboxGSUITests;
+			sourceTree = "<group>";
+		};
+		6CED8663233CF79E008D691E /* Bluetooth */ = {
+			isa = PBXGroup;
+			children = (
+				6CED8661233CF786008D691E /* BluetoothManager.swift */,
+			);
+			path = Bluetooth;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -261,6 +272,7 @@
 			files = (
 				6CED8636233CF303008D691E /* ViewController.swift in Sources */,
 				6CED8632233CF303008D691E /* AppDelegate.swift in Sources */,
+				6CED8662233CF786008D691E /* BluetoothManager.swift in Sources */,
 				6CED8634233CF303008D691E /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -442,6 +454,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.owenmcgirr.xboxgs;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -461,6 +474,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.owenmcgirr.xboxgs;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
