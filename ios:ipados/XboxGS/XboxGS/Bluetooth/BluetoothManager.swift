@@ -8,7 +8,7 @@
 
 import CoreBluetooth
 
-class BluetoothManager: NSObject, CBCentralManagerDelegate {
+class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     
     static let shared = BluetoothManager()
     
@@ -18,16 +18,17 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate {
     var leftUSBPeripheral: CBPeripheral?
     var rightUSBPeripheral: CBPeripheral?
     
-    // services
-    //let uart = CBUUID(string: "6E400001-B5A3-F393-­E0A9-­E50E24DCCA9E")
+    // services and characteristics
+    var uartServiceLeft: CBService?
+    var uartServiceRight: CBService?
+    let uartServiceId = CBUUID(string: "6e400001-b5a3-f393-e0a9-e50e24dcca9e")
     
     
     func start() {
         centralManager = CBCentralManager(delegate: self, queue: nil)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
-            self.centralManager.scanForPeripherals(withServices: nil, options: nil)
+            self.centralManager.scanForPeripherals(withServices: [self.uartServiceId], options: nil)
         })
-        
     }
     
     
@@ -50,11 +51,44 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate {
             
             if leftUSBPeripheral != nil && rightUSBPeripheral != nil {
                 centralManager.stopScan()
+                
+                leftUSBPeripheral?.delegate = self
+                rightUSBPeripheral?.delegate = self
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
+                    self.leftUSBPeripheral?.discoverServices([self.uartServiceId])
+                    self.rightUSBPeripheral?.discoverServices([self.uartServiceId])
+                })
             }
             else {
                 centralManager.scanForPeripherals(withServices: nil, options: nil)
             }
         }
     }
+    
+    
+    func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
+        centralManager.scanForPeripherals(withServices: nil, options: nil)
+    }
+    
+    
+    func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
+        if let error = error {
+            print("error: \(error)")
+            return
+        }
+        let services = peripheral.services
+        print("Found \(String(describing: services?.count)) services! :\(String(describing: services)) on \(String(describing: peripheral.name))")
+        if let n = peripheral.name {
+            if n == "GameSwitchLeftUSB" {
+                uartServiceLeft = peripheral.services?.first
+            }
+            if n == "GameSwitchRightUSB" {
+                uartServiceRight = peripheral.services?.first
+            }
+        }
+    }
+    
+    
+    
     
 }
