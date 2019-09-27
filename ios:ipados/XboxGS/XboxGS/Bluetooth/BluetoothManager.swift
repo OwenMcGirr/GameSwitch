@@ -13,6 +13,12 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
     static let shared = BluetoothManager()
     
     
+    struct PeripheralNames {
+        static let left = "GameSwitchLeftUSB"
+        static let right = "GameSwitchRightUSB"
+    }
+    
+    
     // variables
     var centralManager: CBCentralManager!
     var leftUSBPeripheral: CBPeripheral?
@@ -40,11 +46,11 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
         print("discovered: \(peripheral.name ?? "n/a")")
         if let n = peripheral.name {
-            if n == "GameSwitchLeftUSB" {
+            if n == PeripheralNames.left {
                 centralManager.connect(peripheral, options: nil)
                 leftUSBPeripheral = peripheral
             }
-            if n == "GameSwitchRightUSB" {
+            if n == PeripheralNames.right {
                 centralManager.connect(peripheral, options: nil)
                 rightUSBPeripheral = peripheral
             }
@@ -79,10 +85,10 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
         let services = peripheral.services
         print("Found \(String(describing: services?.count)) services! :\(String(describing: services)) on \(String(describing: peripheral.name))")
         if let n = peripheral.name {
-            if n == "GameSwitchLeftUSB" {
+            if n == PeripheralNames.left {
                 uartServiceLeft = peripheral.services?.first
             }
-            if n == "GameSwitchRightUSB" {
+            if n == PeripheralNames.right {
                 uartServiceRight = peripheral.services?.first
             }
         }
