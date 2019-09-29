@@ -12,8 +12,8 @@
 
 #define X1_BUTTON 0
 #define X2_BUTTON 1
-#define LA_BUTTON 2
-#define LB_BUTTON 3
+#define LEFT_TRIGGER_BUTTON 2
+#define LEFT_BUMPER_BUTTON 3
 #define A_BUTTON 4
 #define B_BUTTON 5
 #define VIEW_BUTTON 6
