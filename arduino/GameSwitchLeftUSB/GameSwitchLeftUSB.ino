@@ -9,6 +9,7 @@
 
 #include "BTConfig.h"
 
+#include "ble_commands.h"
 #include "timing.h"
 #include "modes.h"
 
@@ -137,7 +138,7 @@ void loop() {
         Serial.println("walk or steer right down");
       }
       else if (inputSwitchA.wasJustReleased() || inputSwitchB.wasJustReleased()) {
-        xboxManager.reset();
+        resetXbox();
         chooseDirectionAfterTurn();
         Serial.println("walking, accelerating or reversing");
       }
@@ -300,7 +301,7 @@ boolean isRestMode() {
 */
 
 void resetModes() {
-  xboxManager.reset();
+  resetXbox();
 
   walkingForwardOrAccelerating = false;
   walkingBackwardOrReversing = false;
@@ -309,7 +310,7 @@ void resetModes() {
 }
 
 void prepareToDoAnExtraFunction() {
-  xboxManager.reset();
+  resetXbox();
 
   walkingForwardOrAccelerating = false;
   walkingBackwardOrReversing = false;
@@ -327,7 +328,7 @@ void toggleWalkOrAccelerate() {
 
   if (!walkingForwardOrAccelerating) {
     if (isDrivingMode()) {
-      xboxManager.buttonDown(A_BUTTON);
+      ble.print(TOGGLE_ACCELERATE);
     }
     else {
       xboxManager.setXAxis(AXIS_UP_LEFT);
@@ -335,7 +336,7 @@ void toggleWalkOrAccelerate() {
     walkingForwardOrAccelerating = true;
   }
   else {
-    xboxManager.reset();
+    resetXbox();
     walkingForwardOrAccelerating = false;
   }
 }
@@ -347,7 +348,7 @@ void toggleReverse() {
 
   if (!walkingBackwardOrReversing) {
     if (isDrivingMode()) {
-      xboxManager.buttonDown(B_BUTTON);
+      xboxManager.buttonDown(LEFT_TRIGGER_BUTTON);
     }
     else {
       xboxManager.setXAxis(AXIS_DOWN_RIGHT);
@@ -355,7 +356,7 @@ void toggleReverse() {
     walkingBackwardOrReversing = true;
   }
   else {
-    xboxManager.reset();
+    resetXbox();
     walkingBackwardOrReversing = false;
   }
 }
@@ -363,7 +364,7 @@ void toggleReverse() {
 void chooseDirectionAfterTurn() {
   if (walkingForwardOrAccelerating) {
     if (isDrivingMode()) {
-      xboxManager.buttonDown(A_BUTTON);
+      ble.print(TOGGLE_ACCELERATE);
     }
     else {
       xboxManager.setXAxis(AXIS_UP_LEFT);
@@ -371,7 +372,7 @@ void chooseDirectionAfterTurn() {
   }
   else if (walkingBackwardOrReversing) {
     if (isDrivingMode()) {
-      xboxManager.buttonDown(B_BUTTON);
+      xboxManager.buttonDown(LEFT_TRIGGER_BUTTON);
     }
     else {
       xboxManager.setXAxis(AXIS_DOWN_RIGHT);
@@ -380,7 +381,7 @@ void chooseDirectionAfterTurn() {
 }
 
 void prepareForTurn() {
-  xboxManager.reset();
+  resetXbox();
 }
 
 void walkOrSteerLeftDown() {
@@ -491,6 +492,16 @@ void checkShouldDoExtraMenuModeFunction() {
     resetInputSwitchALastPressTime();
     shouldDoExtraFunctions = false;
   }
+}
+
+
+/*
+   Reset
+*/
+
+void resetXbox() {
+  xboxManager.reset();
+  ble.print(RESET);
 }
 
 
