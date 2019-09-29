@@ -258,19 +258,19 @@ void nextMode() {
 void broadcastModeIndication() {
   switch (currentMode) {
     case WALKING_MODE:
-      ble.println("Walking Mode");
+      ble.print("Walking Mode");
       break;
     case DRIVING_MODE:
-      ble.println("Driving Mode");
+      ble.print("Driving Mode");
       break;
     case FIGHTING_MODE:
-      ble.println("Fighting Mode");
+      ble.print("Fighting Mode");
       break;
     case MENU_MODE:
-      ble.println("Menu Mode");
+      ble.print("Menu Mode");
       break;
     case REST_MODE:
-      ble.println("Rest Mode");
+      ble.print("Rest Mode");
       break;
   }
 }
