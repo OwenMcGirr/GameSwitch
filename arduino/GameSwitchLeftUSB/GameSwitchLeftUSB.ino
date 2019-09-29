@@ -431,7 +431,7 @@ void reloadWeapon() {
 */
 
 void doMenuSelect() {
-  xboxManager.buttonDownUp(X1_BUTTON);
+  xboxManager.buttonDownUp(A_BUTTON);
 }
 
 void doMenuBack() {
