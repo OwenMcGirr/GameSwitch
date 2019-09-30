@@ -415,7 +415,7 @@ void checkShouldDoExtraWalkingAndDrivingModeFunction() {
 */
 
 void fire() {
-  xboxManager.buttonDownUp(X1_BUTTON);
+  ble.print(FIRE);
 }
 
 void nextWeapon() {
