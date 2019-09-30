@@ -17,6 +17,9 @@ Adafruit_BluefruitLE_SPI ble(BLUEFRUIT_SPI_CS, BLUEFRUIT_SPI_IRQ, BLUEFRUIT_SPI_
 // Xbox manager
 XboxManager xboxManager;
 
+// variables
+boolean accelerating = false;
+
 void setup() {
   while (!Serial);
 
@@ -55,6 +58,37 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  readData();
+}
 
+
+void toggleAccelerate() {
+  if (accelerating) {
+    xboxManager.buttonUp(RIGHT_TRIGGER_BUTTON);
+  }
+  else {
+    xboxManager.buttonDown(RIGHT_TRIGGER_BUTTON);
+  }
+  accelerating = !accelerating;
+}
+
+
+void readData() {
+  char command[50];
+  int len = 0;
+  while (ble.available()) {
+    command[len] = (char)ble.read();
+    len++;
+  }
+  String cmd(command);
+  if (cmd == "TOGGLE_ACCELERATE") {
+    toggleAccelerate();
+  }
+  else if (cmd == "FIRE") {
+    xboxManager.buttonDownUp(RIGHT_TRIGGER_BUTTON);
+  }
+  else if (cmd == "RESET") {
+    xboxManager.reset();
+    accelerating = false;
+  }
 }
