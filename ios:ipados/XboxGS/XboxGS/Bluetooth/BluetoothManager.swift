@@ -28,6 +28,9 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
     var uartServiceLeft: CBService?
     var uartServiceRight: CBService?
     let uartServiceId = CBUUID(string: "6e400001-b5a3-f393-e0a9-e50e24dcca9e")
+    let txCharacteristicId = CBUUID(string: "6e400002-b5a3-f393-e0a9-e50e24dcca9e")
+    var leftTxCharacteristic: CBCharacteristic?
+    var rightTxCharacteristic: CBCharacteristic?
     
     
     func start() {
@@ -87,14 +90,39 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
         if let n = peripheral.name {
             if n == PeripheralNames.left {
                 uartServiceLeft = peripheral.services?.first
+                peripheral.discoverCharacteristics([txCharacteristicId], for: uartServiceLeft!)
             }
             if n == PeripheralNames.right {
                 uartServiceRight = peripheral.services?.first
+                peripheral.discoverCharacteristics([txCharacteristicId], for: uartServiceRight!)
             }
         }
     }
     
     
+    func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
+        if let n = peripheral.name {
+            if n == PeripheralNames.left {
+                for c in service.characteristics! {
+                    if c.uuid.uuidString == txCharacteristicId.uuidString {
+                        leftTxCharacteristic = c
+                    }
+                }
+            }
+            if n == PeripheralNames.right {
+                for c in service.characteristics! {
+                    if c.uuid.uuidString == txCharacteristicId.uuidString {
+                        rightTxCharacteristic = c
+                    }
+                }
+            }
+        }
+    }
     
+    
+    func write(to peripheral: CBPeripheral, for characteristic: CBCharacteristic, str: String) {
+        let data = NSData(bytes: str, length: str.count)
+        peripheral.writeValue(data as Data, for: characteristic, type: .withResponse)
+    }
     
 }
