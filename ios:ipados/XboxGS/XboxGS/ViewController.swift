@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, BluetoothManagerDelegate {
     
     // outlets
     @IBOutlet var modeLabel: UILabel?
@@ -21,6 +21,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         // start BT
+        BluetoothManager.shared.delegate = self
         BluetoothManager.shared.start()
         
         // setup switches
@@ -32,6 +33,10 @@ class ViewController: UIViewController {
         switchCView?.releaseCode = "6"
     }
 
+    
+    func didChangeMode(to mode: String) {
+        modeLabel?.text = mode
+    }
 
 }
 

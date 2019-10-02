@@ -8,9 +8,18 @@
 
 import CoreBluetooth
 
+
+protocol BluetoothManagerDelegate {
+    func didChangeMode(to mode: String)
+}
+
+
 class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     
     static let shared = BluetoothManager()
+    
+    
+    var delegate: BluetoothManagerDelegate?
     
     
     struct PeripheralNames {
@@ -31,6 +40,8 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
     let txCharacteristicId = CBUUID(string: "6e400002-b5a3-f393-e0a9-e50e24dcca9e")
     var leftTxCharacteristic: CBCharacteristic?
     var rightTxCharacteristic: CBCharacteristic?
+    let rxCharacteristicId = CBUUID(string: "6e400003-b5a3-f393-e0a9-e50e24dcca9e")
+    var leftRxCharacteristic: CBCharacteristic?
     
     
     func start() {
@@ -90,7 +101,7 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
         if let n = peripheral.name {
             if n == PeripheralNames.left {
                 uartServiceLeft = peripheral.services?.first
-                peripheral.discoverCharacteristics([txCharacteristicId], for: uartServiceLeft!)
+                peripheral.discoverCharacteristics([txCharacteristicId, rxCharacteristicId], for: uartServiceLeft!)
             }
             if n == PeripheralNames.right {
                 uartServiceRight = peripheral.services?.first
@@ -107,6 +118,10 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
                     if c.uuid.uuidString == txCharacteristicId.uuidString {
                         leftTxCharacteristic = c
                     }
+                    if c.uuid.uuidString == rxCharacteristicId.uuidString {
+                        leftRxCharacteristic = c
+                        leftUSBPeripheral?.setNotifyValue(true, for: leftRxCharacteristic!)
+                    }
                 }
             }
             if n == PeripheralNames.right {
@@ -116,6 +131,21 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
                     }
                 }
             }
+        }
+    }
+    
+    
+    func peripheral(_ peripheral: CBPeripheral, didUpdateNotificationStateFor characteristic: CBCharacteristic, error: Error?) {
+        print("\(String(describing: peripheral.name)) notifications \(characteristic.isNotifying)")
+    }
+    
+    
+    func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
+        let val = String(bytes: characteristic.value!, encoding: .utf8)
+        print("\(String(describing: val))")
+        if val?.contains("Mode") ?? false {
+            delegate?.didChangeMode(to: val!)
+            return
         }
     }
     
