@@ -127,18 +127,20 @@ void loop() {
 
     // if walking, accelerating or reversing, switch A and B act as left and right
     if (walkingForwardOrAccelerating || walkingBackwardOrReversing) {
-      if (inputSwitchA.isDown()) {
+      if (inputSwitchA.wasJustPressed() || inputSwitchB.wasJustPressed()) {
         prepareForTurn();
+      }
+      if (inputSwitchA.isDown()) {
         walkOrSteerLeftDown();
         Serial.println("walk or steer left down");
       }
       else if (inputSwitchB.isDown()) {
-        prepareForTurn();
         walkOrSteerRightDown();
         Serial.println("walk or steer right down");
       }
       else if (inputSwitchA.wasJustReleased() || inputSwitchB.wasJustReleased()) {
         resetXbox();
+        delay(150);
         chooseDirectionAfterTurn();
         Serial.println("walking, accelerating or reversing");
       }

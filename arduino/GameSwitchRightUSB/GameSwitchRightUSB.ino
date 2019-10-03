@@ -74,21 +74,19 @@ void toggleAccelerate() {
 
 
 void readData() {
-  char command[50];
-  int len = 0;
-  while (ble.available()) {
-    command[len] = (char)ble.read();
-    len++;
-  }
-  String cmd(command);
-  if (cmd == "TOGGLE_ACCELERATE") {
-    toggleAccelerate();
-  }
-  else if (cmd == "FIRE") {
-    xboxManager.buttonDownUp(RIGHT_TRIGGER_BUTTON);
-  }
-  else if (cmd == "RESET") {
-    xboxManager.reset();
-    accelerating = false;
+  if (ble.available()) {
+    char cmd = (char)ble.read();
+    Serial.println(cmd);
+    if (cmd == 'B') {
+      toggleAccelerate();
+    }
+    else if (cmd == 'C') {
+      xboxManager.buttonDownUp(RIGHT_TRIGGER_BUTTON);
+    }
+    else if (cmd == 'A') {
+      xboxManager.reset();
+      accelerating = false;
+    }
+    delay(10);
   }
 }

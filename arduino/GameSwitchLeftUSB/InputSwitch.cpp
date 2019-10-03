@@ -41,3 +41,7 @@ boolean InputSwitch::isDown() {
 boolean InputSwitch::wasJustReleased() {
   return currentState == LOW && previousState == HIGH;
 }
+
+boolean InputSwitch::wasJustPressed() {
+  return currentState == HIGH && previousState == LOW;
+}

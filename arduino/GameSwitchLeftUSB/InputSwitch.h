@@ -15,6 +15,7 @@ class InputSwitch
     long getHoldTime();
     boolean isDown();
     boolean wasJustReleased();
+    boolean wasJustPressed();
   private:
     int pin;
     boolean currentState;

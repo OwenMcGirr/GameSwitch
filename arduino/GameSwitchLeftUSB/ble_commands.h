@@ -1,3 +1,3 @@
-#define RESET "RESET"
-#define TOGGLE_ACCELERATE "TOGGLE_ACCELERATE"
-#define FIRE "FIRE"
+#define RESET "A"
+#define TOGGLE_ACCELERATE "B"
+#define FIRE "C"

@@ -147,6 +147,7 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
             delegate?.didChangeMode(to: val!)
             return
         }
+        write(to: rightUSBPeripheral!, for: rightTxCharacteristic!, str: val!)
     }
     
     
