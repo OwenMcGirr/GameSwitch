@@ -334,7 +334,7 @@ void toggleWalkOrAccelerate() {
       ble.print(TOGGLE_ACCELERATE);
     }
     else {
-      xboxManager.setXAxis(AXIS_UP_LEFT);
+      xboxManager.setYAxis(AXIS_UP_LEFT);
     }
     walkingForwardOrAccelerating = true;
   }
@@ -354,7 +354,7 @@ void toggleReverse() {
       xboxManager.buttonDown(LEFT_TRIGGER_BUTTON);
     }
     else {
-      xboxManager.setXAxis(AXIS_DOWN_RIGHT);
+      xboxManager.setYAxis(AXIS_DOWN_RIGHT);
     }
     walkingBackwardOrReversing = true;
   }
@@ -370,7 +370,7 @@ void chooseDirectionAfterTurn() {
       ble.print(TOGGLE_ACCELERATE);
     }
     else {
-      xboxManager.setXAxis(AXIS_UP_LEFT);
+      xboxManager.setYAxis(AXIS_UP_LEFT);
     }
   }
   else if (walkingBackwardOrReversing) {
@@ -378,7 +378,7 @@ void chooseDirectionAfterTurn() {
       xboxManager.buttonDown(LEFT_TRIGGER_BUTTON);
     }
     else {
-      xboxManager.setXAxis(AXIS_DOWN_RIGHT);
+      xboxManager.setYAxis(AXIS_DOWN_RIGHT);
     }
   }
 }
@@ -388,11 +388,11 @@ void prepareForTurn() {
 }
 
 void walkOrSteerLeftDown() {
-  xboxManager.setYAxis(AXIS_UP_LEFT);
+  xboxManager.setXAxis(AXIS_UP_LEFT);
 }
 
 void walkOrSteerRightDown() {
-  xboxManager.setYAxis(AXIS_DOWN_RIGHT);
+  xboxManager.setXAxis(AXIS_DOWN_RIGHT);
 }
 
 void checkShouldDoExtraWalkingAndDrivingModeFunction() {
@@ -442,27 +442,27 @@ void doMenuBack() {
 }
 
 void doMenuUp() {
-  xboxManager.setXAxis(AXIS_UP_LEFT);
-  delay(DOWN_UP_DELAY);
-  xboxManager.setXAxis(AXIS_MIDDLE);
-}
-
-void doMenuDown() {
-  xboxManager.setXAxis(AXIS_DOWN_RIGHT);
-  delay(DOWN_UP_DELAY);
-  xboxManager.setXAxis(AXIS_MIDDLE);
-}
-
-void doMenuLeft() {
   xboxManager.setYAxis(AXIS_UP_LEFT);
   delay(DOWN_UP_DELAY);
   xboxManager.setYAxis(AXIS_MIDDLE);
 }
 
-void doMenuRight() {
+void doMenuDown() {
   xboxManager.setYAxis(AXIS_DOWN_RIGHT);
   delay(DOWN_UP_DELAY);
   xboxManager.setYAxis(AXIS_MIDDLE);
+}
+
+void doMenuLeft() {
+  xboxManager.setXAxis(AXIS_UP_LEFT);
+  delay(DOWN_UP_DELAY);
+  xboxManager.setXAxis(AXIS_MIDDLE);
+}
+
+void doMenuRight() {
+  xboxManager.setXAxis(AXIS_DOWN_RIGHT);
+  delay(DOWN_UP_DELAY);
+  xboxManager.setXAxis(AXIS_MIDDLE);
 }
 
 // horizontal or vertical menu
