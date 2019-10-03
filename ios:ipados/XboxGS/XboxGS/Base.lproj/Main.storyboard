@@ -39,15 +39,51 @@
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gpz-Lk-BxH" customClass="ATSwitchView" customModule="XboxGS" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="138" height="743"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="A" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AMw-QG-tqa">
+                                                <rect key="frame" x="63.5" y="361.5" width="11.5" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
                                         <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstItem="AMw-QG-tqa" firstAttribute="centerY" secondItem="Gpz-Lk-BxH" secondAttribute="centerY" id="Q5w-Qi-7Ac"/>
+                                            <constraint firstItem="AMw-QG-tqa" firstAttribute="centerX" secondItem="Gpz-Lk-BxH" secondAttribute="centerX" id="UNU-BJ-sT8"/>
+                                        </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="73G-dz-3QY" customClass="ATSwitchView" customModule="XboxGS" customModuleProvider="target">
                                         <rect key="frame" x="138" y="0.0" width="138" height="743"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="B" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cJT-JG-Cjz">
+                                                <rect key="frame" x="63.5" y="361.5" width="11" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
                                         <color key="backgroundColor" systemColor="systemBlueColor" red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstItem="cJT-JG-Cjz" firstAttribute="centerY" secondItem="73G-dz-3QY" secondAttribute="centerY" id="Qgr-TC-N16"/>
+                                            <constraint firstItem="cJT-JG-Cjz" firstAttribute="centerX" secondItem="73G-dz-3QY" secondAttribute="centerX" id="dZG-ct-DFS"/>
+                                        </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kib-Zl-jhD" customClass="ATSwitchView" customModule="XboxGS" customModuleProvider="target">
                                         <rect key="frame" x="276" y="0.0" width="138" height="743"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="C" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OSu-IX-hb9">
+                                                <rect key="frame" x="63" y="361.5" width="12" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
                                         <color key="backgroundColor" systemColor="systemOrangeColor" red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstItem="OSu-IX-hb9" firstAttribute="centerX" secondItem="Kib-Zl-jhD" secondAttribute="centerX" id="4hG-2k-7Xz"/>
+                                            <constraint firstItem="OSu-IX-hb9" firstAttribute="centerY" secondItem="Kib-Zl-jhD" secondAttribute="centerY" id="A0j-Hj-fHS"/>
+                                        </constraints>
                                     </view>
                                 </subviews>
                             </stackView>
@@ -73,7 +109,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="132" y="83"/>
+            <point key="canvasLocation" x="131.8840579710145" y="82.366071428571431"/>
         </scene>
     </scenes>
 </document>
