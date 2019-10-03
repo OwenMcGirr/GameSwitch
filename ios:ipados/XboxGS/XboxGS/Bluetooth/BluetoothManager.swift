@@ -87,6 +87,19 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
     
     
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
+        if let n = peripheral.name {
+            if n == PeripheralNames.left {
+                leftUSBPeripheral = nil
+                uartServiceLeft = nil
+                leftTxCharacteristic = nil
+                leftRxCharacteristic = nil
+            }
+            if n == PeripheralNames.right {
+                rightUSBPeripheral = nil
+                uartServiceRight = nil
+                rightTxCharacteristic = nil
+            }
+        }
         centralManager.scanForPeripherals(withServices: nil, options: nil)
     }
     
