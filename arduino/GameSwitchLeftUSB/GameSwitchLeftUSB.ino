@@ -229,6 +229,7 @@ void setMode(int mode) {
 
   currentMode = mode;
 
+  delay(150);
   broadcastModeIndication();
 
   Serial.print("mode=");
