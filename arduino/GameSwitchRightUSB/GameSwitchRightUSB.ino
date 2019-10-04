@@ -58,6 +58,12 @@ void setup() {
 }
 
 void loop() {
+  while (!ble.isConnected()) {
+    xboxManager.reset();
+    delay(500);
+  }
+  
+  
   readData();
 }
 
