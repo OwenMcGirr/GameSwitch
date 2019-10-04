@@ -45,6 +45,9 @@ boolean walkingBackwardOrReversing = false; // whether or not you are walking ba
 // menu mode variables
 char menuStyle = 'h'; // whether the menu is horizontal or vertical, 'h' or 'v'
 
+// bluetooth variables
+boolean btWasDisconnected = false;
+
 void setup() {
   while (!Serial);
 
@@ -78,7 +81,7 @@ void setup() {
 
   // wait for connection
   while (!ble.isConnected()) {
-    delay(500);
+    delay(15000);
   }
 
   // set walking mode
@@ -86,6 +89,19 @@ void setup() {
 }
 
 void loop() {
+  while (!ble.isConnected()) {
+    btWasDisconnected = true;
+    xboxManager.reset();
+    delay(15000);
+  }
+  if (btWasDisconnected) {
+    broadcastModeIndication();
+    btWasDisconnected = false;
+  }
+
+
+
+
   // update switches
   updateSwitches();
 
