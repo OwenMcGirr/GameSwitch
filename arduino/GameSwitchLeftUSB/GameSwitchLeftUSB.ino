@@ -454,6 +454,10 @@ void doMenuSelect() {
 }
 
 void doMenuBack() {
+  xboxManager.buttonDownUp(B_BUTTON);
+}
+
+void doMenu() {
   xboxManager.buttonDownUp(MENU_BUTTON);
 }
 
@@ -503,6 +507,9 @@ void checkShouldDoExtraMenuModeFunction() {
         doMenuBack();
         break;
       case 3:
+        doMenu();
+        break;
+      case 4:
         switchMenuStyle();
         break;
     }
