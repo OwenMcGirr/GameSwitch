@@ -550,6 +550,8 @@ void resetXbox() {
 void incrementInputSwitchAPressCount() {
   inputSwitchAPressCount++;
   inputSwitchAPressCountActive = true;
+  Serial.print("inputSwitchAPressCount=");
+  Serial.println(inputSwitchAPressCount);
 }
 
 void resetInputSwitchAPressCount() {

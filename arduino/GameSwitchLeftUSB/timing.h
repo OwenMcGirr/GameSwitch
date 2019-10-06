@@ -7,4 +7,4 @@
  * input switch A can do different actions based on the number of times the user presses it
  * this is the timeout before the action is carried out
  */
-#define SWITCH_A_TAKE_ACTION_TIMEOUT 500
+#define SWITCH_A_TAKE_ACTION_TIMEOUT 1000
