@@ -93,6 +93,12 @@ void readData() {
       xboxManager.reset();
       accelerating = false;
     }
+    else if (cmd == 'D') {
+      xboxManager.buttonDownUp(X_BUTTON);
+    }
+    else if (cmd == 'E') {
+      xboxManager.buttonDownUp(Y_BUTTON);
+    }
     delay(10);
   }
 }

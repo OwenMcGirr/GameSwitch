@@ -415,11 +415,22 @@ void checkShouldDoExtraWalkingAndDrivingModeFunction() {
   // switch A, press a certain amount of times for different actions, these can (usually) be assigned to any game action
   if (shouldTakeInputSwitchAPressCountAction()) {
     // do selected action
-    if (inputSwitchAPressCount == 1) {
-      toggleReverse();
-    }
-    else {
-      xboxManager.buttonDownUp(inputSwitchAPressCount - 2);
+    switch (inputSwitchAPressCount) {
+      case 1:
+        toggleReverse();
+        break;
+      case 2:
+        xboxManager.buttonDownUp(A_BUTTON);
+        break;
+      case 3:
+        xboxManager.buttonDownUp(B_BUTTON);
+        break;
+      case 4:
+        ble.print(TAP_X);
+        break;
+      case 5:
+        ble.print(TAP_Y);
+        break;
     }
 
     resetInputSwitchAPressCount();

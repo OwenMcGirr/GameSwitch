@@ -1,3 +1,5 @@
 #define RESET "A"
 #define TOGGLE_ACCELERATE "B"
 #define FIRE "C"
+#define TAP_X "D"
+#define TAP_Y "E"
