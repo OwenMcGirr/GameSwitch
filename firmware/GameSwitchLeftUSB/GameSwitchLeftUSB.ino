@@ -377,6 +377,8 @@ void toggleReverse() {
   else {
     resetXbox();
     walkingBackwardOrReversing = false;
+    delay(100);
+    toggleWalkOrAccelerate();
   }
 }
 
