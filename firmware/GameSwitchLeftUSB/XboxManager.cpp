@@ -25,17 +25,17 @@ void XboxManager::begin() {
 }
 
 void XboxManager::buttonDownUp(int b) {
-  Joystick.pressButton(b);
+  Joystick.setButton(b, true);
   delay(DOWN_UP_DELAY);
-  Joystick.releaseButton(b);
+  Joystick.setButton(b, false);
 }
 
 void XboxManager::buttonDown(int b) {
-  Joystick.pressButton(b);
+  Joystick.setButton(b, true);
 }
 
 void XboxManager::buttonUp(int b) {
-  Joystick.releaseButton(b);
+  Joystick.setButton(b, false);
 }
 
 void XboxManager::setXAxis(int x) {
