@@ -41,6 +41,7 @@ boolean didJustGoToNextMode; // will prevent irrational mode switches
 // walking and driving mode variables
 boolean walkingForwardOrAccelerating = false; // whether or not you are walking forward or accelerating
 boolean walkingBackwardOrReversing = false; // whether or not you are walking backward or reversing
+char directionForwardOrBackward = 'f';
 
 // menu mode variables
 char menuStyle = 'h'; // whether the menu is horizontal or vertical, 'h' or 'v'
@@ -324,6 +325,7 @@ void resetModes() {
 
   walkingForwardOrAccelerating = false;
   walkingBackwardOrReversing = false;
+  directionForwardOrBackward = 'n';
 
   shouldDoExtraFunctions = false;
 }
@@ -341,11 +343,7 @@ void prepareToDoAnExtraFunction() {
 */
 
 void toggleWalkOrAccelerate() {
-  if (walkingBackwardOrReversing) {
-    toggleReverse();
-  }
-
-  if (!walkingForwardOrAccelerating) {
+  if (directionForwardOrBackward != 'f') {
     if (isDrivingMode()) {
       ble.print(TOGGLE_ACCELERATE);
     }
@@ -353,6 +351,7 @@ void toggleWalkOrAccelerate() {
       xboxManager.setYAxis(AXIS_UP_LEFT);
     }
     walkingForwardOrAccelerating = true;
+    directionForwardOrBackward = 'f';
   }
   else {
     resetXbox();
@@ -361,11 +360,11 @@ void toggleWalkOrAccelerate() {
 }
 
 void toggleReverse() {
-  if (walkingForwardOrAccelerating) {
+  if (directionForwardOrBackward == 'f') {
     toggleWalkOrAccelerate();
   }
 
-  if (!walkingBackwardOrReversing) {
+  if (directionForwardOrBackward != 'b') {
     if (isDrivingMode()) {
       xboxManager.buttonDown(LEFT_TRIGGER_BUTTON);
     }
@@ -373,11 +372,11 @@ void toggleReverse() {
       xboxManager.setYAxis(AXIS_DOWN_RIGHT);
     }
     walkingBackwardOrReversing = true;
+    directionForwardOrBackward = 'b';
   }
   else {
     resetXbox();
     walkingBackwardOrReversing = false;
-    delay(100);
     toggleWalkOrAccelerate();
   }
 }
