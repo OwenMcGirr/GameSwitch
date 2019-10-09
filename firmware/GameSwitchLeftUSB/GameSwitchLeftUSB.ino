@@ -50,8 +50,6 @@ char menuStyle = 'h'; // whether the menu is horizontal or vertical, 'h' or 'v'
 boolean btWasDisconnected = false;
 
 void setup() {
-  while (!Serial);
-
   // start serial
   Serial.begin(9600);
 

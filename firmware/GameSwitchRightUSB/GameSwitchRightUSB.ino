@@ -21,8 +21,6 @@ XboxManager xboxManager;
 boolean accelerating = false;
 
 void setup() {
-  while (!Serial);
-
   // start serial
   Serial.begin(9600);
 
