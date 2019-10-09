@@ -4,7 +4,11 @@
 #include "Arduino.h"
 #include "Joystick.h"
 
-#define DOWN_UP_DELAY 250
+#define DOWN_UP_DELAY 10
+
+#define AXIS_UP_LEFT -127
+#define AXIS_DOWN_RIGHT 127
+#define AXIS_MIDDLE 0
 
 #define VIEW_BUTTON 0
 #define MENU_BUTTON 1
@@ -25,6 +29,8 @@ class XboxManager
     void buttonUp(int b);
     void reset();
   private:
+    void setXAxis(int x);
+    void setYAxis(int y);
 };
 
 #endif

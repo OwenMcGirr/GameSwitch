@@ -18,6 +18,10 @@ XboxManager::XboxManager() {
 void XboxManager::begin() {
   // begin Joystick
   Joystick.begin();
+
+  //Set joystick x,y range
+  Joystick.setXAxisRange(AXIS_UP_LEFT, AXIS_DOWN_RIGHT);
+  Joystick.setYAxisRange(AXIS_UP_LEFT, AXIS_DOWN_RIGHT);
 }
 
 void XboxManager::buttonDownUp(int b) {
@@ -34,8 +38,18 @@ void XboxManager::buttonUp(int b) {
   Joystick.setButton(b, false);
 }
 
+void XboxManager::setXAxis(int x) {
+  Joystick.setXAxis(x);
+}
+
+void XboxManager::setYAxis(int y) {
+  Joystick.setYAxis(y);
+}
+
 void XboxManager::reset() {
   for (int i = 0; i < 7; i++) {
     Joystick.releaseButton(i);
   }
+  setXAxis(AXIS_MIDDLE);
+  setYAxis(AXIS_MIDDLE);
 }
