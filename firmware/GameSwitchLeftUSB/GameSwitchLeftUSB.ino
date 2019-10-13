@@ -142,7 +142,7 @@ void loop() {
 
     // if walking, accelerating or reversing, switch A and B act as left and right
     if (walkingForwardOrAccelerating || walkingBackwardOrReversing) {
-      if (inputSwitchA.wasJustPressed() || inputSwitchB.wasJustPressed()) {
+      if ((inputSwitchA.wasJustPressed() || inputSwitchB.wasJustPressed()) && isDrivingMode()) {
         prepareForTurn();
       }
       if (inputSwitchA.isDown()) {
@@ -380,7 +380,7 @@ void toggleReverse() {
 }
 
 void chooseDirectionAfterTurn() {
-  if (walkingForwardOrAccelerating) {
+  if (directionForwardOrBackward == 'f') {
     if (isDrivingMode()) {
       ble.print(TOGGLE_ACCELERATE);
     }
@@ -388,7 +388,7 @@ void chooseDirectionAfterTurn() {
       xboxManager.setYAxis(AXIS_UP_LEFT);
     }
   }
-  else if (walkingBackwardOrReversing) {
+  else {
     if (isDrivingMode()) {
       xboxManager.buttonDown(LEFT_TRIGGER_BUTTON);
     }
