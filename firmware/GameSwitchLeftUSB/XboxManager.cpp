@@ -38,6 +38,10 @@ void XboxManager::buttonUp(int b) {
   Joystick.setButton(b, false);
 }
 
+void XboxManager::setButton(int b, boolean v) {
+  Joystick.setButton(b, v);
+}
+
 void XboxManager::setXAxis(int x) {
   Joystick.setXAxis(x);
 }

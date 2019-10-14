@@ -41,7 +41,8 @@ boolean didJustGoToNextMode; // will prevent irrational mode switches
 // walking and driving mode variables
 boolean walkingForwardOrAccelerating = false; // whether or not you are walking forward or accelerating
 boolean walkingBackwardOrReversing = false; // whether or not you are walking backward or reversing
-char directionForwardOrBackward = 'f';
+char directionForwardOrBackward = 'f'; // what direction you are walking or driving in
+boolean sprinting = false;
 
 // menu mode variables
 char menuStyle = 'h'; // whether the menu is horizontal or vertical, 'h' or 'v'
@@ -397,6 +398,11 @@ void chooseDirectionAfterTurn() {
   }
 }
 
+void toggleSprint() {
+  sprinting = !sprinting;
+  xboxManager.setButton(A_BUTTON, sprinting);
+}
+
 void prepareForTurn() {
   resetXbox();
 }
@@ -428,6 +434,9 @@ void checkShouldDoExtraWalkingAndDrivingModeFunction() {
         break;
       case 5:
         ble.print(TAP_Y);
+        break;
+      case 6:
+        toggleSprint();
         break;
     }
 
