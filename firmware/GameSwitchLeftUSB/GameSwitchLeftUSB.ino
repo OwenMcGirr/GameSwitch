@@ -44,6 +44,9 @@ boolean walkingBackwardOrReversing = false; // whether or not you are walking ba
 char directionForwardOrBackward = 'f'; // what direction you are walking or driving in
 boolean sprinting = false;
 
+// fighting mode variables 
+boolean aiming = false;
+
 // menu mode variables
 char menuStyle = 'h'; // whether the menu is horizontal or vertical, 'h' or 'v'
 
@@ -204,7 +207,7 @@ void loop() {
       fire();
     }
     if (inputSwitchB.wasJustReleased()) {
-      nextWeapon();
+      toggleAim();
     }
     if (inputSwitchC.wasJustReleased()) {
       reloadWeapon();
@@ -324,6 +327,8 @@ void resetModes() {
   walkingForwardOrAccelerating = false;
   walkingBackwardOrReversing = false;
   directionForwardOrBackward = 'n';
+
+  aiming = false;
 
   shouldDoExtraFunctions = false;
 }
@@ -458,7 +463,9 @@ void fire() {
   ble.print(FIRE);
 }
 
-void nextWeapon() {
+void toggleAim() {
+  aiming = !aiming;
+  xboxManager.setButton(LEFT_TRIGGER_BUTTON, aiming);
 }
 
 void reloadWeapon() {
