@@ -546,6 +546,8 @@ void checkShouldDoExtraMenuModeFunction() {
 void resetXbox() {
   xboxManager.reset();
   ble.print(RESET);
+
+  sprinting = false;
 }
 
 
