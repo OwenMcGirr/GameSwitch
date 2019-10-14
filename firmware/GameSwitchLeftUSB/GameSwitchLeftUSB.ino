@@ -347,6 +347,7 @@ void toggleWalkOrAccelerate() {
     }
     else {
       xboxManager.setYAxis(AXIS_UP_LEFT);
+      xboxManager.setButton(A_BUTTON, sprinting);
     }
     walkingForwardOrAccelerating = true;
     directionForwardOrBackward = 'f';
@@ -368,6 +369,7 @@ void toggleReverse() {
     }
     else {
       xboxManager.setYAxis(AXIS_DOWN_RIGHT);
+      xboxManager.setButton(A_BUTTON, sprinting);
     }
     walkingBackwardOrReversing = true;
     directionForwardOrBackward = 'b';
@@ -546,8 +548,6 @@ void checkShouldDoExtraMenuModeFunction() {
 void resetXbox() {
   xboxManager.reset();
   ble.print(RESET);
-
-  sprinting = false;
 }
 
 
