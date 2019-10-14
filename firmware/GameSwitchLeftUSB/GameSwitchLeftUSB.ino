@@ -154,8 +154,7 @@ void loop() {
         Serial.println("walk or steer right down");
       }
       else if (inputSwitchA.wasJustReleased() || inputSwitchB.wasJustReleased()) {
-        resetXbox();
-        delay(150);
+        xboxManager.setXAxis(AXIS_MIDDLE);
         chooseDirectionAfterTurn();
         Serial.println("walking, accelerating or reversing");
       }
