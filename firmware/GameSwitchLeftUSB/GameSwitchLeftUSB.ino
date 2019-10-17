@@ -140,7 +140,7 @@ void loop() {
   // walking and driving mode
   if (isWalkingMode() || isDrivingMode()) {
     // if switch A was just released and not walking, accelerating or reversing, walk or accelerate
-    if (inputSwitchA.wasJustReleased() && !walkingForwardOrAccelerating && !walkingBackwardOrReversing && !shouldDoExtraFunctions) {
+    if (inputSwitchA.wasJustReleased() && directionForwardOrBackward == 'n' && !shouldDoExtraFunctions) {
       toggleWalkOrAccelerate();
     }
 
@@ -388,7 +388,7 @@ void toggleReverse() {
 }
 
 void chooseDirectionAfterTurn() {
-  if (directionForwardOrBackward == 'f') {
+  if (directionForwardOrBackward == 'f' || directionForwardOrBackward == 'n') {
     if (isDrivingMode()) {
       ble.print(TOGGLE_ACCELERATE);
     }
