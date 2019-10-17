@@ -43,6 +43,8 @@ boolean walkingForwardOrAccelerating = false; // whether or not you are walking 
 boolean walkingBackwardOrReversing = false; // whether or not you are walking backward or reversing
 char directionForwardOrBackward = 'f'; // what direction you are walking or driving in
 boolean sprinting = false;
+boolean autoFire = false; // whether or not auto fire is on
+unsigned long previousAutoFireTime = 0; // the previous time of auto fire
 
 // fighting mode variables 
 boolean aiming = false;
@@ -161,6 +163,10 @@ void loop() {
         xboxManager.setXAxis(AXIS_MIDDLE);
         chooseDirectionAfterTurn();
         Serial.println("walking, accelerating or reversing");
+      }
+
+      if (isWalkingMode()) {
+        checkAutoFire();
       }
     }
 
@@ -330,6 +336,8 @@ void resetModes() {
 
   aiming = false;
 
+  autoFire = false;
+
   shouldDoExtraFunctions = false;
 }
 
@@ -411,6 +419,19 @@ void toggleSprint() {
   xboxManager.setButton(A_BUTTON, sprinting);
 }
 
+void toggleAutoFire() {
+  autoFire = !autoFire;
+}
+
+void checkAutoFire() {
+  if (autoFire) {
+    if (millis() - previousAutoFireTime >= AUTO_FIRE_INTERVAL) {
+      previousAutoFireTime = millis();
+      fire();
+    }
+  }
+}
+
 void prepareForTurn() {
   resetXbox();
 }
@@ -445,6 +466,9 @@ void checkShouldDoExtraWalkingAndDrivingModeFunction() {
         break;
       case 6:
         toggleSprint();
+        break;
+      case 7:
+        toggleAutoFire();
         break;
     }
 
