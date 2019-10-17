@@ -218,7 +218,7 @@ void loop() {
 
 
   // if switch B is held for the duration of the third hold time and not walking, accelerating or reversing, go to next mode
-  if (inputSwitchB.getHoldTime() >= SWITCH_HOLD_3 && !didJustGoToNextMode && !walkingForwardOrAccelerating && !walkingBackwardOrReversing) {
+  if (inputSwitchB.getHoldTime() >= SWITCH_HOLD_1 && !didJustGoToNextMode && !walkingForwardOrAccelerating && !walkingBackwardOrReversing) {
     nextMode();
     didJustGoToNextMode = true;
   }
