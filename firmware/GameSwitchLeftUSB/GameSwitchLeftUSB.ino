@@ -206,6 +206,12 @@ void loop() {
       }
       else if (inputSwitchA.wasJustReleased() || inputSwitchB.wasJustReleased()) {
         xboxManager.setYAxis(AXIS_MIDDLE);
+        if (directionLeftOrRight == 'l') {
+          xboxManager.setXAxis(AXIS_UP_LEFT);
+        }
+        else {
+          xboxManager.setXAxis(AXIS_DOWN_RIGHT);
+        }
       }
     }
   }
@@ -389,11 +395,9 @@ void toggleDirectionChange() {
   if (isFootballMode()) {
     if (directionLeftOrRight == 'l') {
       directionLeftOrRight = 'r';
-      xboxManager.setXAxis(AXIS_DOWN_RIGHT);
     }
     else {
       directionLeftOrRight = 'l';
-      xboxManager.setXAxis(AXIS_UP_LEFT);
     }
     return;
   }
