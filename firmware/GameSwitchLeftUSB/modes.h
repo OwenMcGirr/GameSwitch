@@ -7,8 +7,8 @@
 // mode for fighting
 #define FIGHTING_MODE 3
 
-// mode for navigating menus
-#define MENU_MODE 4
+// mode for football
+#define FOOTBALL_MODE 4
 
-// mode for resting, doing nothing
-#define REST_MODE 5
+// mode for navigating menus
+#define MENU_MODE 5

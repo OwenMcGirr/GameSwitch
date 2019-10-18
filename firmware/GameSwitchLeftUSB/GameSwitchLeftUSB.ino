@@ -46,8 +46,11 @@ boolean sprinting = false;
 boolean autoFire = false; // whether or not auto fire is on
 unsigned long previousAutoFireTime = 0; // the previous time of auto fire
 
-// fighting mode variables 
+// fighting mode variables
 boolean aiming = false;
+
+// football mode variables
+char directionLeftOrRight = 'l';
 
 // menu mode variables
 char menuStyle = 'h'; // whether the menu is horizontal or vertical, 'h' or 'v'
@@ -169,9 +172,42 @@ void loop() {
         checkAutoFire();
       }
     }
+  }
 
+
+
+
+  if (isWalkingMode() || isDrivingMode() || isFootballMode()) {
     // check should do extra function
-    checkShouldDoExtraWalkingAndDrivingModeFunction();
+    checkShouldDoExtraWalkingDrivingOrFootballModeFunction();
+  }
+
+
+
+
+  // football mode
+  if (isFootballMode()) {
+    if (!shouldDoExtraFunctions) {
+      if (inputSwitchA.isDown()) {
+        if (directionLeftOrRight == 'l') {
+          xboxManager.setYAxis(AXIS_DOWN_RIGHT);
+        }
+        else {
+          xboxManager.setYAxis(AXIS_UP_LEFT);
+        }
+      }
+      else if (inputSwitchB.isDown()) {
+        if (directionLeftOrRight == 'l') {
+          xboxManager.setYAxis(AXIS_UP_LEFT);
+        }
+        else {
+          xboxManager.setYAxis(AXIS_DOWN_RIGHT);
+        }
+      }
+      else if (inputSwitchA.wasJustReleased() || inputSwitchB.wasJustReleased()) {
+        xboxManager.setYAxis(AXIS_MIDDLE);
+      }
+    }
   }
 
 
@@ -271,12 +307,12 @@ void nextMode() {
       setMode(FIGHTING_MODE);
       break;
     case FIGHTING_MODE:
+      setMode(FOOTBALL_MODE);
+      break;
+    case FOOTBALL_MODE:
       setMode(MENU_MODE);
       break;
     case MENU_MODE:
-      setMode(REST_MODE);
-      break;
-    case REST_MODE:
       setMode(WALKING_MODE);
       break;
   }
@@ -293,11 +329,11 @@ void broadcastModeIndication() {
     case FIGHTING_MODE:
       ble.print("Fighting Mode");
       break;
+    case FOOTBALL_MODE:
+      ble.print("Football Mode");
+      break;
     case MENU_MODE:
       ble.print("Menu Mode");
-      break;
-    case REST_MODE:
-      ble.print("Rest Mode");
       break;
   }
 }
@@ -314,12 +350,12 @@ boolean isFightingMode() {
   return currentMode == FIGHTING_MODE;
 }
 
-boolean isMenuMode() {
-  return currentMode == MENU_MODE;
+boolean isFootballMode() {
+  return currentMode == FOOTBALL_MODE;
 }
 
-boolean isRestMode() {
-  return currentMode == REST_MODE;
+boolean isMenuMode() {
+  return currentMode == MENU_MODE;
 }
 
 
@@ -342,10 +378,81 @@ void resetModes() {
 }
 
 void prepareToDoAnExtraFunction() {
-  resetXbox();
+  if (!isFootballMode())
+    resetXbox();
 
   walkingForwardOrAccelerating = false;
   walkingBackwardOrReversing = false;
+}
+
+void toggleDirectionChange() {
+  if (isFootballMode()) {
+    if (directionLeftOrRight == 'l') {
+      directionLeftOrRight = 'r';
+      xboxManager.setXAxis(AXIS_DOWN_RIGHT);
+    }
+    else {
+      directionLeftOrRight = 'l';
+      xboxManager.setXAxis(AXIS_UP_LEFT);
+    }
+    return;
+  }
+
+  if (directionForwardOrBackward == 'f') {
+    toggleWalkOrAccelerate();
+  }
+
+  if (directionForwardOrBackward != 'b') {
+    if (isDrivingMode()) {
+      xboxManager.buttonDown(LEFT_TRIGGER_BUTTON);
+    }
+    else {
+      xboxManager.setYAxis(AXIS_DOWN_RIGHT);
+      xboxManager.setButton(A_BUTTON, sprinting);
+    }
+    walkingBackwardOrReversing = true;
+    directionForwardOrBackward = 'b';
+  }
+  else {
+    resetXbox();
+    walkingBackwardOrReversing = false;
+    directionForwardOrBackward = 'n';
+    toggleWalkOrAccelerate();
+  }
+}
+
+void checkShouldDoExtraWalkingDrivingOrFootballModeFunction() {
+  // switch A, press a certain amount of times for different actions, these can (usually) be assigned to any game action
+  if (shouldTakeInputSwitchAPressCountAction()) {
+    // do selected action
+    switch (inputSwitchAPressCount) {
+      case 1:
+        toggleDirectionChange();
+        break;
+      case 2:
+        xboxManager.buttonDownUp(A_BUTTON);
+        break;
+      case 3:
+        xboxManager.buttonDownUp(B_BUTTON);
+        break;
+      case 4:
+        ble.print(TAP_X);
+        break;
+      case 5:
+        ble.print(TAP_Y);
+        break;
+      case 6:
+        toggleSprint();
+        break;
+      case 7:
+        toggleAutoFire();
+        break;
+    }
+
+    resetInputSwitchAPressCount();
+    resetInputSwitchALastPressTime();
+    shouldDoExtraFunctions = false;
+  }
 }
 
 
@@ -368,30 +475,6 @@ void toggleWalkOrAccelerate() {
   else {
     resetXbox();
     walkingForwardOrAccelerating = false;
-  }
-}
-
-void toggleReverse() {
-  if (directionForwardOrBackward == 'f') {
-    toggleWalkOrAccelerate();
-  }
-
-  if (directionForwardOrBackward != 'b') {
-    if (isDrivingMode()) {
-      xboxManager.buttonDown(LEFT_TRIGGER_BUTTON);
-    }
-    else {
-      xboxManager.setYAxis(AXIS_DOWN_RIGHT);
-      xboxManager.setButton(A_BUTTON, sprinting);
-    }
-    walkingBackwardOrReversing = true;
-    directionForwardOrBackward = 'b';
-  }
-  else {
-    resetXbox();
-    walkingBackwardOrReversing = false;
-    directionForwardOrBackward = 'n';
-    toggleWalkOrAccelerate();
   }
 }
 
@@ -442,40 +525,6 @@ void walkOrSteerLeftDown() {
 
 void walkOrSteerRightDown() {
   xboxManager.setXAxis(AXIS_DOWN_RIGHT);
-}
-
-void checkShouldDoExtraWalkingAndDrivingModeFunction() {
-  // switch A, press a certain amount of times for different actions, these can (usually) be assigned to any game action
-  if (shouldTakeInputSwitchAPressCountAction()) {
-    // do selected action
-    switch (inputSwitchAPressCount) {
-      case 1:
-        toggleReverse();
-        break;
-      case 2:
-        xboxManager.buttonDownUp(A_BUTTON);
-        break;
-      case 3:
-        xboxManager.buttonDownUp(B_BUTTON);
-        break;
-      case 4:
-        ble.print(TAP_X);
-        break;
-      case 5:
-        ble.print(TAP_Y);
-        break;
-      case 6:
-        toggleSprint();
-        break;
-      case 7:
-        toggleAutoFire();
-        break;
-    }
-
-    resetInputSwitchAPressCount();
-    resetInputSwitchALastPressTime();
-    shouldDoExtraFunctions = false;
-  }
 }
 
 
