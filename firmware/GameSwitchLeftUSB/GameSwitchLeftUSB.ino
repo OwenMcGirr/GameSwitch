@@ -51,6 +51,7 @@ boolean aiming = false;
 
 // football mode variables
 char directionLeftOrRight = 'l';
+boolean movingFootballPlayer = false;
 
 // menu mode variables
 char menuStyle = 'h'; // whether the menu is horizontal or vertical, 'h' or 'v'
@@ -123,8 +124,8 @@ void loop() {
 
 
 
-  // if walking and driving or menu mode, check for extra function activation
-  if (isWalkingMode() || isDrivingMode() || isMenuMode()) {
+  // if walking, driving, football, or menu mode, check for extra function activation
+  if (isWalkingMode() || isDrivingMode() || isFootballMode() || isMenuMode()) {
     // if switch C was just released, enable extra functions
     if (inputSwitchC.wasJustReleased()) {
       shouldDoExtraFunctions = true;
@@ -188,6 +189,7 @@ void loop() {
   // football mode
   if (isFootballMode()) {
     if (!shouldDoExtraFunctions) {
+      movingFootballPlayer = true;
       if (inputSwitchA.isDown()) {
         if (directionLeftOrRight == 'l') {
           xboxManager.setYAxis(AXIS_DOWN_RIGHT);
@@ -265,8 +267,8 @@ void loop() {
 
 
 
-  // if switch B is held for the duration of the third hold time and not walking, accelerating or reversing, go to next mode
-  if (inputSwitchB.getHoldTime() >= SWITCH_HOLD_1 && !didJustGoToNextMode && !walkingForwardOrAccelerating && !walkingBackwardOrReversing) {
+  // if switch B is held for the duration of the third hold time and not walking, accelerating or reversing, or moving player, go to next mode
+  if (inputSwitchB.getHoldTime() >= SWITCH_HOLD_1 && !didJustGoToNextMode && !walkingForwardOrAccelerating && !walkingBackwardOrReversing && !movingFootballPlayer) {
     nextMode();
     didJustGoToNextMode = true;
   }
@@ -380,6 +382,8 @@ void resetModes() {
 
   autoFire = false;
 
+  movingFootballPlayer = false;
+
   shouldDoExtraFunctions = false;
 }
 
@@ -389,6 +393,8 @@ void prepareToDoAnExtraFunction() {
 
   walkingForwardOrAccelerating = false;
   walkingBackwardOrReversing = false;
+
+  movingFootballPlayer = false;
 }
 
 void toggleDirectionChange() {
