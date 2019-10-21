@@ -216,6 +216,9 @@ void loop() {
         }
       }
     }
+    else {
+      xboxManager.setButton(B_BUTTON, inputSwitchB.isDown());
+    }
   }
 
 
@@ -268,7 +271,7 @@ void loop() {
 
 
   // if switch B is held for the duration of the third hold time and not walking, accelerating or reversing, or moving player, go to next mode
-  if (inputSwitchB.getHoldTime() >= SWITCH_HOLD_1 && !didJustGoToNextMode && !walkingForwardOrAccelerating && !walkingBackwardOrReversing && !movingFootballPlayer) {
+  if (inputSwitchB.getHoldTime() >= SWITCH_HOLD_3 && !didJustGoToNextMode && !walkingForwardOrAccelerating && !walkingBackwardOrReversing && !movingFootballPlayer) {
     nextMode();
     didJustGoToNextMode = true;
   }
@@ -388,8 +391,7 @@ void resetModes() {
 }
 
 void prepareToDoAnExtraFunction() {
-  if (!isFootballMode())
-    resetXbox();
+  resetXbox();
 
   walkingForwardOrAccelerating = false;
   walkingBackwardOrReversing = false;
@@ -401,9 +403,11 @@ void toggleDirectionChange() {
   if (isFootballMode()) {
     if (directionLeftOrRight == 'l') {
       directionLeftOrRight = 'r';
+      xboxManager.setXAxis(AXIS_DOWN_RIGHT);
     }
     else {
       directionLeftOrRight = 'l';
+      xboxManager.setXAxis(AXIS_UP_LEFT);
     }
     return;
   }
@@ -427,6 +431,7 @@ void toggleDirectionChange() {
     resetXbox();
     walkingBackwardOrReversing = false;
     directionForwardOrBackward = 'n';
+    delay(500);
     toggleWalkOrAccelerate();
   }
 }
@@ -457,11 +462,19 @@ void checkShouldDoExtraWalkingDrivingOrFootballModeFunction() {
       case 7:
         toggleAutoFire();
         break;
+      case 8:
+        xboxManager.buttonDownUp(LEFT_BUMPER_BUTTON);
+        break;
     }
 
     resetInputSwitchAPressCount();
     resetInputSwitchALastPressTime();
     shouldDoExtraFunctions = false;
+
+    if ((isWalkingMode() || isDrivingMode()) && inputSwitchAPressCount > 1) {
+      delay(500);
+      toggleWalkOrAccelerate();
+    }
   }
 }
 
