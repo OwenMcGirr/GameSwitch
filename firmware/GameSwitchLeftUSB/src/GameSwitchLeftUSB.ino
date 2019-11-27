@@ -43,6 +43,7 @@ boolean walkingForwardOrAccelerating = false; // whether or not you are walking 
 boolean walkingBackwardOrReversing = false;   // whether or not you are walking backward or reversing
 char directionForwardOrBackward = 'f';        // what direction you are walking or driving in
 boolean sprinting = false;
+boolean brakeOnTurn = false;
 boolean autoFire = false;               // whether or not auto fire is on
 unsigned long previousAutoFireTime = 0; // the previous time of auto fire
 
@@ -170,7 +171,7 @@ void loop()
       }
       else if (inputSwitchA.wasJustReleased() || inputSwitchB.wasJustReleased())
       {
-        xboxManager.setXAxis(AXIS_MIDDLE);
+        xboxManager.reset();
         chooseDirectionAfterTurn();
         Serial.println("walking, accelerating or reversing");
       }
@@ -517,6 +518,9 @@ void checkShouldDoExtraWalkingDrivingOrFootballModeFunction()
       toggleAutoFire();
       break;
     case 8:
+      toggleBrakeOnTurn();
+      break;
+    case 9:
       xboxManager.buttonDownUp(LEFT_BUMPER_BUTTON);
       break;
     }
@@ -592,6 +596,11 @@ void toggleSprint()
   xboxManager.setButton(A_BUTTON, sprinting);
 }
 
+void toggleBrakeOnTurn()
+{
+  brakeOnTurn = !brakeOnTurn;
+}
+
 void toggleAutoFire()
 {
   autoFire = !autoFire;
@@ -611,7 +620,14 @@ void checkAutoFire()
 
 void prepareForTurn()
 {
-  resetXbox();
+  if (brakeOnTurn)
+  {
+    xboxManager.setButton(LEFT_TRIGGER_BUTTON, true);
+  }
+  else
+  {
+    resetXbox();
+  }
 }
 
 void walkOrSteerLeftDown()
