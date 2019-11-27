@@ -193,45 +193,51 @@ void loop()
   {
     if (!shouldDoExtraFunctions)
     {
-      movingFootballPlayer = true;
-      if (inputSwitchA.isDown())
+      if (!movingFootballPlayer)
       {
-        if (directionLeftOrRight == 'l')
+        if (inputSwitchA.wasJustReleased())
         {
-          xboxManager.setYAxis(AXIS_DOWN_RIGHT);
+          movingFootballPlayer = true;
         }
-        else
+        xboxManager.setButton(B_BUTTON, inputSwitchB.isDown());
+      }
+      else
+      {
+        if (inputSwitchA.isDown())
         {
-          xboxManager.setYAxis(AXIS_UP_LEFT);
+          if (directionLeftOrRight == 'l')
+          {
+            xboxManager.setYAxis(AXIS_DOWN_RIGHT);
+          }
+          else
+          {
+            xboxManager.setYAxis(AXIS_UP_LEFT);
+          }
+        }
+        else if (inputSwitchB.isDown())
+        {
+          if (directionLeftOrRight == 'l')
+          {
+            xboxManager.setYAxis(AXIS_UP_LEFT);
+          }
+          else
+          {
+            xboxManager.setYAxis(AXIS_DOWN_RIGHT);
+          }
+        }
+        else if (inputSwitchA.wasJustReleased() || inputSwitchB.wasJustReleased())
+        {
+          xboxManager.setYAxis(AXIS_MIDDLE);
+          if (directionLeftOrRight == 'l')
+          {
+            xboxManager.setXAxis(AXIS_UP_LEFT);
+          }
+          else
+          {
+            xboxManager.setXAxis(AXIS_DOWN_RIGHT);
+          }
         }
       }
-      else if (inputSwitchB.isDown())
-      {
-        if (directionLeftOrRight == 'l')
-        {
-          xboxManager.setYAxis(AXIS_UP_LEFT);
-        }
-        else
-        {
-          xboxManager.setYAxis(AXIS_DOWN_RIGHT);
-        }
-      }
-      else if (inputSwitchA.wasJustReleased() || inputSwitchB.wasJustReleased())
-      {
-        xboxManager.setYAxis(AXIS_MIDDLE);
-        if (directionLeftOrRight == 'l')
-        {
-          xboxManager.setXAxis(AXIS_UP_LEFT);
-        }
-        else
-        {
-          xboxManager.setXAxis(AXIS_DOWN_RIGHT);
-        }
-      }
-    }
-    else
-    {
-      xboxManager.setButton(B_BUTTON, inputSwitchB.isDown());
     }
   }
 
