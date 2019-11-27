@@ -35,8 +35,8 @@ boolean inputSwitchALastPressTimeActive = false; // record only when this is tru
 boolean shouldDoExtraFunctions = false;          // when true, input switch A can do different actions based on the number of times the user presses it
 
 // mode logic variables
-int currentMode;             // which mode the device is currently in
-boolean didJustGoToNextMode; // will prevent irrational mode switches
+int currentMode;            // which mode the device is currently in
+boolean didJustGoToNewMode; // will prevent irrational mode switches
 
 // walking and driving mode variables
 boolean walkingForwardOrAccelerating = false; // whether or not you are walking forward or accelerating
@@ -294,14 +294,24 @@ void loop()
   }
 
   // if switch B is held for the duration of the third hold time and not walking, accelerating or reversing, or moving player, go to next mode
-  if (inputSwitchB.getHoldTime() >= SWITCH_HOLD_3 && !didJustGoToNextMode && !walkingForwardOrAccelerating && !walkingBackwardOrReversing && !movingFootballPlayer)
+  if (inputSwitchB.getHoldTime() >= SWITCH_HOLD_2 && inputSwitchB.getHoldTime() < SWITCH_HOLD_3 && !walkingForwardOrAccelerating && !walkingBackwardOrReversing && !movingFootballPlayer)
   {
     nextMode();
-    didJustGoToNextMode = true;
+    didJustGoToNewMode = true;
+  }
+  else if (inputSwitchB.getHoldTime() >= SWITCH_HOLD_3 && inputSwitchB.getHoldTime() < SWITCH_HOLD_4 && !walkingForwardOrAccelerating && !walkingBackwardOrReversing && !movingFootballPlayer)
+  {
+    setMode(WALKING_MODE);
+    didJustGoToNewMode = true;
+  }
+  else if (inputSwitchB.getHoldTime() >= SWITCH_HOLD_4 && !walkingForwardOrAccelerating && !walkingBackwardOrReversing && !movingFootballPlayer)
+  {
+    setMode(MENU_MODE);
+    didJustGoToNewMode = true;
   }
   else if (inputSwitchB.wasJustReleased())
   {
-    didJustGoToNextMode = false;
+    didJustGoToNewMode = false;
   }
 
   // check if input switch B hold time should be reset
@@ -330,23 +340,26 @@ void setMode(int mode)
 
 void nextMode()
 {
-  switch (currentMode)
+  if (!didJustGoToNewMode)
   {
-  case WALKING_MODE:
-    setMode(DRIVING_MODE);
-    break;
-  case DRIVING_MODE:
-    setMode(FIGHTING_MODE);
-    break;
-  case FIGHTING_MODE:
-    setMode(FOOTBALL_MODE);
-    break;
-  case FOOTBALL_MODE:
-    setMode(MENU_MODE);
-    break;
-  case MENU_MODE:
-    setMode(WALKING_MODE);
-    break;
+    switch (currentMode)
+    {
+    case WALKING_MODE:
+      setMode(DRIVING_MODE);
+      break;
+    case DRIVING_MODE:
+      setMode(FIGHTING_MODE);
+      break;
+    case FIGHTING_MODE:
+      setMode(FOOTBALL_MODE);
+      break;
+    case FOOTBALL_MODE:
+      setMode(MENU_MODE);
+      break;
+    case MENU_MODE:
+      setMode(WALKING_MODE);
+      break;
+    }
   }
 }
 
