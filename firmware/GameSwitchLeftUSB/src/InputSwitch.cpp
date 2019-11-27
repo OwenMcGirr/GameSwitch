@@ -4,44 +4,55 @@
 
 #include "InputSwitch.h"
 
-InputSwitch::InputSwitch() {
+InputSwitch::InputSwitch()
+{
   // set defaults
   currentState = LOW;
   previousState = LOW;
 }
 
-void InputSwitch::setCurrentState(boolean current) {
+void InputSwitch::setCurrentState(boolean current)
+{
   currentState = current;
 }
 
-void InputSwitch::setPreviousState() {
+void InputSwitch::setPreviousState()
+{
   previousState = currentState;
 }
 
-void InputSwitch::updateHoldTime() {
-  if (currentState == HIGH) {
+void InputSwitch::updateHoldTime()
+{
+  if (currentState == HIGH)
+  {
     holdTimer.updateTimer();
   }
 }
 
-void InputSwitch::checkShouldResetHoldTime() {
-  if (currentState == LOW) {
+void InputSwitch::checkShouldResetHoldTime()
+{
+  if (currentState == LOW)
+  {
     holdTimer.resetTimer();
   }
 }
 
-long InputSwitch::getHoldTime() {
+long InputSwitch::getHoldTime()
+{
   return holdTimer.getElapsedTime();
 }
 
-boolean InputSwitch::isDown() {
+boolean InputSwitch::isDown()
+{
   return currentState == HIGH;
 }
 
-boolean InputSwitch::wasJustReleased() {
+boolean InputSwitch::wasJustReleased()
+{
   return currentState == LOW && previousState == HIGH;
 }
 
-boolean InputSwitch::wasJustPressed() {
+boolean InputSwitch::wasJustPressed()
+{
   return currentState == HIGH && previousState == LOW;
 }

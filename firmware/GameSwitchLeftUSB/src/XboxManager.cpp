@@ -12,10 +12,12 @@ Joystick_ Joystick(JOYSTICK_DEFAULT_REPORT_ID,
                    false, false,
                    false, false, false);
 
-XboxManager::XboxManager() {
+XboxManager::XboxManager()
+{
 }
 
-void XboxManager::begin() {
+void XboxManager::begin()
+{
   // begin Joystick
   Joystick.begin();
 
@@ -24,34 +26,42 @@ void XboxManager::begin() {
   Joystick.setYAxisRange(AXIS_UP_LEFT, AXIS_DOWN_RIGHT);
 }
 
-void XboxManager::buttonDownUp(int b) {
+void XboxManager::buttonDownUp(int b)
+{
   Joystick.setButton(b, true);
   delay(DOWN_UP_DELAY);
   Joystick.setButton(b, false);
 }
 
-void XboxManager::buttonDown(int b) {
+void XboxManager::buttonDown(int b)
+{
   Joystick.setButton(b, true);
 }
 
-void XboxManager::buttonUp(int b) {
+void XboxManager::buttonUp(int b)
+{
   Joystick.setButton(b, false);
 }
 
-void XboxManager::setButton(int b, boolean v) {
+void XboxManager::setButton(int b, boolean v)
+{
   Joystick.setButton(b, v);
 }
 
-void XboxManager::setXAxis(int x) {
+void XboxManager::setXAxis(int x)
+{
   Joystick.setXAxis(x);
 }
 
-void XboxManager::setYAxis(int y) {
+void XboxManager::setYAxis(int y)
+{
   Joystick.setYAxis(y);
 }
 
-void XboxManager::reset() {
-  for (int i = 0; i < 7; i++) {
+void XboxManager::reset()
+{
+  for (int i = 0; i < 7; i++)
+  {
     Joystick.releaseButton(i);
   }
   setXAxis(AXIS_MIDDLE);

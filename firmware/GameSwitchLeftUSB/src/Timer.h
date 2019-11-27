@@ -5,15 +5,16 @@
 
 class Timer
 {
-  public:
-    Timer();
-    void updateTimer();
-    void resetTimer();
-    long getElapsedTime();
-  private:
-    long startTime;
-    long elapsedTime;
-    boolean timerRunning;
+public:
+  Timer();
+  void updateTimer();
+  void resetTimer();
+  long getElapsedTime();
+
+private:
+  long startTime;
+  long elapsedTime;
+  boolean timerRunning;
 };
 
 #endif

@@ -6,21 +6,22 @@
 
 class InputSwitch
 {
-  public:
-    InputSwitch();
-    void setCurrentState(boolean current);
-    void setPreviousState();
-    void updateHoldTime();
-    void checkShouldResetHoldTime();
-    long getHoldTime();
-    boolean isDown();
-    boolean wasJustReleased();
-    boolean wasJustPressed();
-  private:
-    int pin;
-    boolean currentState;
-    boolean previousState;
-    Timer holdTimer;
+public:
+  InputSwitch();
+  void setCurrentState(boolean current);
+  void setPreviousState();
+  void updateHoldTime();
+  void checkShouldResetHoldTime();
+  long getHoldTime();
+  boolean isDown();
+  boolean wasJustReleased();
+  boolean wasJustPressed();
+
+private:
+  int pin;
+  boolean currentState;
+  boolean previousState;
+  Timer holdTimer;
 };
 
 #endif
