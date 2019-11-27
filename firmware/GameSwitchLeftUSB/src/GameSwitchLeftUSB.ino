@@ -740,6 +740,9 @@ void checkShouldDoExtraMenuModeFunction()
     case 4:
       switchMenuStyle();
       break;
+    case 5:
+      xboxManager.buttonDownUp(X1_BUTTON);
+      break;
     }
 
     resetInputSwitchAPressCount();
