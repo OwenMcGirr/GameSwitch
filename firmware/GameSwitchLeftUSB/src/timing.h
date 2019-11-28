@@ -1,5 +1,5 @@
 // times for input switch holds in milliseconds
-#define SWITCH_HOLD_1 800
+#define SWITCH_HOLD_1 700
 #define SWITCH_HOLD_2 2000
 #define SWITCH_HOLD_3 2500
 
