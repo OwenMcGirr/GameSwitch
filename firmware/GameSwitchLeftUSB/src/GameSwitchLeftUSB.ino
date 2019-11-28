@@ -732,7 +732,8 @@ void escapeTestMode()
   xboxManager.setButton(MENU_BUTTON, true);
   xboxManager.setButton(VIEW_BUTTON, true);
   delay(DOWN_UP_DELAY);
-  xboxManager.reset();
+  xboxManager.setButton(MENU_BUTTON, false);
+  xboxManager.setButton(VIEW_BUTTON, false);
 }
 
 void checkShouldDoExtraMenuModeFunction()
