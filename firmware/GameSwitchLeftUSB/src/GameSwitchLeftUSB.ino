@@ -574,6 +574,10 @@ void chooseDirectionAfterTurn()
       {
         ble.print(TOGGLE_ACCELERATE);
       }
+      else
+      {
+        xboxManager.setButton(LEFT_TRIGGER_BUTTON, false);
+      }
     }
     else
     {
