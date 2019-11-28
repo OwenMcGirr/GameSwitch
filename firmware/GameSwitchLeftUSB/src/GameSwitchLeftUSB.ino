@@ -43,6 +43,7 @@ boolean walkingForwardOrAccelerating = false; // whether or not you are walking 
 boolean walkingBackwardOrReversing = false;   // whether or not you are walking backward or reversing
 char directionForwardOrBackward = 'f';        // what direction you are walking or driving in
 boolean sprinting = false;
+boolean decelerateOnTurn = true;
 boolean brakeOnTurn = false;
 boolean autoFire = false;               // whether or not auto fire is on
 unsigned long previousAutoFireTime = 0; // the previous time of auto fire
@@ -521,6 +522,9 @@ void checkShouldDoExtraWalkingDrivingOrFootballModeFunction()
       toggleBrakeOnTurn();
       break;
     case 9:
+      toggleDecelerateOnTurn();
+      break;
+    case 10:
       xboxManager.buttonDownUp(LEFT_BUMPER_BUTTON);
       break;
     }
@@ -603,9 +607,22 @@ void toggleSprint()
   xboxManager.setButton(A_BUTTON, sprinting);
 }
 
+void toggleDecelerateOnTurn()
+{
+  decelerateOnTurn = !decelerateOnTurn;
+  if (decelerateOnTurn)
+  {
+    brakeOnTurn = false;
+  }
+}
+
 void toggleBrakeOnTurn()
 {
   brakeOnTurn = !brakeOnTurn;
+  if (brakeOnTurn)
+  {
+    decelerateOnTurn = false;
+  }
 }
 
 void toggleAutoFire()
@@ -631,7 +648,7 @@ void prepareForTurn()
   {
     xboxManager.setButton(LEFT_TRIGGER_BUTTON, true);
   }
-  else
+  else if (decelerateOnTurn)
   {
     resetXbox();
   }
