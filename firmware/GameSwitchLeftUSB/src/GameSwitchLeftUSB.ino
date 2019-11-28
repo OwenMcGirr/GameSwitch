@@ -171,7 +171,7 @@ void loop()
       }
       else if (inputSwitchA.wasJustReleased() || inputSwitchB.wasJustReleased())
       {
-        xboxManager.reset();
+        xboxManager.setXAxis(AXIS_MIDDLE);
         chooseDirectionAfterTurn();
         Serial.println("walking, accelerating or reversing");
       }
@@ -570,7 +570,10 @@ void chooseDirectionAfterTurn()
   {
     if (isDrivingMode())
     {
-      ble.print(TOGGLE_ACCELERATE);
+      if (!brakeOnTurn)
+      {
+        ble.print(TOGGLE_ACCELERATE);
+      }
     }
     else
     {
