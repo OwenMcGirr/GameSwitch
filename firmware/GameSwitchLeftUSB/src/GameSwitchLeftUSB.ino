@@ -727,6 +727,14 @@ void switchMenuStyle()
   }
 }
 
+void escapeTestMode()
+{
+  xboxManager.setButton(MENU_BUTTON, true);
+  xboxManager.setButton(VIEW_BUTTON, true);
+  delay(DOWN_UP_DELAY);
+  xboxManager.reset();
+}
+
 void checkShouldDoExtraMenuModeFunction()
 {
   // switch A, press a certain amount of times for different actions
@@ -749,6 +757,9 @@ void checkShouldDoExtraMenuModeFunction()
       break;
     case 5:
       xboxManager.buttonDownUp(X1_BUTTON);
+      break;
+    case 6:
+      escapeTestMode();
       break;
     }
 
