@@ -295,17 +295,17 @@ void loop()
   }
 
   // if switch B is held for the duration of the third hold time and not walking, accelerating or reversing, or moving player, go to next mode
-  if (inputSwitchB.getHoldTime() >= SWITCH_HOLD_2 && inputSwitchB.getHoldTime() < SWITCH_HOLD_3 && !walkingForwardOrAccelerating && !walkingBackwardOrReversing && !movingFootballPlayer)
+  if (inputSwitchB.getHoldTime() >= SWITCH_HOLD_1 && inputSwitchB.getHoldTime() < SWITCH_HOLD_2 && !walkingForwardOrAccelerating && !walkingBackwardOrReversing && !movingFootballPlayer)
   {
     nextMode();
     didJustGoToNewMode = true;
   }
-  else if (inputSwitchB.getHoldTime() >= SWITCH_HOLD_3 && inputSwitchB.getHoldTime() < SWITCH_HOLD_4 && !walkingForwardOrAccelerating && !walkingBackwardOrReversing && !movingFootballPlayer)
+  else if (inputSwitchB.getHoldTime() >= SWITCH_HOLD_2 && inputSwitchB.getHoldTime() < SWITCH_HOLD_3 && !walkingForwardOrAccelerating && !walkingBackwardOrReversing && !movingFootballPlayer)
   {
     setMode(WALKING_MODE);
     didJustGoToNewMode = true;
   }
-  else if (inputSwitchB.getHoldTime() >= SWITCH_HOLD_4 && !walkingForwardOrAccelerating && !walkingBackwardOrReversing && !movingFootballPlayer)
+  else if (inputSwitchB.getHoldTime() >= SWITCH_HOLD_3 && !walkingForwardOrAccelerating && !walkingBackwardOrReversing && !movingFootballPlayer)
   {
     setMode(MENU_MODE);
     didJustGoToNewMode = true;
