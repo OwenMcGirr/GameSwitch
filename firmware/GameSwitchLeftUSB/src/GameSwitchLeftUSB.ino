@@ -574,11 +574,11 @@ void chooseDirectionAfterTurn()
   {
     if (isDrivingMode())
     {
-      if (!brakeOnTurn)
+      if (!brakeOnTurn && decelerateOnTurn)
       {
         ble.print(TOGGLE_ACCELERATE);
       }
-      else
+      else if (brakeOnTurn)
       {
         xboxManager.setButton(LEFT_TRIGGER_BUTTON, false);
       }
