@@ -1,7 +1,5 @@
 // times for input switch holds in milliseconds
-#define SWITCH_HOLD_1 700
-#define SWITCH_HOLD_2 2000
-#define SWITCH_HOLD_3 2500
+#define SWITCH_HOLD_TIME 900
 
 /*
  * input switch A can do different actions based on the number of times the user presses it
