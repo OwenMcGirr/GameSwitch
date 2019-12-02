@@ -165,7 +165,7 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
     
     
     func devicesNotFound() -> Bool {
-        return leftUSBPeripheral != nil || rightUSBPeripheral != nil
+        return leftUSBPeripheral == nil || rightUSBPeripheral == nil
     }
     
     
