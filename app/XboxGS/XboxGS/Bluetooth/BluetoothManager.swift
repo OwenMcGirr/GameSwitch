@@ -165,8 +165,10 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
     
     
     func write(to peripheral: CBPeripheral, for characteristic: CBCharacteristic, str: String) {
-        let data = NSData(bytes: str, length: str.count)
-        peripheral.writeValue(data as Data, for: characteristic, type: .withResponse)
+        if leftUSBPeripheral != nil && rightUSBPeripheral != nil {
+            let data = NSData(bytes: str, length: str.count)
+            peripheral.writeValue(data as Data, for: characteristic, type: .withResponse)
+        }
     }
     
 }
