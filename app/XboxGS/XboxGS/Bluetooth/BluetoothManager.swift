@@ -170,7 +170,7 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
     
     
     func write(to peripheral: CBPeripheral, for characteristic: CBCharacteristic, str: String) {
-        if devicesNotFound() {
+        if !devicesNotFound() {
             let data = NSData(bytes: str, length: str.count)
             peripheral.writeValue(data as Data, for: characteristic, type: .withResponse)
         }
