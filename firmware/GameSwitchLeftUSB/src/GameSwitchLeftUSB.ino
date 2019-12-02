@@ -35,8 +35,8 @@ boolean inputSwitchALastPressTimeActive = false; // record only when this is tru
 boolean shouldDoExtraFunctions = false;          // when true, input switch A can do different actions based on the number of times the user presses it
 
 // mode logic variables
-int currentMode; // which mode the device is currently in
-boolean shouldChangeMode = false;
+int currentMode;            // which mode the device is currently in
+boolean didJustGoToNewMode; // will prevent irrational mode switches
 
 // walking and driving mode variables
 boolean walkingForwardOrAccelerating = false; // whether or not you are walking forward or accelerating
@@ -125,194 +125,195 @@ void loop()
   inputSwitchB.updateHoldTime();
   //Serial.println(inputSwitchB.getHoldTime());
 
-  if (!shouldChangeMode)
+  // if walking, driving, football, or menu mode, check for extra function activation
+  if (isWalkingMode() || isDrivingMode() || isFootballMode() || isMenuMode())
   {
-    // if walking, driving, football, or menu mode, check for extra function activation
-    if (isWalkingMode() || isDrivingMode() || isFootballMode() || isMenuMode())
+    // if switch C was just released, enable extra functions
+    if (inputSwitchC.wasJustReleased())
     {
-      // if switch C was just released, enable extra functions
-      if (inputSwitchC.wasJustReleased())
-      {
-        shouldDoExtraFunctions = true;
+      shouldDoExtraFunctions = true;
 
-        prepareToDoAnExtraFunction();
-      }
-
-      // if switch A was just released, increment count and record time
-      if (inputSwitchA.wasJustReleased() && shouldDoExtraFunctions)
-      {
-        incrementInputSwitchAPressCount();
-        recordInputSwitchALastPressTime();
-      }
+      prepareToDoAnExtraFunction();
     }
 
-    // walking and driving mode
-    if (isWalkingMode() || isDrivingMode())
+    // if switch A was just released, increment count and record time
+    if (inputSwitchA.wasJustReleased() && shouldDoExtraFunctions)
     {
-      // if switch A was just released and not walking, accelerating or reversing, walk or accelerate
-      if (inputSwitchA.wasJustReleased() && directionForwardOrBackward == 'n' && !shouldDoExtraFunctions)
+      incrementInputSwitchAPressCount();
+      recordInputSwitchALastPressTime();
+    }
+  }
+
+  // walking and driving mode
+  if (isWalkingMode() || isDrivingMode())
+  {
+    // if switch A was just released and not walking, accelerating or reversing, walk or accelerate
+    if (inputSwitchA.wasJustReleased() && directionForwardOrBackward == 'n' && !shouldDoExtraFunctions)
+    {
+      toggleWalkOrAccelerate();
+    }
+
+    // if walking, accelerating or reversing, switch A and B act as left and right
+    if (walkingForwardOrAccelerating || walkingBackwardOrReversing)
+    {
+      if ((inputSwitchA.wasJustPressed() || inputSwitchB.wasJustPressed()) && isDrivingMode())
       {
-        toggleWalkOrAccelerate();
+        prepareForTurn();
+      }
+      if (inputSwitchA.isDown())
+      {
+        walkOrSteerLeftDown();
+        Serial.println("walk or steer left down");
+      }
+      else if (inputSwitchB.isDown())
+      {
+        walkOrSteerRightDown();
+        Serial.println("walk or steer right down");
+      }
+      else if (inputSwitchA.wasJustReleased() || inputSwitchB.wasJustReleased())
+      {
+        xboxManager.setXAxis(AXIS_MIDDLE);
+        chooseDirectionAfterTurn();
+        Serial.println("walking, accelerating or reversing");
       }
 
-      // if walking, accelerating or reversing, switch A and B act as left and right
-      if (walkingForwardOrAccelerating || walkingBackwardOrReversing)
+      if (isWalkingMode())
       {
-        if ((inputSwitchA.wasJustPressed() || inputSwitchB.wasJustPressed()) && isDrivingMode())
+        checkAutoFire();
+      }
+    }
+  }
+
+  if (isWalkingMode() || isDrivingMode() || isFootballMode())
+  {
+    // check should do extra function
+    checkShouldDoExtraWalkingDrivingOrFootballModeFunction();
+  }
+
+  // football mode
+  if (isFootballMode())
+  {
+    if (!shouldDoExtraFunctions)
+    {
+      if (!movingFootballPlayer)
+      {
+        if (inputSwitchA.wasJustReleased())
         {
-          prepareForTurn();
+          movingFootballPlayer = true;
         }
+        xboxManager.setButton(B_BUTTON, inputSwitchB.isDown());
+      }
+      else
+      {
         if (inputSwitchA.isDown())
         {
-          walkOrSteerLeftDown();
-          Serial.println("walk or steer left down");
+          if (directionLeftOrRight == 'l')
+          {
+            xboxManager.setYAxis(AXIS_DOWN_RIGHT);
+          }
+          else
+          {
+            xboxManager.setYAxis(AXIS_UP_LEFT);
+          }
         }
         else if (inputSwitchB.isDown())
         {
-          walkOrSteerRightDown();
-          Serial.println("walk or steer right down");
+          if (directionLeftOrRight == 'l')
+          {
+            xboxManager.setYAxis(AXIS_UP_LEFT);
+          }
+          else
+          {
+            xboxManager.setYAxis(AXIS_DOWN_RIGHT);
+          }
         }
         else if (inputSwitchA.wasJustReleased() || inputSwitchB.wasJustReleased())
         {
-          xboxManager.setXAxis(AXIS_MIDDLE);
-          chooseDirectionAfterTurn();
-          Serial.println("walking, accelerating or reversing");
-        }
-
-        if (isWalkingMode())
-        {
-          checkAutoFire();
-        }
-      }
-    }
-
-    if (isWalkingMode() || isDrivingMode() || isFootballMode())
-    {
-      // check should do extra function
-      checkShouldDoExtraWalkingDrivingOrFootballModeFunction();
-    }
-
-    // football mode
-    if (isFootballMode())
-    {
-      if (!shouldDoExtraFunctions)
-      {
-        if (!movingFootballPlayer)
-        {
-          if (inputSwitchA.wasJustReleased())
+          xboxManager.setYAxis(AXIS_MIDDLE);
+          if (directionLeftOrRight == 'l')
           {
-            movingFootballPlayer = true;
+            xboxManager.setXAxis(AXIS_UP_LEFT);
           }
-          xboxManager.setButton(B_BUTTON, inputSwitchB.isDown());
-        }
-        else
-        {
-          if (inputSwitchA.isDown())
+          else
           {
-            if (directionLeftOrRight == 'l')
-            {
-              xboxManager.setYAxis(AXIS_DOWN_RIGHT);
-            }
-            else
-            {
-              xboxManager.setYAxis(AXIS_UP_LEFT);
-            }
-          }
-          else if (inputSwitchB.isDown())
-          {
-            if (directionLeftOrRight == 'l')
-            {
-              xboxManager.setYAxis(AXIS_UP_LEFT);
-            }
-            else
-            {
-              xboxManager.setYAxis(AXIS_DOWN_RIGHT);
-            }
-          }
-          else if (inputSwitchA.wasJustReleased() || inputSwitchB.wasJustReleased())
-          {
-            xboxManager.setYAxis(AXIS_MIDDLE);
-            if (directionLeftOrRight == 'l')
-            {
-              xboxManager.setXAxis(AXIS_UP_LEFT);
-            }
-            else
-            {
-              xboxManager.setXAxis(AXIS_DOWN_RIGHT);
-            }
+            xboxManager.setXAxis(AXIS_DOWN_RIGHT);
           }
         }
       }
-    }
-
-    // menu mode
-    if (isMenuMode())
-    {
-      if (!shouldDoExtraFunctions)
-      {
-        // horizontal menu
-        if (menuStyle == 'h')
-        {
-          if (inputSwitchA.wasJustReleased())
-          {
-            doMenuLeft();
-          }
-          if (inputSwitchB.wasJustReleased())
-          {
-            doMenuRight();
-          }
-        }
-        // vertical menu
-        else if (menuStyle == 'v')
-        {
-          if (inputSwitchA.wasJustReleased())
-          {
-            doMenuUp();
-          }
-          if (inputSwitchB.wasJustReleased())
-          {
-            doMenuDown();
-          }
-        }
-      }
-
-      // check should do extra function
-      checkShouldDoExtraMenuModeFunction();
-    }
-
-    // fighting mode
-    if (isFightingMode())
-    {
-      if (inputSwitchA.wasJustReleased())
-      {
-        fire();
-      }
-      if (inputSwitchB.wasJustReleased())
-      {
-        toggleAim();
-      }
-      if (inputSwitchC.wasJustReleased())
-      {
-        reloadWeapon();
-      }
-    }
-
-    if (inputSwitchB.getHoldTime() >= SWITCH_HOLD_TIME && !walkingForwardOrAccelerating && !walkingBackwardOrReversing && !movingFootballPlayer)
-    {
-      shouldChangeMode = true;
     }
   }
-  else
+
+  // menu mode
+  if (isMenuMode())
+  {
+    if (!shouldDoExtraFunctions)
+    {
+      // horizontal menu
+      if (menuStyle == 'h')
+      {
+        if (inputSwitchA.wasJustReleased())
+        {
+          doMenuLeft();
+        }
+        if (inputSwitchB.wasJustReleased())
+        {
+          doMenuRight();
+        }
+      }
+      // vertical menu
+      else if (menuStyle == 'v')
+      {
+        if (inputSwitchA.wasJustReleased())
+        {
+          doMenuUp();
+        }
+        if (inputSwitchB.wasJustReleased())
+        {
+          doMenuDown();
+        }
+      }
+    }
+
+    // check should do extra function
+    checkShouldDoExtraMenuModeFunction();
+  }
+
+  // fighting mode
+  if (isFightingMode())
   {
     if (inputSwitchA.wasJustReleased())
     {
-      nextMode();
+      fire();
     }
-    if (inputSwitchB.wasJustReleased() && inputSwitchB.getHoldTime() < SWITCH_HOLD_TIME)
+    if (inputSwitchB.wasJustReleased())
     {
-      shouldChangeMode = false;
-      broadcastModeIndication();
+      toggleAim();
     }
+    if (inputSwitchC.wasJustReleased())
+    {
+      reloadWeapon();
+    }
+  }
+
+  // if switch B is held for the duration of the third hold time and not walking, accelerating or reversing, or moving player, go to next mode
+  if (inputSwitchB.getHoldTime() >= SWITCH_HOLD_1 && inputSwitchB.getHoldTime() < SWITCH_HOLD_2 && !walkingForwardOrAccelerating && !walkingBackwardOrReversing && !movingFootballPlayer)
+  {
+    nextMode();
+    didJustGoToNewMode = true;
+  }
+  else if (inputSwitchB.getHoldTime() >= SWITCH_HOLD_2 && inputSwitchB.getHoldTime() < SWITCH_HOLD_3 && !walkingForwardOrAccelerating && !walkingBackwardOrReversing && !movingFootballPlayer)
+  {
+    setMode(WALKING_MODE);
+    didJustGoToNewMode = true;
+  }
+  else if (inputSwitchB.getHoldTime() >= SWITCH_HOLD_3 && !walkingForwardOrAccelerating && !walkingBackwardOrReversing && !movingFootballPlayer)
+  {
+    setMode(MENU_MODE);
+    didJustGoToNewMode = true;
+  }
+  else if (inputSwitchB.wasJustReleased())
+  {
+    didJustGoToNewMode = false;
   }
 
   // check if input switch B hold time should be reset
@@ -341,23 +342,26 @@ void setMode(int mode)
 
 void nextMode()
 {
-  switch (currentMode)
+  if (!didJustGoToNewMode)
   {
-  case WALKING_MODE:
-    setMode(DRIVING_MODE);
-    break;
-  case DRIVING_MODE:
-    setMode(FIGHTING_MODE);
-    break;
-  case FIGHTING_MODE:
-    setMode(FOOTBALL_MODE);
-    break;
-  case FOOTBALL_MODE:
-    setMode(MENU_MODE);
-    break;
-  case MENU_MODE:
-    setMode(WALKING_MODE);
-    break;
+    switch (currentMode)
+    {
+    case WALKING_MODE:
+      setMode(DRIVING_MODE);
+      break;
+    case DRIVING_MODE:
+      setMode(FIGHTING_MODE);
+      break;
+    case FIGHTING_MODE:
+      setMode(FOOTBALL_MODE);
+      break;
+    case FOOTBALL_MODE:
+      setMode(MENU_MODE);
+      break;
+    case MENU_MODE:
+      setMode(WALKING_MODE);
+      break;
+    }
   }
 }
 

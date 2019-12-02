@@ -7,3 +7,15 @@ An Arduino project. Allows disabled users to play Xbox One games with three swit
 • An iOS device
 
 • Xbox Adaptive Controller
+
+• 3D printer (only required for printing enclosure)
+
+# Software required
+• Xcode
+
+• Visual Studio Code with PlatformIO extension
+
+# Arduino frameworks required 
+• ArduinoJoystickLibrary - https://github.com/MHeironimus/ArduinoJoystickLibrary
+
+• Adafruit BluefruitLE nRF51
