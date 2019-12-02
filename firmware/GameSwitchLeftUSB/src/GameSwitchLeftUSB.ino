@@ -773,6 +773,12 @@ void checkShouldDoExtraMenuModeFunction()
       xboxManager.buttonDownUp(X1_BUTTON);
       break;
     case 6:
+      xboxManager.buttonDownUp(LEFT_BUMPER_BUTTON);
+      break;
+    case 7:
+      ble.print(TAP_RB);
+      break;
+    case 8:
       escapeTestMode();
       break;
     }
