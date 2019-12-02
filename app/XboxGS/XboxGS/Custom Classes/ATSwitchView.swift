@@ -20,11 +20,15 @@ class ATSwitchView: UIView {
     
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        BluetoothManager.shared.write(to: BluetoothManager.shared.leftUSBPeripheral!, for: BluetoothManager.shared.leftTxCharacteristic!, str: pressCode)
+        if !BluetoothManager.shared.devicesNotFound() {
+            BluetoothManager.shared.write(to: BluetoothManager.shared.leftUSBPeripheral!, for: BluetoothManager.shared.leftTxCharacteristic!, str: pressCode)
+        }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        BluetoothManager.shared.write(to: BluetoothManager.shared.leftUSBPeripheral!, for: BluetoothManager.shared.leftTxCharacteristic!, str: releaseCode)
+        if !BluetoothManager.shared.devicesNotFound() {
+            BluetoothManager.shared.write(to: BluetoothManager.shared.leftUSBPeripheral!, for: BluetoothManager.shared.leftTxCharacteristic!, str: releaseCode)
+        }
     }
     
 }

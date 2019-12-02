@@ -164,8 +164,13 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
     }
     
     
+    func devicesNotFound() -> Bool {
+        return leftUSBPeripheral != nil || rightUSBPeripheral != nil
+    }
+    
+    
     func write(to peripheral: CBPeripheral, for characteristic: CBCharacteristic, str: String) {
-        if leftUSBPeripheral != nil && rightUSBPeripheral != nil {
+        if devicesNotFound() {
             let data = NSData(bytes: str, length: str.count)
             peripheral.writeValue(data as Data, for: characteristic, type: .withResponse)
         }
