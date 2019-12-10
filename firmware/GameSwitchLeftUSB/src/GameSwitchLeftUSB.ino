@@ -525,6 +525,13 @@ void checkShouldDoExtraWalkingDrivingOrFootballModeFunction()
       break;
     }
 
+    if (inputSwitchAPressCount > 1)
+    {
+      directionForwardOrBackward = 'n';
+      movingFootballPlayer = false;
+    }
+    
+
     resetInputSwitchAPressCount();
     resetInputSwitchALastPressTime();
     shouldDoExtraFunctions = false;
