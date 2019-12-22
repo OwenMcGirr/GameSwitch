@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ARKit
 
 class ViewController: UIViewController, BluetoothManagerDelegate {
     
@@ -15,6 +16,7 @@ class ViewController: UIViewController, BluetoothManagerDelegate {
     @IBOutlet var switchAView: ATSwitchView?
     @IBOutlet var switchBView: ATSwitchView?
     @IBOutlet var switchCView: ATSwitchView?
+    @IBOutlet var sceneView: ARSCNView?
     
 
     override func viewDidLoad() {
@@ -31,6 +33,24 @@ class ViewController: UIViewController, BluetoothManagerDelegate {
         switchBView?.releaseCode = "4"
         switchCView?.pressCode = "5"
         switchCView?.releaseCode = "6"
+    }
+    
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // 1
+        let configuration = ARFaceTrackingConfiguration()
+        
+        // 2
+        sceneView?.session.run(configuration)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        // 1
+        sceneView?.session.pause()
     }
 
     
