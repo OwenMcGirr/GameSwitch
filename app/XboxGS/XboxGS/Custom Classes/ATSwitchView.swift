@@ -31,4 +31,14 @@ class ATSwitchView: UIView {
         }
     }
     
+    
+    func performVirtualTap() {
+        if !BluetoothManager.shared.devicesNotFound() {
+            BluetoothManager.shared.write(to: BluetoothManager.shared.leftUSBPeripheral!, for: BluetoothManager.shared.leftTxCharacteristic!, str: pressCode)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+                BluetoothManager.shared.write(to: BluetoothManager.shared.leftUSBPeripheral!, for: BluetoothManager.shared.leftTxCharacteristic!, str: self.releaseCode)
+            })
+        }
+    }
+    
 }
