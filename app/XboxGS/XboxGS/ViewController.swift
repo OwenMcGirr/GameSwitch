@@ -8,6 +8,7 @@
 
 import UIKit
 import ARKit
+import PKHUD
 
 class ViewController: UIViewController, BluetoothManagerDelegate, ARSCNViewDelegate {
     
@@ -86,10 +87,21 @@ class ViewController: UIViewController, BluetoothManagerDelegate, ARSCNViewDeleg
         if currentFacePose != newFacePose {
             if newFacePose == "tongue" {
                 switchCView?.performVirtualTap()
+                DispatchQueue.main.sync {
+                    showHUD(text: "Switch C (tongue)")
+                }
                 print("tongue")
             }
             currentFacePose = newFacePose
         }
+    }
+    
+    
+    func showHUD(text: String) {
+        PKHUD.sharedHUD.dimsBackground = true
+        PKHUD.sharedHUD.contentView = PKHUDTextView.init(text: text)
+        PKHUD.sharedHUD.show(onView: view)
+        PKHUD.sharedHUD.hide(afterDelay: 1.0)
     }
     
     
