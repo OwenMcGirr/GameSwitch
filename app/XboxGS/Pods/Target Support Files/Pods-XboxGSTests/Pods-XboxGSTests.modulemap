@@ -1,6 +1,0 @@
-framework module Pods_XboxGSTests {
-  umbrella header "Pods-XboxGSTests-umbrella.h"
-
-  export *
-  module * { export * }
-}
