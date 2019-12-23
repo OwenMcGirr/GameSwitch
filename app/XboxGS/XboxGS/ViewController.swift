@@ -18,6 +18,7 @@ class ViewController: UIViewController, BluetoothManagerDelegate, ARSCNViewDeleg
     @IBOutlet var switchBView: ATSwitchView?
     @IBOutlet var switchCView: ATSwitchView?
     @IBOutlet var sceneView: ARSCNView?
+    @IBOutlet var bottomView: UIView?
     
     // variables
     var currentFacePose = ""
@@ -112,7 +113,7 @@ class ViewController: UIViewController, BluetoothManagerDelegate, ARSCNViewDeleg
     func showHUD(text: String) {
         PKHUD.sharedHUD.dimsBackground = true
         PKHUD.sharedHUD.contentView = PKHUDTextView.init(text: text)
-        PKHUD.sharedHUD.show(onView: view)
+        PKHUD.sharedHUD.show(onView: bottomView!)
         PKHUD.sharedHUD.hide(afterDelay: 1.0)
     }
     

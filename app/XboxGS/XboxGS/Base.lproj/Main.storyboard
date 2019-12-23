@@ -35,13 +35,13 @@
                                 </constraints>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="fXx-Gh-67n">
-                                <rect key="frame" x="0.0" y="119" width="414" height="533"/>
+                                <rect key="frame" x="0.0" y="119" width="414" height="475"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gpz-Lk-BxH" customClass="ATSwitchView" customModule="XboxGS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="138" height="533"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="138" height="475"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="A" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AMw-QG-tqa">
-                                                <rect key="frame" x="63.5" y="256.5" width="11.5" height="20.5"/>
+                                                <rect key="frame" x="63.5" y="227.5" width="11.5" height="20.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -54,10 +54,10 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="73G-dz-3QY" customClass="ATSwitchView" customModule="XboxGS" customModuleProvider="target">
-                                        <rect key="frame" x="138" y="0.0" width="138" height="533"/>
+                                        <rect key="frame" x="138" y="0.0" width="138" height="475"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="B" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cJT-JG-Cjz">
-                                                <rect key="frame" x="63.5" y="256.5" width="11" height="20.5"/>
+                                                <rect key="frame" x="63.5" y="227.5" width="11" height="20.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -70,10 +70,10 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kib-Zl-jhD" customClass="ATSwitchView" customModule="XboxGS" customModuleProvider="target">
-                                        <rect key="frame" x="276" y="0.0" width="138" height="533"/>
+                                        <rect key="frame" x="276" y="0.0" width="138" height="475"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="C" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OSu-IX-hb9">
-                                                <rect key="frame" x="63" y="256.5" width="12" height="20.5"/>
+                                                <rect key="frame" x="63" y="227.5" width="12" height="20.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -87,22 +87,34 @@
                                     </view>
                                 </subviews>
                             </stackView>
-                            <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YgF-Be-Y0W">
-                                <rect key="frame" x="157" y="672" width="100" height="170"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kr7-co-fnu">
+                                <rect key="frame" x="0.0" y="602" width="414" height="260"/>
+                                <subviews>
+                                    <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YgF-Be-Y0W">
+                                        <rect key="frame" x="294" y="70" width="100" height="170"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="100" id="urq-cK-NZB"/>
+                                            <constraint firstAttribute="height" constant="170" id="xNp-dP-VHk"/>
+                                        </constraints>
+                                    </arscnView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="100" id="OZv-Ai-u0c"/>
-                                    <constraint firstAttribute="height" constant="170" id="jut-hH-WWi"/>
+                                    <constraint firstAttribute="bottom" secondItem="YgF-Be-Y0W" secondAttribute="bottom" constant="20" id="WgM-sg-ark"/>
+                                    <constraint firstAttribute="trailing" secondItem="YgF-Be-Y0W" secondAttribute="trailing" constant="20" id="uRc-yA-gBl"/>
+                                    <constraint firstAttribute="height" constant="260" id="uTU-0R-ONB"/>
                                 </constraints>
-                            </arscnView>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="YgF-Be-Y0W" firstAttribute="top" secondItem="fXx-Gh-67n" secondAttribute="bottom" constant="20" id="96n-Yh-1Iv"/>
+                            <constraint firstItem="Kr7-co-fnu" firstAttribute="top" secondItem="fXx-Gh-67n" secondAttribute="bottom" constant="8" symbolic="YES" id="6Jy-N9-Thc"/>
                             <constraint firstItem="tcy-Sp-cPo" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Mh6-w0-5fB"/>
                             <constraint firstItem="fXx-Gh-67n" firstAttribute="top" secondItem="tcy-Sp-cPo" secondAttribute="bottom" id="NgG-NT-eTP"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="YgF-Be-Y0W" secondAttribute="bottom" constant="20" id="dqY-FZ-BJ9"/>
+                            <constraint firstItem="Kr7-co-fnu" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="PlE-kr-eIx"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Kr7-co-fnu" secondAttribute="trailing" id="TED-Te-cfJ"/>
+                            <constraint firstItem="Kr7-co-fnu" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="YDY-xD-1n3"/>
                             <constraint firstAttribute="trailing" secondItem="fXx-Gh-67n" secondAttribute="trailing" id="oeY-eU-Wr2"/>
-                            <constraint firstItem="YgF-Be-Y0W" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="rQ9-Wj-7K3"/>
                             <constraint firstItem="tcy-Sp-cPo" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="uvq-i5-vXg"/>
                             <constraint firstItem="fXx-Gh-67n" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="x03-bw-ZfN"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="tcy-Sp-cPo" secondAttribute="trailing" id="yhc-xZ-RfD"/>
@@ -110,6 +122,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="bottomView" destination="Kr7-co-fnu" id="4yd-Rl-y8B"/>
                         <outlet property="modeLabel" destination="fvh-Kd-W0u" id="cdJ-WY-1MF"/>
                         <outlet property="sceneView" destination="YgF-Be-Y0W" id="ces-Ci-bME"/>
                         <outlet property="switchAView" destination="Gpz-Lk-BxH" id="1jt-hf-1nh"/>
