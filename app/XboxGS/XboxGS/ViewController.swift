@@ -21,6 +21,8 @@ class ViewController: UIViewController, BluetoothManagerDelegate, ARSCNViewDeleg
     
     // variables
     var currentFacePose = ""
+    var tongueOutStartTime: TimeInterval?
+    var timingTongueOut = false
     
     
     override func viewDidLoad() {
@@ -82,17 +84,27 @@ class ViewController: UIViewController, BluetoothManagerDelegate, ARSCNViewDeleg
         }
         else {
             newFacePose = "other"
+            timingTongueOut = false
         }
         
         if currentFacePose != newFacePose {
             if newFacePose == "tongue" {
+                tongueOutStartTime = Date().timeIntervalSinceReferenceDate
+                timingTongueOut = true
+                print("tongue")
+            }
+            currentFacePose = newFacePose
+        }
+        
+        if timingTongueOut {
+            let duration = Date().timeIntervalSinceReferenceDate - tongueOutStartTime!
+            if duration > 1.0 {
                 switchCView?.performVirtualTap()
                 DispatchQueue.main.sync {
                     showHUD(text: "Switch C (tongue)")
                 }
-                print("tongue")
+                timingTongueOut = false
             }
-            currentFacePose = newFacePose
         }
     }
     
