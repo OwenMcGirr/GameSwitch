@@ -7,16 +7,22 @@
 //
 
 import UIKit
+import ARKit
+import PKHUD
 
-class ViewController: UIViewController, BluetoothManagerDelegate {
+class ViewController: UIViewController, BluetoothManagerDelegate, ARSCNViewDelegate {
     
     // outlets
     @IBOutlet var modeLabel: UILabel?
     @IBOutlet var switchAView: ATSwitchView?
     @IBOutlet var switchBView: ATSwitchView?
     @IBOutlet var switchCView: ATSwitchView?
+    @IBOutlet var sceneView: ARSCNView?
     
-
+    // variables
+    var currentFacePose = ""
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -32,11 +38,76 @@ class ViewController: UIViewController, BluetoothManagerDelegate {
         switchCView?.pressCode = "5"
         switchCView?.releaseCode = "6"
     }
-
+    
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        let configuration = ARFaceTrackingConfiguration()
+        
+        sceneView?.session.run(configuration)
+        
+        sceneView?.delegate = self
+        sceneView?.showsStatistics = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        sceneView?.session.pause()
+    }
+    
+    
+    func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
+        let faceMesh = ARSCNFaceGeometry(device: ((sceneView?.device)!))
+        let node = SCNNode(geometry: faceMesh)
+        node.geometry?.firstMaterial?.fillMode = .fill
+        return node
+    }
+    
+    func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
+        if let faceAnchor = anchor as? ARFaceAnchor, let faceGeometry = node.geometry as? ARSCNFaceGeometry {
+            faceGeometry.update(from: faceAnchor.geometry)
+            facePoseAnalyzer(anchor: faceAnchor)
+        }
+    }
+    
+    func facePoseAnalyzer(anchor: ARFaceAnchor) {
+        let tongue = anchor.blendShapes[.tongueOut]
+        
+        var newFacePose = ""
+        
+        if tongue?.decimalValue ?? 0.0 > 0.08 {
+            newFacePose = "tongue"
+        }
+        else {
+            newFacePose = "other"
+        }
+        
+        if currentFacePose != newFacePose {
+            if newFacePose == "tongue" {
+                switchCView?.performVirtualTap()
+                DispatchQueue.main.sync {
+                    showHUD(text: "Switch C (tongue)")
+                }
+                print("tongue")
+            }
+            currentFacePose = newFacePose
+        }
+    }
+    
+    
+    func showHUD(text: String) {
+        PKHUD.sharedHUD.dimsBackground = true
+        PKHUD.sharedHUD.contentView = PKHUDTextView.init(text: text)
+        PKHUD.sharedHUD.show(onView: view)
+        PKHUD.sharedHUD.hide(afterDelay: 1.0)
+    }
+    
     
     func didChangeMode(to mode: String) {
         modeLabel?.text = mode
     }
-
+    
 }
 

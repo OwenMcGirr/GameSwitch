@@ -1,0 +1,6 @@
+framework module Pods_XboxGS_XboxGSUITests {
+  umbrella header "Pods-XboxGS-XboxGSUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}

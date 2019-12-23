@@ -1,0 +1,20 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'XboxGS' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for XboxGS
+  pod 'PKHUD'
+
+  target 'XboxGSTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  target 'XboxGSUITests' do
+    # Pods for testing
+  end
+
+end
