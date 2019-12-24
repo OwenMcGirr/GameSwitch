@@ -71,6 +71,8 @@ class ViewController: UIViewController, BluetoothManagerDelegate, ARSCNViewDeleg
     func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
         if let faceAnchor = anchor as? ARFaceAnchor, let faceGeometry = node.geometry as? ARSCNFaceGeometry {
             faceGeometry.update(from: faceAnchor.geometry)
+            
+            // analyze face
             facePoseAnalyzer(anchor: faceAnchor)
         }
     }
@@ -80,6 +82,7 @@ class ViewController: UIViewController, BluetoothManagerDelegate, ARSCNViewDeleg
         
         var newFacePose = ""
         
+        // check for tongue out
         if tongue?.decimalValue ?? 0.0 > 0.08 {
             newFacePose = "tongue"
         }
@@ -89,6 +92,7 @@ class ViewController: UIViewController, BluetoothManagerDelegate, ARSCNViewDeleg
         }
         
         if currentFacePose != newFacePose {
+            // if tongue out, start timing
             if newFacePose == "tongue" {
                 tongueOutStartTime = Date().timeIntervalSinceReferenceDate
                 timingTongueOut = true
@@ -97,6 +101,7 @@ class ViewController: UIViewController, BluetoothManagerDelegate, ARSCNViewDeleg
             currentFacePose = newFacePose
         }
         
+        // check timing for tongue out
         if timingTongueOut {
             let duration = Date().timeIntervalSinceReferenceDate - tongueOutStartTime!
             if duration > 0.7 {
