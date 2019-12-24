@@ -203,7 +203,6 @@ void loop()
           {
             movingFootballPlayer = true;
           }
-          xboxManager.setButton(B_BUTTON, inputSwitchB.isDown());
         }
         else
         {
@@ -242,6 +241,10 @@ void loop()
             }
           }
         }
+      }
+      else
+      {
+        xboxManager.setButton(B_BUTTON, inputSwitchB.isDown());
       }
     }
 
@@ -530,7 +533,6 @@ void checkShouldDoExtraWalkingDrivingOrFootballModeFunction()
       directionForwardOrBackward = 'n';
       movingFootballPlayer = false;
     }
-    
 
     resetInputSwitchAPressCount();
     resetInputSwitchALastPressTime();
