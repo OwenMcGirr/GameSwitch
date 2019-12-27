@@ -97,10 +97,16 @@
                                             <constraint firstAttribute="height" constant="170" id="xNp-dP-VHk"/>
                                         </constraints>
                                     </arscnView>
+                                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Dzy-uJ-jiX">
+                                        <rect key="frame" x="20" y="238" width="266" height="2"/>
+                                    </progressView>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
+                                    <constraint firstItem="Dzy-uJ-jiX" firstAttribute="leading" secondItem="Kr7-co-fnu" secondAttribute="leading" constant="20" id="30u-Md-g3b"/>
+                                    <constraint firstItem="YgF-Be-Y0W" firstAttribute="leading" secondItem="Dzy-uJ-jiX" secondAttribute="trailing" constant="8" id="6hC-QP-IgI"/>
                                     <constraint firstAttribute="bottom" secondItem="YgF-Be-Y0W" secondAttribute="bottom" constant="20" id="WgM-sg-ark"/>
+                                    <constraint firstAttribute="bottom" secondItem="Dzy-uJ-jiX" secondAttribute="bottom" constant="20" id="mJI-EJ-9zZ"/>
                                     <constraint firstAttribute="trailing" secondItem="YgF-Be-Y0W" secondAttribute="trailing" constant="20" id="uRc-yA-gBl"/>
                                     <constraint firstAttribute="height" constant="260" id="uTU-0R-ONB"/>
                                 </constraints>
@@ -124,6 +130,7 @@
                     <connections>
                         <outlet property="bottomView" destination="Kr7-co-fnu" id="4yd-Rl-y8B"/>
                         <outlet property="modeLabel" destination="fvh-Kd-W0u" id="cdJ-WY-1MF"/>
+                        <outlet property="progressView" destination="Dzy-uJ-jiX" id="cbQ-pt-pAe"/>
                         <outlet property="sceneView" destination="YgF-Be-Y0W" id="ces-Ci-bME"/>
                         <outlet property="switchAView" destination="Gpz-Lk-BxH" id="1jt-hf-1nh"/>
                         <outlet property="switchBView" destination="73G-dz-3QY" id="5q6-yM-wQm"/>

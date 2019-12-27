@@ -19,6 +19,7 @@ class ViewController: UIViewController, BluetoothManagerDelegate, ARSCNViewDeleg
     @IBOutlet var switchCView: ATSwitchView?
     @IBOutlet var sceneView: ARSCNView?
     @IBOutlet var bottomView: UIView?
+    @IBOutlet var progressView: UIProgressView? 
     
     // variables
     var currentFacePose = ""
@@ -89,6 +90,9 @@ class ViewController: UIViewController, BluetoothManagerDelegate, ARSCNViewDeleg
         else {
             newFacePose = "other"
             timingTongueOut = false
+            DispatchQueue.main.sync {
+                progressView?.setProgress(0, animated: true)
+            }
         }
         
         if currentFacePose != newFacePose {
@@ -104,10 +108,14 @@ class ViewController: UIViewController, BluetoothManagerDelegate, ARSCNViewDeleg
         // check timing for tongue out
         if timingTongueOut {
             let duration = Date().timeIntervalSinceReferenceDate - tongueOutStartTime!
+            DispatchQueue.main.sync {
+                progressView?.setProgress(Float(duration / 0.9), animated: true)
+            }
             if duration > 0.9 {
                 switchCView?.performVirtualTap()
                 DispatchQueue.main.sync {
                     showHUD(text: "Switch C (tongue)")
+                    progressView?.setProgress(0, animated: true)
                 }
                 timingTongueOut = false
             }
