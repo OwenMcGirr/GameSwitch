@@ -104,7 +104,7 @@ class ViewController: UIViewController, BluetoothManagerDelegate, ARSCNViewDeleg
         // check timing for tongue out
         if timingTongueOut {
             let duration = Date().timeIntervalSinceReferenceDate - tongueOutStartTime!
-            if duration > 0.7 {
+            if duration > 0.9 {
                 switchCView?.performVirtualTap()
                 DispatchQueue.main.sync {
                     showHUD(text: "Switch C (tongue)")
