@@ -3,13 +3,14 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		0BCD7FF2BD6E0A19F7786FB0 /* Pods_XboxGS_XboxGSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1260A4718E9274A34C1D5895 /* Pods_XboxGS_XboxGSUITests.framework */; };
 		548FCB65EAA1EA08269D7FCD /* Pods_XboxGSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7AE0D8EDA79363E307DAE0BB /* Pods_XboxGSTests.framework */; };
 		6C44F1B9E3FC7CC2D9ECF1E8 /* Pods_XboxGS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F383A4A142F35D1E6C68D4F0 /* Pods_XboxGS.framework */; };
+		6C5ECAD223BBD5530040C15E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6C5ECAD123BBD5530040C15E /* GoogleService-Info.plist */; };
 		6CCA65B32344B27E00EC05F0 /* ATSwitchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CCA65B22344B27E00EC05F0 /* ATSwitchView.swift */; };
 		6CED8632233CF303008D691E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CED8631233CF303008D691E /* AppDelegate.swift */; };
 		6CED8634233CF303008D691E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CED8633233CF303008D691E /* SceneDelegate.swift */; };
@@ -44,6 +45,7 @@
 		0E5317FEAECF78AEE8023A9B /* Pods-XboxGSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XboxGSTests.debug.xcconfig"; path = "Target Support Files/Pods-XboxGSTests/Pods-XboxGSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		1260A4718E9274A34C1D5895 /* Pods_XboxGS_XboxGSUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_XboxGS_XboxGSUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		452CF88B18EAEB59CBC845D8 /* Pods-XboxGSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XboxGSTests.release.xcconfig"; path = "Target Support Files/Pods-XboxGSTests/Pods-XboxGSTests.release.xcconfig"; sourceTree = "<group>"; };
+		6C5ECAD123BBD5530040C15E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6CCA65B22344B27E00EC05F0 /* ATSwitchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ATSwitchView.swift; sourceTree = "<group>"; };
 		6CED862E233CF303008D691E /* XboxGS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XboxGS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6CED8631233CF303008D691E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -137,6 +139,7 @@
 				6CED863A233CF305008D691E /* Assets.xcassets */,
 				6CED863C233CF305008D691E /* LaunchScreen.storyboard */,
 				6CED863F233CF305008D691E /* Info.plist */,
+				6C5ECAD123BBD5530040C15E /* GoogleService-Info.plist */,
 			);
 			path = XboxGS;
 			sourceTree = "<group>";
@@ -187,7 +190,6 @@
 				0E5317FEAECF78AEE8023A9B /* Pods-XboxGSTests.debug.xcconfig */,
 				452CF88B18EAEB59CBC845D8 /* Pods-XboxGSTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -301,6 +303,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6CED863E233CF305008D691E /* LaunchScreen.storyboard in Resources */,
+				6C5ECAD223BBD5530040C15E /* GoogleService-Info.plist in Resources */,
 				6CED863B233CF305008D691E /* Assets.xcassets in Resources */,
 				6CED8639233CF303008D691E /* Main.storyboard in Resources */,
 			);

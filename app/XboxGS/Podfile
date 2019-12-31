@@ -7,6 +7,7 @@ target 'XboxGS' do
 
   # Pods for XboxGS
   pod 'PKHUD'
+  pod 'Firebase/Analytics'
 
   target 'XboxGSTests' do
     inherit! :search_paths

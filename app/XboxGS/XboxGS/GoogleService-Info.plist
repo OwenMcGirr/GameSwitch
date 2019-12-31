@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>128274302820-2dss71ot69p9aakk5qf20253j6b9fbrr.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.128274302820-2dss71ot69p9aakk5qf20253j6b9fbrr</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBjLofcwacK4OjMQUMMIuwGIYonmHqc154</string>
+	<key>GCM_SENDER_ID</key>
+	<string>128274302820</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.owenmcgirr.xboxgs</string>
+	<key>PROJECT_ID</key>
+	<string>xboxgs-5d22d</string>
+	<key>STORAGE_BUCKET</key>
+	<string>xboxgs-5d22d.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:128274302820:ios:a1a17572bf95e9657ddc71</string>
+	<key>DATABASE_URL</key>
+	<string>https://xboxgs-5d22d.firebaseio.com</string>
+</dict>
+</plist>
