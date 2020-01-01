@@ -8,6 +8,8 @@ target 'XboxGS' do
   # Pods for XboxGS
   pod 'PKHUD'
   pod 'Firebase/Analytics'
+  pod 'Fabric'
+  pod 'Crashlytics'
 
   target 'XboxGSTests' do
     inherit! :search_paths
