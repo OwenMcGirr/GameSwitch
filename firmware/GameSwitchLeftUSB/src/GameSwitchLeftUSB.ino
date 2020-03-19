@@ -197,48 +197,39 @@ void loop()
     {
       if (!shouldDoExtraFunctions)
       {
-        if (!movingFootballPlayer)
+        movingFootballPlayer = true;
+        if (inputSwitchA.isDown())
         {
-          if (inputSwitchA.wasJustReleased())
+          if (directionLeftOrRight == 'l')
           {
-            movingFootballPlayer = true;
+            xboxManager.setYAxis(AXIS_DOWN_RIGHT);
+          }
+          else
+          {
+            xboxManager.setYAxis(AXIS_UP_LEFT);
           }
         }
-        else
+        else if (inputSwitchB.isDown())
         {
-          if (inputSwitchA.isDown())
+          if (directionLeftOrRight == 'l')
           {
-            if (directionLeftOrRight == 'l')
-            {
-              xboxManager.setYAxis(AXIS_DOWN_RIGHT);
-            }
-            else
-            {
-              xboxManager.setYAxis(AXIS_UP_LEFT);
-            }
+            xboxManager.setYAxis(AXIS_UP_LEFT);
           }
-          else if (inputSwitchB.isDown())
+          else
           {
-            if (directionLeftOrRight == 'l')
-            {
-              xboxManager.setYAxis(AXIS_UP_LEFT);
-            }
-            else
-            {
-              xboxManager.setYAxis(AXIS_DOWN_RIGHT);
-            }
+            xboxManager.setYAxis(AXIS_DOWN_RIGHT);
           }
-          else if (inputSwitchA.wasJustReleased() || inputSwitchB.wasJustReleased())
+        }
+        else if (inputSwitchA.wasJustReleased() || inputSwitchB.wasJustReleased())
+        {
+          xboxManager.setYAxis(AXIS_MIDDLE);
+          if (directionLeftOrRight == 'l')
           {
-            xboxManager.setYAxis(AXIS_MIDDLE);
-            if (directionLeftOrRight == 'l')
-            {
-              xboxManager.setXAxis(AXIS_UP_LEFT);
-            }
-            else
-            {
-              xboxManager.setXAxis(AXIS_DOWN_RIGHT);
-            }
+            xboxManager.setXAxis(AXIS_UP_LEFT);
+          }
+          else
+          {
+            xboxManager.setXAxis(AXIS_DOWN_RIGHT);
           }
         }
       }
@@ -276,8 +267,8 @@ void loop()
           {
             doMenuDown();
           }
-        }
       }
+        }
 
       // check should do extra function
       checkShouldDoExtraMenuModeFunction();
