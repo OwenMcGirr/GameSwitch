@@ -100,8 +100,8 @@ class ViewController: UIViewController, BluetoothManagerDelegate, ARSCNViewDeleg
                 print("tongue")
             }
             else {
-                DispatchQueue.main.sync {
-                    progressView?.setProgress(0, animated: true)
+                DispatchQueue.main.async {
+                    self.progressView?.setProgress(0, animated: true)
                 }
             }
             currentFacePose = newFacePose
@@ -110,13 +110,13 @@ class ViewController: UIViewController, BluetoothManagerDelegate, ARSCNViewDeleg
         // check timing for tongue out
         if timingTongueOut {
             let duration = Date().timeIntervalSinceReferenceDate - tongueOutStartTime!
-            DispatchQueue.main.sync {
+            DispatchQueue.main.async {
                 if duration <= 0.9 {
-                    progressView?.setProgress(Float(duration / 0.9), animated: true)
+                    self.progressView?.setProgress(Float(duration / 0.9), animated: true)
                 }
                 else {
-                    showHUD(text: "Switch C (tongue)")
-                    progressView?.setProgress(0, animated: true)
+                    self.showHUD(text: "Switch C (tongue)")
+                    self.progressView?.setProgress(0, animated: true)
                 }
             }
             if duration > 0.9 {
