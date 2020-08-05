@@ -163,14 +163,38 @@ void loop()
         {
           prepareForTurn();
         }
+        if (inputSwitchA.wasJustPressed())
+        {
+          if (isWalkingMode() && turnWithCamera)
+          {
+            xboxManager.setYAxis(AXIS_MIDDLE);
+            ble.print(RIGHT_STICK_LEFT);
+          }
+        }
+        else if (inputSwitchB.wasJustPressed())
+        {
+          if (isWalkingMode() && turnWithCamera)
+          {
+            xboxManager.setYAxis(AXIS_MIDDLE);
+            ble.print(RIGHT_STICK_RIGHT);
+          }
+        }
         if (inputSwitchA.isDown())
         {
-          walkOrSteerLeftDown();
+          if ((isWalkingMode() && !turnWithCamera) || isDrivingMode())
+          {
+            walkOrSteerLeftDown();
+          }
+
           Serial.println("walk or steer left down");
         }
         else if (inputSwitchB.isDown())
         {
-          walkOrSteerRightDown();
+          if ((isWalkingMode() && !turnWithCamera) || isDrivingMode())
+          {
+            walkOrSteerRightDown();
+          }
+
           Serial.println("walk or steer right down");
         }
         else if (inputSwitchA.wasJustReleased() || inputSwitchB.wasJustReleased())
@@ -663,25 +687,11 @@ void prepareForTurn()
 
 void walkOrSteerLeftDown()
 {
-  if (isWalkingMode() && turnWithCamera)
-  {
-    xboxManager.setYAxis(AXIS_MIDDLE);
-    ble.print(RIGHT_STICK_LEFT);
-    return;
-  }
-
   xboxManager.setXAxis(AXIS_UP_LEFT);
 }
 
 void walkOrSteerRightDown()
 {
-  if (isWalkingMode() && turnWithCamera)
-  {
-    xboxManager.setYAxis(AXIS_MIDDLE);
-    ble.print(RIGHT_STICK_RIGHT);
-    return;
-  }
-
   xboxManager.setXAxis(AXIS_DOWN_RIGHT);
 }
 
