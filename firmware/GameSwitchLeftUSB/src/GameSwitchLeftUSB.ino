@@ -43,6 +43,7 @@ boolean walkingForwardOrAccelerating = false; // whether or not you are walking 
 boolean walkingBackwardOrReversing = false;   // whether or not you are walking backward or reversing
 char directionForwardOrBackward = 'f';        // what direction you are walking or driving in
 boolean sprinting = false;
+boolean turnWithCamera = false;
 boolean decelerateOnTurn = true;
 boolean brakeOnTurn = false;
 boolean autoFire = false;               // whether or not auto fire is on
@@ -267,8 +268,8 @@ void loop()
           {
             doMenuDown();
           }
-      }
         }
+      }
 
       // check should do extra function
       checkShouldDoExtraMenuModeFunction();
@@ -515,6 +516,9 @@ void checkShouldDoExtraWalkingDrivingOrFootballModeFunction()
       toggleDecelerateOnTurn();
       break;
     case 10:
+      toggleTurnWithCamera();
+      break;
+    case 11:
       xboxManager.buttonDownUp(LEFT_BUMPER_BUTTON);
       break;
     }
@@ -581,6 +585,7 @@ void chooseDirectionAfterTurn()
     }
     else
     {
+      ble.print(RIGHT_STICK_MIDDLE);
       xboxManager.setYAxis(AXIS_UP_LEFT);
     }
   }
@@ -592,6 +597,7 @@ void chooseDirectionAfterTurn()
     }
     else
     {
+      ble.print(RIGHT_STICK_MIDDLE);
       xboxManager.setYAxis(AXIS_DOWN_RIGHT);
     }
   }
@@ -601,6 +607,11 @@ void toggleSprint()
 {
   sprinting = !sprinting;
   xboxManager.setButton(A_BUTTON, sprinting);
+}
+
+void toggleTurnWithCamera()
+{
+  turnWithCamera = !turnWithCamera;
 }
 
 void toggleDecelerateOnTurn()
@@ -652,11 +663,25 @@ void prepareForTurn()
 
 void walkOrSteerLeftDown()
 {
+  if (isWalkingMode() && turnWithCamera)
+  {
+    xboxManager.setYAxis(AXIS_MIDDLE);
+    ble.print(RIGHT_STICK_LEFT);
+    return;
+  }
+
   xboxManager.setXAxis(AXIS_UP_LEFT);
 }
 
 void walkOrSteerRightDown()
 {
+  if (isWalkingMode() && turnWithCamera)
+  {
+    xboxManager.setYAxis(AXIS_MIDDLE);
+    ble.print(RIGHT_STICK_RIGHT);
+    return;
+  }
+
   xboxManager.setXAxis(AXIS_DOWN_RIGHT);
 }
 

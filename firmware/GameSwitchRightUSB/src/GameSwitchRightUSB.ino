@@ -115,6 +115,18 @@ void readData()
     {
       xboxManager.buttonDownUp(RIGHT_BUMPER_BUTTON);
     }
+    else if (cmd == 'G')
+    {
+      xboxManager.setXAxis(AXIS_UP_LEFT);
+    }
+    else if (cmd == 'H')
+    {
+      xboxManager.setXAxis(AXIS_DOWN_RIGHT);
+    }
+    else if (cmd == 'I')
+    {
+      xboxManager.setXAxis(AXIS_MIDDLE);
+    }
     delay(10);
   }
 }

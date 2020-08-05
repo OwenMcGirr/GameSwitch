@@ -4,3 +4,6 @@
 #define TAP_X "D"
 #define TAP_Y "E"
 #define TAP_RB "F"
+#define RIGHT_STICK_LEFT "G"
+#define RIGHT_STICK_RIGHT "H"
+#define RIGHT_STICK_MIDDLE "I"
