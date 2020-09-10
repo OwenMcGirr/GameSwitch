@@ -25,6 +25,8 @@ class ViewController: UIViewController, BluetoothManagerDelegate, ARSCNViewDeleg
     var currentFacePose = ""
     var tongueOutStartTime: TimeInterval?
     var timingTongueOut = false
+    var eyesClosedStartTime: TimeInterval?
+    var timingEyesClosed = false
     
     
     override func viewDidLoad() {
@@ -80,6 +82,8 @@ class ViewController: UIViewController, BluetoothManagerDelegate, ARSCNViewDeleg
     
     func facePoseAnalyzer(anchor: ARFaceAnchor) {
         let tongue = anchor.blendShapes[.tongueOut]
+        let leftEyeBlink = anchor.blendShapes[.eyeBlinkLeft]
+        let rightEyeBlink = anchor.blendShapes[.eyeBlinkRight]
         
         var newFacePose = ""
         
@@ -87,9 +91,13 @@ class ViewController: UIViewController, BluetoothManagerDelegate, ARSCNViewDeleg
         if tongue?.decimalValue ?? 0.0 > 0.08 {
             newFacePose = "tongue"
         }
+        else if leftEyeBlink?.decimalValue ?? 0.0 > 0.4 && rightEyeBlink?.decimalValue ?? 0.0 > 0.4 {
+            newFacePose = "eyes"
+        }
         else {
             newFacePose = "other"
             timingTongueOut = false
+            timingEyesClosed = false
         }
         
         if currentFacePose != newFacePose {
@@ -103,6 +111,11 @@ class ViewController: UIViewController, BluetoothManagerDelegate, ARSCNViewDeleg
                 DispatchQueue.main.async {
                     self.progressView?.setProgress(0, animated: true)
                 }
+            }
+            if newFacePose == "eyes" {
+                eyesClosedStartTime = Date().timeIntervalSinceReferenceDate
+                timingEyesClosed = true
+                print("eyes")
             }
             currentFacePose = newFacePose
         }
@@ -122,6 +135,26 @@ class ViewController: UIViewController, BluetoothManagerDelegate, ARSCNViewDeleg
             if duration > 0.9 {
                 switchCView?.performVirtualTap()
                 timingTongueOut = false
+            }
+        }
+        
+        // check timing for eyes closed
+        if timingEyesClosed {
+            let duration = Date().timeIntervalSinceReferenceDate - eyesClosedStartTime!
+            DispatchQueue.main.async {
+                if duration <= 0.280 {
+                    self.progressView?.setProgress(Float(duration / 0.280), animated: true)
+                }
+                else {
+                    self.showHUD(text: "Eyes")
+                    self.progressView?.setProgress(0, animated: true)
+                }
+            }
+            if duration > 0.280 {
+                if !BluetoothManager.shared.devicesNotFound() {
+                    BluetoothManager.shared.write(to: BluetoothManager.shared.leftUSBPeripheral!, for: BluetoothManager.shared.leftTxCharacteristic!, str: "7")
+                }
+                timingEyesClosed = false
             }
         }
     }
