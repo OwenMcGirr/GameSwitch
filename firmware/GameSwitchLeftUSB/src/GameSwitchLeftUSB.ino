@@ -46,8 +46,7 @@ boolean sprinting = false;
 boolean turnWithCamera = false;
 boolean decelerateOnTurn = true;
 boolean brakeOnTurn = false;
-boolean autoFire = false;               // whether or not auto fire is on
-unsigned long previousAutoFireTime = 0; // the previous time of auto fire
+boolean autoFire = false; // whether or not auto fire is on
 
 // fighting mode variables
 boolean aiming = false;
@@ -202,11 +201,6 @@ void loop()
           xboxManager.setXAxis(AXIS_MIDDLE);
           chooseDirectionAfterTurn();
           Serial.println("walking, accelerating or reversing");
-        }
-
-        if (isWalkingMode())
-        {
-          checkAutoFire();
         }
       }
     }
@@ -661,18 +655,6 @@ void toggleAutoFire()
   autoFire = !autoFire;
 }
 
-void checkAutoFire()
-{
-  if (autoFire)
-  {
-    if (millis() - previousAutoFireTime >= AUTO_FIRE_INTERVAL)
-    {
-      previousAutoFireTime = millis();
-      fire();
-    }
-  }
-}
-
 void prepareForTurn()
 {
   if (brakeOnTurn)
@@ -825,6 +807,18 @@ void checkShouldDoExtraMenuModeFunction()
 }
 
 /*
+   Eye command 
+*/
+
+void doEyeCommand()
+{
+  if (isWalkingMode() && autoFire)
+  {
+    fire();
+  }
+}
+
+/*
    Reset
 */
 
@@ -904,6 +898,9 @@ void updateSwitches()
       break;
     case 54:
       inputSwitchC.setCurrentState(LOW);
+      break;
+    case 55:
+      doEyeCommand();
       break;
     }
 
