@@ -437,8 +437,6 @@ void resetModes()
 
   aiming = false;
 
-  autoFire = false;
-
   movingFootballPlayer = false;
 
   shouldDoExtraFunctions = false;
