@@ -605,6 +605,8 @@ void chooseDirectionAfterTurn()
       {
         xboxManager.setButton(LEFT_TRIGGER_BUTTON, false);
       }
+      xboxManager.buttonUp(A_BUTTON);
+      xboxManager.buttonUp(B_BUTTON);
     }
     else
     {
@@ -617,6 +619,8 @@ void chooseDirectionAfterTurn()
     if (isDrivingMode())
     {
       xboxManager.buttonDown(LEFT_TRIGGER_BUTTON);
+      xboxManager.buttonUp(A_BUTTON);
+      xboxManager.buttonUp(B_BUTTON);
     }
     else
     {
@@ -682,10 +686,10 @@ void pressHandbrakeButton()
     switch (handbrakeButton)
     {
     case 'a':
-      xboxManager.buttonDownUp(A_BUTTON);
+      xboxManager.buttonDown(A_BUTTON);
       break;
     case 'b':
-      xboxManager.buttonDownUp(B_BUTTON);
+      xboxManager.buttonDown(B_BUTTON);
       break;
     default:
       break;
