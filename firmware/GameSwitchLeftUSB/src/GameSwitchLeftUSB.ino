@@ -46,6 +46,8 @@ boolean sprinting = false;
 boolean turnWithCamera = false;
 boolean decelerateOnTurn = true;
 boolean brakeOnTurn = false;
+boolean shouldHandbrake = false;
+char handbrakeButton = 'a';
 boolean autoFire = false; // whether or not auto fire is on
 
 // fighting mode variables
@@ -539,6 +541,9 @@ void checkShouldDoExtraWalkingDrivingOrFootballModeFunction()
     case 11:
       xboxManager.buttonDownUp(LEFT_BUMPER_BUTTON);
       break;
+    case 12:
+      switchHandbrakeButton();
+      break;
     }
 
     if (inputSwitchAPressCount > 1)
@@ -650,6 +655,45 @@ void toggleBrakeOnTurn()
   }
 }
 
+void toggleHandbrake()
+{
+  shouldHandbrake = !shouldHandbrake;
+}
+
+void switchHandbrakeButton()
+{
+  switch (handbrakeButton)
+  {
+  case 'a':
+    handbrakeButton = 'b';
+    break;
+  case 'b':
+    handbrakeButton = 'a';
+    break;
+  default:
+    break;
+  }
+}
+
+void pressHandbrakeButton()
+{
+  if (shouldHandbrake)
+  {
+    switch (handbrakeButton)
+    {
+    case 'a':
+      xboxManager.buttonDownUp(A_BUTTON);
+      break;
+    case 'b':
+      xboxManager.buttonDownUp(B_BUTTON);
+      break;
+    default:
+      break;
+    }
+    shouldHandbrake = false;
+  }
+}
+
 void toggleAutoFire()
 {
   autoFire = !autoFire;
@@ -670,11 +714,21 @@ void prepareForTurn()
 void walkOrSteerLeftDown()
 {
   xboxManager.setXAxis(AXIS_UP_LEFT);
+
+  if (isDrivingMode())
+  {
+    pressHandbrakeButton();
+  }
 }
 
 void walkOrSteerRightDown()
 {
   xboxManager.setXAxis(AXIS_DOWN_RIGHT);
+
+  if (isDrivingMode())
+  {
+    pressHandbrakeButton();
+  }
 }
 
 /*
@@ -815,6 +869,11 @@ void doEyeCommand()
   if (isWalkingMode() && autoFire)
   {
     fire();
+  }
+
+  if (isDrivingMode())
+  {
+    toggleHandbrake();
   }
 }
 
