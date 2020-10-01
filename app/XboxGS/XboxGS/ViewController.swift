@@ -124,15 +124,15 @@ class ViewController: UIViewController, BluetoothManagerDelegate, ARSCNViewDeleg
         if timingTongueOut {
             let duration = Date().timeIntervalSinceReferenceDate - tongueOutStartTime!
             DispatchQueue.main.async {
-                if duration <= 0.9 {
-                    self.progressView?.setProgress(Float(duration / 0.9), animated: true)
+                if duration <= 0.5 {
+                    self.progressView?.setProgress(Float(duration / 0.5), animated: true)
                 }
                 else {
                     self.showHUD(text: "Switch C (tongue)")
                     self.progressView?.setProgress(0, animated: true)
                 }
             }
-            if duration > 0.9 {
+            if duration > 0.5 {
                 switchCView?.performVirtualTap()
                 timingTongueOut = false
             }
