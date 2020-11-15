@@ -775,28 +775,28 @@ void doMenu()
 void doMenuUp()
 {
   xboxManager.setYAxis(AXIS_UP_LEFT);
-  delay(DOWN_UP_DELAY);
+  delay(NAVIGATION_DOWN_UP_DELAY);
   xboxManager.setYAxis(AXIS_MIDDLE);
 }
 
 void doMenuDown()
 {
   xboxManager.setYAxis(AXIS_DOWN_RIGHT);
-  delay(DOWN_UP_DELAY);
+  delay(NAVIGATION_DOWN_UP_DELAY);
   xboxManager.setYAxis(AXIS_MIDDLE);
 }
 
 void doMenuLeft()
 {
   xboxManager.setXAxis(AXIS_UP_LEFT);
-  delay(DOWN_UP_DELAY);
+  delay(NAVIGATION_DOWN_UP_DELAY);
   xboxManager.setXAxis(AXIS_MIDDLE);
 }
 
 void doMenuRight()
 {
   xboxManager.setXAxis(AXIS_DOWN_RIGHT);
-  delay(DOWN_UP_DELAY);
+  delay(NAVIGATION_DOWN_UP_DELAY);
   xboxManager.setXAxis(AXIS_MIDDLE);
 }
 
@@ -817,7 +817,7 @@ void escapeTestMode()
 {
   xboxManager.setButton(MENU_BUTTON, true);
   xboxManager.setButton(VIEW_BUTTON, true);
-  delay(DOWN_UP_DELAY);
+  delay(BUTTON_DOWN_UP_DELAY);
   xboxManager.setButton(MENU_BUTTON, false);
   xboxManager.setButton(VIEW_BUTTON, false);
 }
