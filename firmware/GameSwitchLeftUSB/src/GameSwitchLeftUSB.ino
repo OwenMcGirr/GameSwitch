@@ -145,6 +145,7 @@ void loop()
           resetInputSwitchAPressCount();
           resetInputSwitchALastPressTime();
           shouldDoExtraFunctions = false;
+          resetModes();
         }
       }
 
