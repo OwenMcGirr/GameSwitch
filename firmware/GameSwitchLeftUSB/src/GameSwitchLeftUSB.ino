@@ -132,12 +132,20 @@ void loop()
     // if walking, driving, football, or menu mode, check for extra function activation
     if (isWalkingMode() || isDrivingMode() || isFootballMode() || isMenuMode())
     {
-      // if switch C was just released, enable extra functions
+      // if switch C was just released, enable or disable extra functions
       if (inputSwitchC.wasJustReleased())
       {
-        shouldDoExtraFunctions = true;
-
-        prepareToDoAnExtraFunction();
+        if (!shouldDoExtraFunctions)
+        {
+          shouldDoExtraFunctions = true;
+          prepareToDoAnExtraFunction();
+        }
+        else
+        {
+          resetInputSwitchAPressCount();
+          resetInputSwitchALastPressTime();
+          shouldDoExtraFunctions = false;
+        }
       }
 
       // if switch A was just released, increment count and record time
@@ -813,15 +821,6 @@ void switchMenuStyle()
   }
 }
 
-void escapeTestMode()
-{
-  xboxManager.setButton(MENU_BUTTON, true);
-  xboxManager.setButton(VIEW_BUTTON, true);
-  delay(BUTTON_DOWN_UP_DELAY);
-  xboxManager.setButton(MENU_BUTTON, false);
-  xboxManager.setButton(VIEW_BUTTON, false);
-}
-
 void checkShouldDoExtraMenuModeFunction()
 {
   // switch A, press a certain amount of times for different actions
@@ -852,7 +851,13 @@ void checkShouldDoExtraMenuModeFunction()
       ble.print(TAP_RB);
       break;
     case 8:
-      escapeTestMode();
+      ble.print(TAP_X);
+      break;
+    case 9:
+      ble.print(TAP_Y);
+      break;
+    case 10:
+      xboxManager.buttonDownUp(VIEW_BUTTON);
       break;
     }
 
@@ -877,6 +882,12 @@ void doEyeCommand()
   {
     toggleHandbrake();
   }
+
+  if (isMenuMode())
+  {
+    switchMenuStyle();
+  }
+  
 }
 
 /*
