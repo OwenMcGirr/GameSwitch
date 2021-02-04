@@ -762,6 +762,14 @@ void reloadWeapon()
   xboxManager.buttonDownUp(B_BUTTON);
 }
 
+void switchWeapon()
+{
+  xboxManager.buttonDown(LEFT_BUMPER_BUTTON);
+  ble.print(WEAPON_CHANGE);
+  delay(100);
+  xboxManager.buttonUp(LEFT_BUMPER_BUTTON);
+}
+
 /*
    Menu mode functions
 */
@@ -882,6 +890,11 @@ void doEyeCommand()
   if (isDrivingMode())
   {
     toggleHandbrake();
+  }
+
+  if (isFightingMode())
+  {
+    switchWeapon();
   }
 
   if (isMenuMode())

@@ -7,3 +7,4 @@
 #define RIGHT_STICK_LEFT "G"
 #define RIGHT_STICK_RIGHT "H"
 #define RIGHT_STICK_MIDDLE "I"
+#define WEAPON_CHANGE "J"

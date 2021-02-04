@@ -84,6 +84,15 @@ void toggleAccelerate()
   accelerating = !accelerating;
 }
 
+void switchWeapon()
+{
+  int options[] = {-127, 0, 127};
+  xboxManager.setXAxis(options[random(3)]);
+  xboxManager.setYAxis(options[random(3)]);
+  delay(100);
+  xboxManager.reset();
+}
+
 void readData()
 {
   if (ble.available())
@@ -126,6 +135,10 @@ void readData()
     else if (cmd == 'I')
     {
       xboxManager.setXAxis(AXIS_MIDDLE);
+    }
+    else if (cmd == 'J')
+    {
+      switchWeapon();
     }
     delay(10);
   }
