@@ -49,6 +49,8 @@ boolean brakeOnTurn = false;
 boolean shouldHandbrake = false;
 char handbrakeButton = 'a';
 boolean autoFire = false; // whether or not auto fire is on
+boolean autoFireInProgress = false;
+Timer autoFireInterruptTimer;
 
 // fighting mode variables
 boolean aiming = false;
@@ -213,6 +215,12 @@ void loop()
           chooseDirectionAfterTurn();
           Serial.println("walking, accelerating or reversing");
         }
+      }
+
+      // auto fire 
+      if (autoFireInProgress) 
+      {
+        autoFireWeapon();
       }
     }
 
@@ -445,6 +453,8 @@ void resetModes()
   directionForwardOrBackward = 'n';
 
   aiming = false;
+
+  autoFireInProgress = false;
 
   movingFootballPlayer = false;
 
@@ -751,6 +761,19 @@ void fire()
   ble.print(FIRE);
 }
 
+void autoFireWeapon()
+{
+  if (autoFireInterruptTimer.getElapsedTime() > 800)
+  {
+    fire();
+    autoFireInterruptTimer.resetTimer();
+  }
+  else
+  {
+    autoFireInterruptTimer.updateTimer();
+  }
+}
+
 void toggleAim()
 {
   aiming = !aiming;
@@ -884,7 +907,7 @@ void doEyeCommand()
 {
   if (isWalkingMode() && autoFire)
   {
-    fire();
+    autoFireInProgress = !autoFireInProgress;
   }
 
   if (isDrivingMode())
@@ -901,7 +924,6 @@ void doEyeCommand()
   {
     switchMenuStyle();
   }
-  
 }
 
 /*

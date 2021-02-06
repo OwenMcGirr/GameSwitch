@@ -6,6 +6,3 @@
  * this is the timeout before the action is carried out
  */
 #define SWITCH_A_TAKE_ACTION_TIMEOUT 650
-
-// auto fire interval
-#define AUTO_FIRE_INTERVAL 500
