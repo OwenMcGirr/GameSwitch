@@ -217,8 +217,8 @@ void loop()
         }
       }
 
-      // auto fire 
-      if (autoFireInProgress) 
+      // auto fire
+      if (autoFireInProgress)
       {
         autoFireWeapon();
       }
@@ -763,9 +763,29 @@ void fire()
 
 void autoFireWeapon()
 {
-  if (autoFireInterruptTimer.getElapsedTime() > 800)
+  if (autoFireInterruptTimer.getElapsedTime() > 1200)
   {
+    resetXbox();
+
+    walkingForwardOrAccelerating = false;
+    walkingBackwardOrReversing = false;
+    directionForwardOrBackward = 'n';
+
+    delay(100);
+
+    if (!aiming)
+    {
+      toggleAim();
+    }
+
+    delay(100);
+
     fire();
+
+    delay(100);
+
+    toggleAim();
+
     autoFireInterruptTimer.resetTimer();
   }
   else
