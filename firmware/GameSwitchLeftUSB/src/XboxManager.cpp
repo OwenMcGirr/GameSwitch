@@ -29,7 +29,7 @@ void XboxManager::begin()
 void XboxManager::buttonDownUp(int b)
 {
   Joystick.setButton(b, true);
-  delay(BUTTON_DOWN_UP_DELAY);
+  delay(DOWN_UP_DELAY);
   Joystick.setButton(b, false);
 }
 

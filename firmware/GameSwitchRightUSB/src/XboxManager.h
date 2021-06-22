@@ -4,7 +4,7 @@
 #include "Arduino.h"
 #include "Joystick.h"
 
-#define DOWN_UP_DELAY 800
+#define DOWN_UP_DELAY 100
 
 #define AXIS_UP_LEFT -127
 #define AXIS_DOWN_RIGHT 127
