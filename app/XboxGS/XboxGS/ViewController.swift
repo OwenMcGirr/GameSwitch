@@ -27,6 +27,7 @@ class ViewController: UIViewController, BluetoothManagerDelegate, ARSCNViewDeleg
     var timingTongueOut = false
     var eyesClosedStartTime: TimeInterval?
     var timingEyesClosed = false
+    var doneFirstEyesClosedAction = false
     var faceXSetupPoints: [Float] = []
     var faceXAveragePoint: Float = 0.0
     var isHeadRight = false
@@ -140,6 +141,7 @@ class ViewController: UIViewController, BluetoothManagerDelegate, ARSCNViewDeleg
             newFacePose = "other"
             timingTongueOut = false
             timingEyesClosed = false
+            doneFirstEyesClosedAction = false
         }
         
         if currentFacePose != newFacePose {
@@ -172,8 +174,6 @@ class ViewController: UIViewController, BluetoothManagerDelegate, ARSCNViewDeleg
                 else {
                     self.showHUD(text: "Switch C (tongue)")
                     self.progressView?.setProgress(0, animated: true)
-                    
-                    self.moving = false
                 }
             }
             if duration > 0.5 {
@@ -193,7 +193,7 @@ class ViewController: UIViewController, BluetoothManagerDelegate, ARSCNViewDeleg
                     self.showHUD(text: "Eyes")
                     self.progressView?.setProgress(0, animated: true)
                 }
-                if duration >= 0.5 {
+                if duration >= 1.2 {
                     self.moving.toggle()
                     if self.moving {
                         self.showHUD(text: "Moving")
@@ -202,10 +202,13 @@ class ViewController: UIViewController, BluetoothManagerDelegate, ARSCNViewDeleg
                     }
                 }
             }
-            if duration > 0.280 {
+            if duration > 0.280 && !self.doneFirstEyesClosedAction {
                 if !BluetoothManager.shared.devicesNotFound() {
                     BluetoothManager.shared.write(to: PeripheralNames.left, str: "7")
                 }
+                self.doneFirstEyesClosedAction = true
+            }
+            if duration > 1.2 {
                 timingEyesClosed = false
             }
         }
