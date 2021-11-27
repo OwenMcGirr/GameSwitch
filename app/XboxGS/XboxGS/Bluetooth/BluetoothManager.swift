@@ -22,12 +22,6 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
     var delegate: BluetoothManagerDelegate?
     
     
-    struct PeripheralNames {
-        static let left = "GameSwitchLeftUSB"
-        static let right = "GameSwitchRightUSB"
-    }
-    
-    
     // variables
     var centralManager: CBCentralManager!
     var leftUSBPeripheral: CBPeripheral?
@@ -160,7 +154,7 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
             delegate?.didChangeMode(to: val!)
             return
         }
-        write(to: rightUSBPeripheral!, for: rightTxCharacteristic!, str: val!)
+        write(to: PeripheralNames.right, str: val!)
     }
     
     
@@ -169,11 +163,30 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
     }
     
     
-    func write(to peripheral: CBPeripheral, for characteristic: CBCharacteristic, str: String) {
+    func write(to peripheral: String, str: String) {
         if !devicesNotFound() {
             let data = NSData(bytes: str, length: str.count)
-            peripheral.writeValue(data as Data, for: characteristic, type: .withResponse)
+            switch peripheral {
+            case PeripheralNames.left:
+                if let p = leftUSBPeripheral,
+                   let tx = leftTxCharacteristic {
+                    p.writeValue(data as Data, for: tx, type: .withResponse)
+                }
+            case PeripheralNames.right:
+                if let p = rightUSBPeripheral,
+                   let tx = rightTxCharacteristic {
+                    p.writeValue(data as Data, for: tx, type: .withResponse)
+                }
+            default:
+                print("error")
+            }
         }
     }
     
+}
+
+
+struct PeripheralNames {
+    static let left = "GameSwitchLeftUSB"
+    static let right = "GameSwitchRightUSB"
 }

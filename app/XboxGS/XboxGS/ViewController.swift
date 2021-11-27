@@ -27,6 +27,10 @@ class ViewController: UIViewController, BluetoothManagerDelegate, ARSCNViewDeleg
     var timingTongueOut = false
     var eyesClosedStartTime: TimeInterval?
     var timingEyesClosed = false
+    var faceXSetupPoints: [Float] = []
+    var faceXAveragePoint: Float = 0.0
+    var isHeadRight = false
+    var moving = false
     
     
     override func viewDidLoad() {
@@ -55,6 +59,9 @@ class ViewController: UIViewController, BluetoothManagerDelegate, ARSCNViewDeleg
         
         sceneView?.delegate = self
         sceneView?.showsStatistics = true
+        
+        faceXSetupPoints = []
+        faceXAveragePoint = 0.0
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -75,8 +82,43 @@ class ViewController: UIViewController, BluetoothManagerDelegate, ARSCNViewDeleg
         if let faceAnchor = anchor as? ARFaceAnchor, let faceGeometry = node.geometry as? ARSCNFaceGeometry {
             faceGeometry.update(from: faceAnchor.geometry)
             
+            let x = faceAnchor.transform.columns.3.x
+            let numberOfSetupPoints = 50
+            if faceXSetupPoints.count < numberOfSetupPoints {
+                faceXSetupPoints.append(x)
+                if faceXSetupPoints.count == numberOfSetupPoints {
+                    var sum: Float = 0.0
+                    for i in (0...(numberOfSetupPoints - 1)) {
+                        sum += faceXSetupPoints[i]
+                    }
+                    faceXAveragePoint = sum / Float(numberOfSetupPoints)
+                    print("average \(faceXAveragePoint)")
+                }
+                return
+            }
+            
+            checkFacePosition(x)
+            
             // analyze face
             facePoseAnalyzer(anchor: faceAnchor)
+        }
+    }
+    
+    func checkFacePosition(_ x: Float) {
+        let headRightThreshold = faceXAveragePoint + 0.012
+        if x > headRightThreshold {
+            if !isHeadRight && moving {
+                switchBView?.press()
+                isHeadRight = true
+            }
+            print("right")
+        } else {
+            if moving {
+                if isHeadRight {
+                    switchBView?.release()
+                    isHeadRight = false
+                }
+            }
         }
     }
     
@@ -130,6 +172,8 @@ class ViewController: UIViewController, BluetoothManagerDelegate, ARSCNViewDeleg
                 else {
                     self.showHUD(text: "Switch C (tongue)")
                     self.progressView?.setProgress(0, animated: true)
+                    
+                    self.moving = false
                 }
             }
             if duration > 0.5 {
@@ -149,10 +193,18 @@ class ViewController: UIViewController, BluetoothManagerDelegate, ARSCNViewDeleg
                     self.showHUD(text: "Eyes")
                     self.progressView?.setProgress(0, animated: true)
                 }
+                if duration >= 0.5 {
+                    self.moving.toggle()
+                    if self.moving {
+                        self.showHUD(text: "Moving")
+                    } else {
+                        self.showHUD(text: "Not moving")
+                    }
+                }
             }
             if duration > 0.280 {
                 if !BluetoothManager.shared.devicesNotFound() {
-                    BluetoothManager.shared.write(to: BluetoothManager.shared.leftUSBPeripheral!, for: BluetoothManager.shared.leftTxCharacteristic!, str: "7")
+                    BluetoothManager.shared.write(to: PeripheralNames.left, str: "7")
                 }
                 timingEyesClosed = false
             }

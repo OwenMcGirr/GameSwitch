@@ -13,30 +13,46 @@ class ATSwitchView: UIView {
     var pressCode = ""
     var releaseCode = ""
     
+    var defaultColor: UIColor?
+    
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+        defaultColor = self.backgroundColor
     }
     
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    func press() {
         if !BluetoothManager.shared.devicesNotFound() {
-            BluetoothManager.shared.write(to: BluetoothManager.shared.leftUSBPeripheral!, for: BluetoothManager.shared.leftTxCharacteristic!, str: pressCode)
+            BluetoothManager.shared.write(to: PeripheralNames.left, str: pressCode)
+            self.backgroundColor = .red
         }
     }
+
+    
+    func release() {
+        if !BluetoothManager.shared.devicesNotFound() {
+            BluetoothManager.shared.write(to: PeripheralNames.left, str: releaseCode)
+            self.backgroundColor = defaultColor
+        }
+    }
+    
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        press()
+    }
+    
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if !BluetoothManager.shared.devicesNotFound() {
-            BluetoothManager.shared.write(to: BluetoothManager.shared.leftUSBPeripheral!, for: BluetoothManager.shared.leftTxCharacteristic!, str: releaseCode)
-        }
+        release()
     }
     
     
     func performVirtualTap() {
         if !BluetoothManager.shared.devicesNotFound() {
-            BluetoothManager.shared.write(to: BluetoothManager.shared.leftUSBPeripheral!, for: BluetoothManager.shared.leftTxCharacteristic!, str: pressCode)
+            self.press()
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
-                BluetoothManager.shared.write(to: BluetoothManager.shared.leftUSBPeripheral!, for: BluetoothManager.shared.leftTxCharacteristic!, str: self.releaseCode)
+                self.release()
             })
         }
     }
