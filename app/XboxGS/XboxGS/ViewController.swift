@@ -106,7 +106,7 @@ class ViewController: UIViewController, BluetoothManagerDelegate, ARSCNViewDeleg
     }
     
     func checkFacePosition(_ x: Float) {
-        let headRightThreshold = faceXAveragePoint + 0.012
+        let headRightThreshold = faceXAveragePoint + 0.022
         if x > headRightThreshold {
             if !isHeadRight && moving {
                 switchBView?.press()
