@@ -200,6 +200,7 @@ class ViewController: UIViewController, BluetoothManagerDelegate, ARSCNViewDeleg
                     } else {
                         self.showHUD(text: "Not moving")
                     }
+                    self.faceXSetupPoints = []
                 }
             }
             if duration > 0.280 && !self.doneFirstEyesClosedAction {
