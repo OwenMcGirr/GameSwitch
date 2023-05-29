@@ -3,14 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0BCD7FF2BD6E0A19F7786FB0 /* Pods_XboxGS_XboxGSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1260A4718E9274A34C1D5895 /* Pods_XboxGS_XboxGSUITests.framework */; };
-		548FCB65EAA1EA08269D7FCD /* Pods_XboxGSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7AE0D8EDA79363E307DAE0BB /* Pods_XboxGSTests.framework */; };
-		6C44F1B9E3FC7CC2D9ECF1E8 /* Pods_XboxGS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F383A4A142F35D1E6C68D4F0 /* Pods_XboxGS.framework */; };
 		6C5ECAD223BBD5530040C15E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6C5ECAD123BBD5530040C15E /* GoogleService-Info.plist */; };
+		6C6F00452A24FE6C005DCAAD /* PKHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 6C6F00442A24FE6C005DCAAD /* PKHUD */; };
 		6CCA65B32344B27E00EC05F0 /* ATSwitchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CCA65B22344B27E00EC05F0 /* ATSwitchView.swift */; };
 		6CED8632233CF303008D691E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CED8631233CF303008D691E /* AppDelegate.swift */; };
 		6CED8634233CF303008D691E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CED8633233CF303008D691E /* SceneDelegate.swift */; };
@@ -41,10 +39,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0CB179429BB459A157963D07 /* Pods-XboxGS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XboxGS.release.xcconfig"; path = "Target Support Files/Pods-XboxGS/Pods-XboxGS.release.xcconfig"; sourceTree = "<group>"; };
-		0E5317FEAECF78AEE8023A9B /* Pods-XboxGSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XboxGSTests.debug.xcconfig"; path = "Target Support Files/Pods-XboxGSTests/Pods-XboxGSTests.debug.xcconfig"; sourceTree = "<group>"; };
-		1260A4718E9274A34C1D5895 /* Pods_XboxGS_XboxGSUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_XboxGS_XboxGSUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		452CF88B18EAEB59CBC845D8 /* Pods-XboxGSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XboxGSTests.release.xcconfig"; path = "Target Support Files/Pods-XboxGSTests/Pods-XboxGSTests.release.xcconfig"; sourceTree = "<group>"; };
 		6C5ECAD123BBD5530040C15E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6CCA65B22344B27E00EC05F0 /* ATSwitchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ATSwitchView.swift; sourceTree = "<group>"; };
 		6CED862E233CF303008D691E /* XboxGS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XboxGS.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -62,11 +56,6 @@
 		6CED8653233CF305008D691E /* XboxGSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XboxGSUITests.swift; sourceTree = "<group>"; };
 		6CED8655233CF305008D691E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6CED8661233CF786008D691E /* BluetoothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothManager.swift; sourceTree = "<group>"; };
-		7AE0D8EDA79363E307DAE0BB /* Pods_XboxGSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_XboxGSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		8FA1D1E7BD20DBD30A637555 /* Pods-XboxGS-XboxGSUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XboxGS-XboxGSUITests.debug.xcconfig"; path = "Target Support Files/Pods-XboxGS-XboxGSUITests/Pods-XboxGS-XboxGSUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		92EE09A268F274A1FEC318D2 /* Pods-XboxGS-XboxGSUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XboxGS-XboxGSUITests.release.xcconfig"; path = "Target Support Files/Pods-XboxGS-XboxGSUITests/Pods-XboxGS-XboxGSUITests.release.xcconfig"; sourceTree = "<group>"; };
-		A493155F542AD89D15FD1CAB /* Pods-XboxGS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XboxGS.debug.xcconfig"; path = "Target Support Files/Pods-XboxGS/Pods-XboxGS.debug.xcconfig"; sourceTree = "<group>"; };
-		F383A4A142F35D1E6C68D4F0 /* Pods_XboxGS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_XboxGS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,7 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6C44F1B9E3FC7CC2D9ECF1E8 /* Pods_XboxGS.framework in Frameworks */,
+				6C6F00452A24FE6C005DCAAD /* PKHUD in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,7 +71,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				548FCB65EAA1EA08269D7FCD /* Pods_XboxGSTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,7 +78,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0BCD7FF2BD6E0A19F7786FB0 /* Pods_XboxGS_XboxGSUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,8 +99,6 @@
 				6CED8647233CF305008D691E /* XboxGSTests */,
 				6CED8652233CF305008D691E /* XboxGSUITests */,
 				6CED862F233CF303008D691E /* Products */,
-				DD50B1C889A9E8902FACB525 /* Pods */,
-				8B4B57A6F1BA6C09D8C64BEC /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -170,29 +155,6 @@
 			path = Bluetooth;
 			sourceTree = "<group>";
 		};
-		8B4B57A6F1BA6C09D8C64BEC /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				F383A4A142F35D1E6C68D4F0 /* Pods_XboxGS.framework */,
-				1260A4718E9274A34C1D5895 /* Pods_XboxGS_XboxGSUITests.framework */,
-				7AE0D8EDA79363E307DAE0BB /* Pods_XboxGSTests.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		DD50B1C889A9E8902FACB525 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				A493155F542AD89D15FD1CAB /* Pods-XboxGS.debug.xcconfig */,
-				0CB179429BB459A157963D07 /* Pods-XboxGS.release.xcconfig */,
-				8FA1D1E7BD20DBD30A637555 /* Pods-XboxGS-XboxGSUITests.debug.xcconfig */,
-				92EE09A268F274A1FEC318D2 /* Pods-XboxGS-XboxGSUITests.release.xcconfig */,
-				0E5317FEAECF78AEE8023A9B /* Pods-XboxGSTests.debug.xcconfig */,
-				452CF88B18EAEB59CBC845D8 /* Pods-XboxGSTests.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -200,17 +162,18 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6CED8658233CF305008D691E /* Build configuration list for PBXNativeTarget "XboxGS" */;
 			buildPhases = (
-				803EFD0CB51899764FC5C297 /* [CP] Check Pods Manifest.lock */,
 				6CED862A233CF303008D691E /* Sources */,
 				6CED862B233CF303008D691E /* Frameworks */,
 				6CED862C233CF303008D691E /* Resources */,
-				852EF0D9C10B5B714A18104D /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = XboxGS;
+			packageProductDependencies = (
+				6C6F00442A24FE6C005DCAAD /* PKHUD */,
+			);
 			productName = XboxGS;
 			productReference = 6CED862E233CF303008D691E /* XboxGS.app */;
 			productType = "com.apple.product-type.application";
@@ -219,7 +182,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6CED865B233CF305008D691E /* Build configuration list for PBXNativeTarget "XboxGSTests" */;
 			buildPhases = (
-				4F044830B84D7A3C438B1A6F /* [CP] Check Pods Manifest.lock */,
 				6CED8640233CF305008D691E /* Sources */,
 				6CED8641233CF305008D691E /* Frameworks */,
 				6CED8642233CF305008D691E /* Resources */,
@@ -238,11 +200,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6CED865E233CF305008D691E /* Build configuration list for PBXNativeTarget "XboxGSUITests" */;
 			buildPhases = (
-				D7B8FCA962D7A903C95EEF2E /* [CP] Check Pods Manifest.lock */,
 				6CED864B233CF305008D691E /* Sources */,
 				6CED864C233CF305008D691E /* Frameworks */,
 				6CED864D233CF305008D691E /* Resources */,
-				CF4CA9A8EB4627C9CF83151A /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -286,6 +246,9 @@
 				Base,
 			);
 			mainGroup = 6CED8625233CF303008D691E;
+			packageReferences = (
+				6C6F00432A24FE6B005DCAAD /* XCRemoteSwiftPackageReference "PKHUD" */,
+			);
 			productRefGroup = 6CED862F233CF303008D691E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -324,109 +287,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		4F044830B84D7A3C438B1A6F /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-XboxGSTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		803EFD0CB51899764FC5C297 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-XboxGS-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		852EF0D9C10B5B714A18104D /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-XboxGS/Pods-XboxGS-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-XboxGS/Pods-XboxGS-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-XboxGS/Pods-XboxGS-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		CF4CA9A8EB4627C9CF83151A /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-XboxGS-XboxGSUITests/Pods-XboxGS-XboxGSUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-XboxGS-XboxGSUITests/Pods-XboxGS-XboxGSUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-XboxGS-XboxGSUITests/Pods-XboxGS-XboxGSUITests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D7B8FCA962D7A903C95EEF2E /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-XboxGS-XboxGSUITests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6CED862A233CF303008D691E /* Sources */ = {
@@ -610,7 +470,6 @@
 		};
 		6CED8659233CF305008D691E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A493155F542AD89D15FD1CAB /* Pods-XboxGS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -632,7 +491,6 @@
 		};
 		6CED865A233CF305008D691E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0CB179429BB459A157963D07 /* Pods-XboxGS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -654,7 +512,6 @@
 		};
 		6CED865C233CF305008D691E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0E5317FEAECF78AEE8023A9B /* Pods-XboxGSTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -677,7 +534,6 @@
 		};
 		6CED865D233CF305008D691E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 452CF88B18EAEB59CBC845D8 /* Pods-XboxGSTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -700,7 +556,6 @@
 		};
 		6CED865F233CF305008D691E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8FA1D1E7BD20DBD30A637555 /* Pods-XboxGS-XboxGSUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -721,7 +576,6 @@
 		};
 		6CED8660233CF305008D691E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 92EE09A268F274A1FEC318D2 /* Pods-XboxGS-XboxGSUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -780,6 +634,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		6C6F00432A24FE6B005DCAAD /* XCRemoteSwiftPackageReference "PKHUD" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pkluz/PKHUD";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		6C6F00442A24FE6C005DCAAD /* PKHUD */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6C6F00432A24FE6B005DCAAD /* XCRemoteSwiftPackageReference "PKHUD" */;
+			productName = PKHUD;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 6CED8626233CF303008D691E /* Project object */;
 }
