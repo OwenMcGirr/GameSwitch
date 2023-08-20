@@ -104,6 +104,17 @@ class ViewController: UIViewController, BluetoothManagerDelegate, ARSCNViewDeleg
             facePoseAnalyzer(anchor: faceAnchor)
         }
     }
+
+    // Function to recalibrate the head position after one second of not moving
+    func recalibrate() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+            if !self.isHeadRight {
+                self.faceXSetupPoints = []
+                self.faceXAveragePoint = 0.0
+                print("recalibrated")
+            }
+        })
+    }
     
     func checkFacePosition(_ x: Float) {
         let headRightThreshold = faceXAveragePoint + 0.022
@@ -118,6 +129,7 @@ class ViewController: UIViewController, BluetoothManagerDelegate, ARSCNViewDeleg
                 if isHeadRight {
                     switchBView?.release()
                     isHeadRight = false
+                    recalibrate()
                 }
             }
         }

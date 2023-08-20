@@ -25,7 +25,9 @@ class ATSwitchView: UIView {
     func press() {
         if !BluetoothManager.shared.devicesNotFound() {
             BluetoothManager.shared.write(to: PeripheralNames.left, str: pressCode)
-            self.backgroundColor = .red
+            DispatchQueue.main.async() {
+                self.backgroundColor = UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 1)
+            }
         }
     }
 
@@ -33,7 +35,9 @@ class ATSwitchView: UIView {
     func release() {
         if !BluetoothManager.shared.devicesNotFound() {
             BluetoothManager.shared.write(to: PeripheralNames.left, str: releaseCode)
-            self.backgroundColor = defaultColor
+            DispatchQueue.main.async() {
+                self.backgroundColor = self.defaultColor
+            }
         }
     }
     
