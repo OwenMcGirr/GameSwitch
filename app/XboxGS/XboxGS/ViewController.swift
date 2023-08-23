@@ -32,6 +32,7 @@ class ViewController: UIViewController, BluetoothManagerDelegate, ARSCNViewDeleg
     var faceXAveragePoint: Float = 0.0
     var isHeadRight = false
     var moving = false
+    var timeSinceNeutralBegan: TimeInterval?
     
     
     override func viewDidLoad() {
@@ -105,15 +106,13 @@ class ViewController: UIViewController, BluetoothManagerDelegate, ARSCNViewDeleg
         }
     }
 
-    // Function to recalibrate the head position after one second of not moving
     func recalibrate() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
-            if !self.isHeadRight {
-                self.faceXSetupPoints = []
-                self.faceXAveragePoint = 0.0
-                print("recalibrated")
-            }
-        })
+        faceXSetupPoints = []
+        faceXAveragePoint = 0.0
+        timeSinceNeutralBegan = nil
+        DispatchQueue.main.async {
+            self.showHUD(text: "Recalibrated")
+        }
     }
     
     func checkFacePosition(_ x: Float) {
@@ -122,6 +121,7 @@ class ViewController: UIViewController, BluetoothManagerDelegate, ARSCNViewDeleg
             if !isHeadRight && moving {
                 switchBView?.press()
                 isHeadRight = true
+                timeSinceNeutralBegan = nil
             }
             print("right")
         } else {
@@ -129,7 +129,16 @@ class ViewController: UIViewController, BluetoothManagerDelegate, ARSCNViewDeleg
                 if isHeadRight {
                     switchBView?.release()
                     isHeadRight = false
-                    recalibrate()
+                    if timeSinceNeutralBegan == nil {
+                        timeSinceNeutralBegan = Date().timeIntervalSinceReferenceDate
+                    }
+                }
+                if timeSinceNeutralBegan != nil {
+                    let timeSinceNeutral = Date().timeIntervalSinceReferenceDate - timeSinceNeutralBegan!
+                    // If the head has been neutral for 3 seconds, recalibrate
+                    if timeSinceNeutral > 3.0 {
+                        recalibrate()
+                    }
                 }
             }
         }
